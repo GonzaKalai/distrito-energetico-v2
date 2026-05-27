@@ -7,7 +7,7 @@ export function CoverPage() {
   const today = new Date().toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" });
 
   return (
-    <div data-print-section className="rounded-3xl border border-border bg-foreground text-background overflow-hidden min-h-[400px] flex flex-col justify-between p-8 md:p-12">
+    <div className="rounded-3xl border border-border bg-foreground text-background overflow-hidden min-h-[400px] flex flex-col justify-between p-8 md:p-12">
       <div className="flex justify-between items-start">
         {logo
           ? <img src={logo} alt="Logo" className="h-12 w-auto object-contain" />

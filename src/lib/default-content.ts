@@ -258,9 +258,44 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       benchmarks: {
         isVisible: true,
         title: isES ? "Benchmarks de Alquiler — Naves Industriales" : "Industrial Warehouse Rental Benchmarks",
+        table: isES ? [
+          { col0: "Neuquén capital", col1: "USD 12–16", col2: "Clase B", col3: "Limitada", col4: "60–90 km" },
+          { col0: "Añelo (informal)", col1: "USD 18–22", col2: "Sin Clase A", col3: "Escasa", col4: "15–30 km" },
+          { col0: "Distrito Energético (proyectado)", col1: "USD 20–28", col2: "Clase A", col3: "Pre-lease abierto", col4: "8–12 km" },
+          { col0: "Permian Basin TX (ref. intl.)", col1: "USD 24–32", col2: "Clase A", col3: "Alta", col4: "Referencia" },
+        ] : [
+          { col0: "Neuquén City", col1: "USD 12–16", col2: "Class B", col3: "Limited", col4: "60–90 km" },
+          { col0: "Añelo (informal)", col1: "USD 18–22", col2: "No Class A", col3: "Scarce", col4: "15–30 km" },
+          { col0: "Distrito Energético (projected)", col1: "USD 20–28", col2: "Class A", col3: "Pre-lease open", col4: "8–12 km" },
+          { col0: "Permian Basin TX (intl. ref.)", col1: "USD 24–32", col2: "Class A", col3: "High", col4: "Reference" },
+        ],
         text: isES
           ? "• Neuquén capital (Clase B existente): USD 12-16 /m²/mes\n• Añelo (oferta informal, sin Clase A): USD 18-22 /m²/mes\n• Distrito Energético — Clase A proyectado (pre-lease): USD 20-28 /m²/mes\n• Benchmark internacional (Permian Basin, TX): USD 24-32 /m²/mes\n\nLa brecha entre la oferta existente y los benchmarks internacionales valida el pricing power del proyecto."
           : "• Neuquén City (existing Class B): USD 12-16 /sqm/month\n• Añelo (informal supply, no Class A): USD 18-22 /sqm/month\n• Distrito Energético — projected Class A (pre-lease): USD 20-28 /sqm/month\n• International benchmark (Permian Basin, TX): USD 24-32 /sqm/month\n\nThe gap between existing supply and international benchmarks validates the project's pricing power.",
+      },
+      comparison: {
+        isVisible: true,
+        rows: isES ? [
+          { col0: "Clase de activo", col1: "Clase A — diseño industrial pesado", col2: "Clase B/C — adaptaciones", col3: "Sin clasificación formal", col4: "Clase A internacional" },
+          { col0: "Precio alquiler (USD/m²/mes)", col1: "20–28", col2: "12–16", col3: "18–22", col4: "24–32" },
+          { col0: "Distancia al pad de perforación", col1: "8–12 km", col2: "60–90 km", col3: "15–30 km", col4: "Referencia" },
+          { col0: "Conectividad ferroviaria", col1: "✓", col2: "✗", col3: "✗", col4: "✓" },
+          { col0: "Aeropuerto de carga cercano", col1: "✓", col2: "✗", col3: "✗", col4: "✓" },
+          { col0: "Contratos en USD", col1: "✓", col2: "Parcial", col3: "✗", col4: "✓" },
+          { col0: "Suministro energético resiliente", col1: "✓", col2: "✗", col3: "✗", col4: "✓" },
+          { col0: "Garantía (escritura / fideicomiso)", col1: "✓", col2: "Variable", col3: "Variable", col4: "✓" },
+          { col0: "IRR proyectado (alquiler)", col1: "15–18%", col2: "8–12%", col3: "10–14%", col4: "8–12%" },
+        ] : [
+          { col0: "Asset class", col1: "Class A — heavy industrial design", col2: "Class B/C — adaptations", col3: "No formal classification", col4: "International Class A" },
+          { col0: "Rental price (USD/sqm/month)", col1: "20–28", col2: "12–16", col3: "18–22", col4: "24–32" },
+          { col0: "Distance to drilling pad", col1: "8–12 km", col2: "60–90 km", col3: "15–30 km", col4: "Reference" },
+          { col0: "Rail connectivity", col1: "✓", col2: "✗", col3: "✗", col4: "✓" },
+          { col0: "Cargo airport nearby", col1: "✓", col2: "✗", col3: "✗", col4: "✓" },
+          { col0: "USD-denominated contracts", col1: "✓", col2: "Partial", col3: "✗", col4: "✓" },
+          { col0: "Resilient power supply", col1: "✓", col2: "✗", col3: "✗", col4: "✓" },
+          { col0: "Security (deed / trust)", col1: "✓", col2: "Variable", col3: "Variable", col4: "✓" },
+          { col0: "Projected IRR (rental)", col1: "15–18%", col2: "8–12%", col3: "10–14%", col4: "8–12%" },
+        ],
       },
       risk: {
         isVisible: true,
@@ -294,6 +329,26 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
     tab6: {
       title: isES ? "Modelo Financiero" : "Financial Model",
       isVisible: true,
+      cashflow: {
+        isVisible: true,
+        rows: isES ? [
+          { label: "Inversión inicial (salida)", y1: "(USD 600K)", y2: "—", y3: "—", y4: "—", y5: "—" },
+          { label: "Ingresos por alquiler (bruto)", y1: "USD 96K", y2: "USD 100K", y3: "USD 104K", y4: "USD 108K", y5: "USD 113K" },
+          { label: "Vacancia estimada (10%)", y1: "(USD 10K)", y2: "(USD 10K)", y3: "(USD 10K)", y4: "(USD 11K)", y5: "(USD 11K)" },
+          { label: "Gastos operativos / admin", y1: "(USD 8K)", y2: "(USD 8K)", y3: "(USD 9K)", y4: "(USD 9K)", y5: "(USD 9K)" },
+          { label: "NOI (Ingreso Neto Operativo)", y1: "USD 78K", y2: "USD 82K", y3: "USD 85K", y4: "USD 88K", y5: "USD 93K", total: true },
+          { label: "Valor terminal (año 5 @ cap rate 8%)", y1: "—", y2: "—", y3: "—", y4: "—", y5: "USD 1.16M" },
+          { label: "Flujo de caja total acumulado", y1: "USD 78K", y2: "USD 160K", y3: "USD 245K", y4: "USD 333K", y5: "USD 1.58M", total: true },
+        ] : [
+          { label: "Initial investment (outflow)", y1: "(USD 600K)", y2: "—", y3: "—", y4: "—", y5: "—" },
+          { label: "Rental income (gross)", y1: "USD 96K", y2: "USD 100K", y3: "USD 104K", y4: "USD 108K", y5: "USD 113K" },
+          { label: "Estimated vacancy (10%)", y1: "(USD 10K)", y2: "(USD 10K)", y3: "(USD 10K)", y4: "(USD 11K)", y5: "(USD 11K)" },
+          { label: "Operating / admin expenses", y1: "(USD 8K)", y2: "(USD 8K)", y3: "(USD 9K)", y4: "(USD 9K)", y5: "(USD 9K)" },
+          { label: "NOI (Net Operating Income)", y1: "USD 78K", y2: "USD 82K", y3: "USD 85K", y4: "USD 88K", y5: "USD 93K", total: true },
+          { label: "Terminal value (year 5 @ 8% cap rate)", y1: "—", y2: "—", y3: "—", y4: "—", y5: "USD 1.16M" },
+          { label: "Total cumulative cash flow", y1: "USD 78K", y2: "USD 160K", y3: "USD 245K", y4: "USD 333K", y5: "USD 1.58M", total: true },
+        ],
+      },
       timeline: {
         isVisible: true,
         title: isES ? "Cronograma de Desarrollo y Puntos de Salida" : "Development Timeline & Exit Points",
@@ -340,9 +395,48 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
     tab7: {
       title: isES ? "Uso de Suelo y Métricas" : "Land Use & Metrics",
       isVisible: true,
+      services: {
+        isVisible: true,
+        items: isES ? [
+          "Energía eléctrica en media tensión (hasta 1 MW/lote, ampliable)",
+          "Gas natural — conexión a red troncal Neuquén-Zapala",
+          "Agua potable y red contra incendios (presión garantizada)",
+          "Cloaca y tratamiento de efluentes industriales",
+          "Accesos pavimentados con capa asfáltica y señalización vial",
+          "Iluminación perimetral LED con sensor de movimiento",
+          "Fibra óptica de alta velocidad (hasta 1 Gbps simétrico)",
+          "Vigilancia y control de acceso 24/7 con CCTV",
+          "Drenaje pluvial y cunetas parcelarias",
+          "Balanzas de pesaje vehicular en ingresos principales",
+        ] : [
+          "Medium-voltage electricity (up to 1 MW/plot, expandable)",
+          "Natural gas — connection to Neuquén-Zapala trunk network",
+          "Potable water and fire suppression (guaranteed pressure)",
+          "Sewage and industrial effluent treatment",
+          "Paved access with asphalt and road signage",
+          "LED perimeter lighting with motion sensors",
+          "High-speed fiber optic (up to 1 Gbps symmetric)",
+          "24/7 surveillance and access control with CCTV",
+          "Stormwater drainage and parcel channels",
+          "Vehicle weighbridges at main entry points",
+        ],
+      },
       metrics: {
         isVisible: true,
         title: isES ? "Métricas Clave de Edificabilidad" : "Key Land Metrics",
+        lots: isES ? [
+          { tipo: "Lote estándar industrial", superficie: "2.500 m²", edificabilidad: "1.750 m²", precio: "USD 180–220/m²", status: "Disponible" },
+          { tipo: "Lote mediano industrial", superficie: "5.000 m²", edificabilidad: "3.500 m²", precio: "USD 160–190/m²", status: "Disponible" },
+          { tipo: "Lote grande / almacenamiento", superficie: "10.000 m²", edificabilidad: "7.000 m²", precio: "USD 140–170/m²", status: "Disponible" },
+          { tipo: "Lote premium (frente de ruta)", superficie: "3.000 m²", edificabilidad: "2.100 m²", precio: "USD 220–260/m²", status: "Reservado" },
+          { tipo: "Lote logístico especial", superficie: "20.000 m²", edificabilidad: "14.000 m²", precio: "A consultar", status: "Disponible" },
+        ] : [
+          { tipo: "Standard industrial lot", superficie: "2,500 sqm", edificabilidad: "1,750 sqm", precio: "USD 180–220/sqm", status: "Available" },
+          { tipo: "Medium industrial lot", superficie: "5,000 sqm", edificabilidad: "3,500 sqm", precio: "USD 160–190/sqm", status: "Available" },
+          { tipo: "Large lot / warehousing", superficie: "10,000 sqm", edificabilidad: "7,000 sqm", precio: "USD 140–170/sqm", status: "Available" },
+          { tipo: "Premium lot (road frontage)", superficie: "3,000 sqm", edificabilidad: "2,100 sqm", precio: "USD 220–260/sqm", status: "Reserved" },
+          { tipo: "Special logistics lot", superficie: "20,000 sqm", edificabilidad: "14,000 sqm", precio: "On request", status: "Available" },
+        ],
         fos: {
           isVisible: true,
           val: "0.70",

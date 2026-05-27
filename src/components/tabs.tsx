@@ -53,7 +53,7 @@ export function Tab1() {
   const isES = language === "ES";
 
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.execSummary.isVisible} onToggle={() => updateTab("tab1", "execSummary.isVisible", !t.execSummary.isVisible)} label="Exec Summary">
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
@@ -113,7 +113,7 @@ export function Tab2() {
   const [selected, setSelected] = useState("turnkey");
 
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.packages.isVisible} onToggle={() => updateTab("tab2", "packages.isVisible", !t.packages.isVisible)} label="Packages">
         <Card>
           <h2 className="text-2xl font-bold mb-8"><EditableText value={t.packages.title} onSave={(v) => updateTab("tab2", "packages.title", v)} /></h2>
@@ -209,7 +209,7 @@ export function Tab3() {
   const { content, sector, language, updateTab } = useApp();
   const t = content[sector][language].tab3;
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.funnel.isVisible} onToggle={() => updateTab("tab3", "funnel.isVisible", !t.funnel.isVisible)} label="Traffic Funnel">
         <Card dark>
           <div className="flex items-center gap-3 mb-5">
@@ -275,7 +275,7 @@ export function Tab4() {
   const t = content[sector][language].tab4;
   const p = t.pillars;
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.intro.isVisible} onToggle={() => updateTab("tab4", "intro.isVisible", !t.intro.isVisible)} label="Overview">
         <Card>
           <div className="flex items-center gap-3 mb-5">
@@ -327,22 +327,81 @@ export function Tab4() {
 
 // ─── TAB 5 ────────────────────────────────────────────────────────────────────
 
+const ComparisonTable = ({ rows, cols, onUpdate }: { rows: any[]; cols: string[]; onUpdate: (rows: any[]) => void }) => {
+  const { isEditingMode } = useApp();
+  return (
+    <div className="overflow-x-auto rounded-xl border border-border">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="bg-foreground text-background">
+            {cols.map((c, i) => <th key={i} className={`px-4 py-3 text-left font-bold text-xs uppercase tracking-wide ${i === 0 ? "" : "text-center"}`}>{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row: any, ri: number) => (
+            <tr key={ri} className={`border-t border-border ${ri % 2 === 0 ? "bg-background" : "bg-accent/20"}`}>
+              {cols.map((_, ci) => {
+                const key = Object.keys(row)[ci];
+                const val = row[key];
+                const isCheck = val === "✓" || val === "✗" || val === "—";
+                return (
+                  <td key={ci} className={`px-4 py-3 ${ci === 0 ? "font-medium" : "text-center"}`}>
+                    {isCheck ? (
+                      <span className={val === "✓" ? "text-emerald-600 font-bold text-base" : val === "✗" ? "text-red-500 font-bold text-base" : "text-muted-foreground"}>{val}</span>
+                    ) : (
+                      <EditableText value={val} onSave={(v) => { const newRows = [...rows]; newRows[ri] = { ...newRows[ri], [key]: v }; onUpdate(newRows); }} />
+                    )}
+                  </td>
+                );
+              })}
+              {isEditingMode && (
+                <td className="px-2 py-3">
+                  <button onClick={() => onUpdate(rows.filter((_, i) => i !== ri))} className="p-1 hover:bg-red-100 hover:text-red-600 rounded"><Trash2 size={12} /></button>
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {isEditingMode && (
+        <button onClick={() => {
+          const newRow: any = {};
+          cols.forEach((c, i) => { newRow[`col${i}`] = i === 0 ? "Nueva fila" : "—"; });
+          onUpdate([...rows, newRow]);
+        }} className="w-full flex items-center justify-center gap-2 p-3 border-t border-dashed border-border text-muted-foreground hover:text-primary hover:bg-accent/20 transition-colors text-sm">
+          <Plus size={14} /> Agregar fila
+        </button>
+      )}
+    </div>
+  );
+};
+
 export function Tab5() {
   const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language].tab5;
+  const isES = language === "ES";
+
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.benchmarks.isVisible} onToggle={() => updateTab("tab5", "benchmarks.isVisible", !t.benchmarks.isVisible)} label="Benchmarks">
         <Card>
           <div className="flex items-center gap-3 mb-5">
             <div className="p-2 bg-emerald-100 rounded-xl"><TrendingUp className="text-emerald-600" size={20} /></div>
             <h2 className="text-2xl font-bold"><EditableText value={t.benchmarks.title} onSave={(v) => updateTab("tab5", "benchmarks.title", v)} /></h2>
           </div>
-          <div className="whitespace-pre-wrap text-base leading-relaxed text-muted-foreground">
+          <div className="mb-6">
+            <ComparisonTable
+              rows={t.benchmarks.table || []}
+              cols={isES ? ["Mercado / Zona", "Precio m²/mes (USD)", "Clase", "Disponibilidad", "Distancia al pad"] : ["Market / Zone", "Price sqm/month (USD)", "Class", "Availability", "Distance to pad"]}
+              onUpdate={(rows) => updateTab("tab5", "benchmarks.table", rows)}
+            />
+          </div>
+          <div className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground bg-accent/20 rounded-xl p-4">
             <EditableText multiline value={t.benchmarks.text} onSave={(v) => updateTab("tab5", "benchmarks.text", v)} />
           </div>
         </Card>
       </SectionWrap>
+
       <SectionWrap isVisible={t.risk.isVisible} onToggle={() => updateTab("tab5", "risk.isVisible", !t.risk.isVisible)} label="Risk Mitigation">
         <Card accent>
           <div className="flex items-center gap-3 mb-6">
@@ -360,6 +419,21 @@ export function Tab5() {
           </div>
         </Card>
       </SectionWrap>
+
+      <SectionWrap isVisible={t.comparison?.isVisible !== false} onToggle={() => updateTab("tab5", "comparison.isVisible", !(t.comparison?.isVisible !== false))} label="Competitor Comparison">
+        <Card>
+          <div className="flex items-center gap-3 mb-5">
+            <div className="p-2 bg-blue-100 rounded-xl"><BarChart3 className="text-blue-600" size={20} /></div>
+            <h2 className="text-2xl font-bold">{isES ? "Comparativa Competitiva" : "Competitive Comparison"}</h2>
+          </div>
+          <ComparisonTable
+            rows={t.comparison?.rows || []}
+            cols={isES ? ["Atributo", "Distrito Energético", "Alternativas Neuquén", "Alternativas Añelo", "Permian Basin (TX)"] : ["Attribute", "Distrito Energético", "Neuquén Alternatives", "Añelo Alternatives", "Permian Basin (TX)"]}
+            onUpdate={(rows) => updateTab("tab5", "comparison.rows", rows)}
+          />
+        </Card>
+      </SectionWrap>
+
       <CustomBlocks tabKey="tab5" />
     </div>
   );
@@ -370,23 +444,75 @@ export function Tab5() {
 export function Tab6() {
   const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language].tab6;
+  const isES = language === "ES";
+
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
+
+      {/* Cash Flow Summary */}
+      <SectionWrap isVisible={t.cashflow?.isVisible !== false} onToggle={() => updateTab("tab6", "cashflow.isVisible", !(t.cashflow?.isVisible !== false))} label="Cash Flow">
+        <Card accent>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-primary/10 rounded-xl"><DollarSign className="text-primary" size={20} /></div>
+            <h2 className="text-2xl font-bold">{isES ? "Flujo de Caja Proyectado" : "Projected Cash Flow"}</h2>
+          </div>
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-foreground text-background">
+                  <th className="px-4 py-3 text-left text-xs uppercase font-bold tracking-wide">{isES ? "Concepto" : "Item"}</th>
+                  {["Año 1","Año 2","Año 3","Año 4","Año 5"].map(y => (
+                    <th key={y} className="px-4 py-3 text-center text-xs uppercase font-bold tracking-wide">{y}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {(t.cashflow?.rows || []).map((row: any, i: number) => (
+                  <tr key={i} className={`border-t border-border ${row.total ? "bg-accent/40 font-bold" : i % 2 === 0 ? "bg-background" : "bg-accent/10"}`}>
+                    <td className="px-4 py-3 font-medium text-sm">
+                      <EditableText value={row.label} onSave={(v) => { const rows = [...(t.cashflow?.rows||[])]; rows[i] = {...rows[i], label: v}; updateTab("tab6", "cashflow.rows", rows); }} />
+                    </td>
+                    {["y1","y2","y3","y4","y5"].map(yr => (
+                      <td key={yr} className={`px-4 py-3 text-center text-sm ${row[yr]?.startsWith("-") || row[yr]?.startsWith("(") ? "text-red-600" : row.total ? "text-primary" : ""}`}>
+                        <EditableText value={row[yr] || "—"} onSave={(v) => { const rows = [...(t.cashflow?.rows||[])]; rows[i] = {...rows[i], [yr]: v}; updateTab("tab6", "cashflow.rows", rows); }} />
+                      </td>
+                    ))}
+                    {isEditingMode && (
+                      <td className="px-2"><button onClick={() => { const rows = (t.cashflow?.rows||[]).filter((_:any, j:number) => j !== i); updateTab("tab6", "cashflow.rows", rows); }} className="p-1 hover:bg-red-100 hover:text-red-600 rounded"><Trash2 size={12} /></button></td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {isEditingMode && (
+              <button onClick={() => {
+                const rows = [...(t.cashflow?.rows||[]), { label: "Nueva fila", y1: "0", y2: "0", y3: "0", y4: "0", y5: "0" }];
+                updateTab("tab6", "cashflow.rows", rows);
+              }} className="w-full flex items-center justify-center gap-2 p-3 border-t border-dashed border-border text-muted-foreground hover:text-primary hover:bg-accent/20 text-sm">
+                <Plus size={14} /> Agregar fila
+              </button>
+            )}
+          </div>
+          <p className="text-xs text-muted-foreground mt-3">* {isES ? "Valores en USD. Proyecciones sujetas a variables de mercado. Activá modo edición para modificar." : "Values in USD. Projections subject to market variables. Enable edit mode to modify."}</p>
+        </Card>
+      </SectionWrap>
+
+      {/* Timeline */}
       <SectionWrap isVisible={t.timeline.isVisible} onToggle={() => updateTab("tab6", "timeline.isVisible", !t.timeline.isVisible)} label="Timeline">
         <Card>
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-primary/10 rounded-xl"><Clock size={20} className="text-primary" /></div>
             <h2 className="text-2xl font-bold"><EditableText value={t.timeline.title} onSave={(v) => updateTab("tab6", "timeline.title", v)} /></h2>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-0">
             {t.timeline.phases.map((phase: any, i: number) => (
               <div key={i} className={`relative flex gap-4 ${!phase.isVisible ? "opacity-40 grayscale" : ""}`}>
                 {isEditingMode && <div className="absolute top-0 right-0"><VisibilityToggle isVisible={phase.isVisible} onToggle={() => { const phases = [...t.timeline.phases]; phases[i] = { ...phases[i], isVisible: !phases[i].isVisible }; updateTab("tab6", "timeline.phases", phases); }} /></div>}
                 <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shrink-0">{i + 1}</div>
-                  {i < t.timeline.phases.length - 1 && <div className="w-0.5 bg-border flex-1 mt-2"></div>}
+                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shrink-0 mt-1">{i + 1}</div>
+                  {i < t.timeline.phases.length - 1 && <div className="w-0.5 bg-border flex-1 mt-1 mb-0"></div>}
                 </div>
-                <div className="pb-6 flex-1">
+                <div className="pb-5 flex-1">
                   <div className="font-bold mb-1"><EditableText value={phase.name} onSave={(v) => { const phases = [...t.timeline.phases]; phases[i] = { ...phases[i], name: v }; updateTab("tab6", "timeline.phases", phases); }} /></div>
                   <div className="text-sm text-muted-foreground leading-relaxed"><EditableText multiline value={phase.desc} onSave={(v) => { const phases = [...t.timeline.phases]; phases[i] = { ...phases[i], desc: v }; updateTab("tab6", "timeline.phases", phases); }} /></div>
                 </div>
@@ -395,22 +521,25 @@ export function Tab6() {
           </div>
         </Card>
       </SectionWrap>
+
+      {/* Capital Protection */}
       <SectionWrap isVisible={t.protection.isVisible} onToggle={() => updateTab("tab6", "protection.isVisible", !t.protection.isVisible)} label="Capital Protection">
         <Card dark>
           <div className="flex items-center gap-3 mb-5">
             <div className="p-2 bg-emerald-400/20 rounded-xl"><Shield className="text-emerald-400" size={20} /></div>
             <h2 className="text-2xl font-bold"><EditableText value={t.protection.title} onSave={(v) => updateTab("tab6", "protection.title", v)} /></h2>
           </div>
-          <div className="text-base leading-relaxed opacity-90">
+          <div className="text-base leading-relaxed opacity-90 mb-5">
             <EditableText multiline value={t.protection.text} onSave={(v) => updateTab("tab6", "protection.text", v)} />
           </div>
-          <div className="flex flex-wrap gap-2 mt-5">
+          <div className="flex flex-wrap gap-2">
             {["KPMG", "Deloitte", "EY", "PwC"].map(firm => (
               <span key={firm} className="bg-background/20 text-background text-xs font-bold px-3 py-1 rounded-full">{firm}</span>
             ))}
           </div>
         </Card>
       </SectionWrap>
+
       <CustomBlocks tabKey="tab6" />
     </div>
   );
@@ -419,18 +548,22 @@ export function Tab6() {
 // ─── TAB 7 ────────────────────────────────────────────────────────────────────
 
 export function Tab7() {
-  const { content, sector, language, updateTab } = useApp();
+  const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language].tab7;
   const m = t.metrics;
+  const isES = language === "ES";
+
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
+
+      {/* Key Metrics */}
       <SectionWrap isVisible={m.isVisible} onToggle={() => updateTab("tab7", "metrics.isVisible", !m.isVisible)} label="Land Metrics">
         <Card>
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-primary/10 rounded-xl"><Building className="text-primary" size={20} /></div>
             <h2 className="text-2xl font-bold"><EditableText value={m.title} onSave={(v) => updateTab("tab7", "metrics.title", v)} /></h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
             {[["fos","metrics.fos"],["fot","metrics.fot"]].map(([key, path]) => {
               const metric = m[key];
               if (!metric) return null;
@@ -443,8 +576,43 @@ export function Tab7() {
               );
             })}
           </div>
+
+          {/* Lot sizes table */}
+          {t.metrics.lots && (
+            <div>
+              <h3 className="font-bold text-sm uppercase tracking-wide text-muted-foreground mb-3">{isES ? "Tamaños de Lote Disponibles" : "Available Lot Sizes"}</h3>
+              <div className="overflow-x-auto rounded-xl border border-border">
+                <table className="w-full text-sm">
+                  <thead><tr className="bg-foreground text-background">
+                    {(isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"]).map(h => (
+                      <th key={h} className="px-4 py-3 text-left text-xs uppercase font-bold tracking-wide">{h}</th>
+                    ))}
+                  </tr></thead>
+                  <tbody>
+                    {t.metrics.lots.map((lot: any, i: number) => (
+                      <tr key={i} className={`border-t border-border ${i % 2 === 0 ? "bg-background" : "bg-accent/10"}`}>
+                        {Object.keys(lot).map((k, ci) => (
+                          <td key={ci} className="px-4 py-3">
+                            {k === "status" ? (
+                              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${lot[k] === "Disponible" || lot[k] === "Available" ? "bg-emerald-100 text-emerald-800" : lot[k] === "Reservado" || lot[k] === "Reserved" ? "bg-amber-100 text-amber-800" : "bg-gray-100 text-gray-800"}`}>
+                                <EditableText value={lot[k]} onSave={(v) => { const lots = [...t.metrics.lots]; lots[i] = {...lots[i], [k]: v}; updateTab("tab7", "metrics.lots", lots); }} />
+                              </span>
+                            ) : (
+                              <EditableText value={lot[k]} onSave={(v) => { const lots = [...t.metrics.lots]; lots[i] = {...lots[i], [k]: v}; updateTab("tab7", "metrics.lots", lots); }} />
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </Card>
       </SectionWrap>
+
+      {/* Specs */}
       <SectionWrap isVisible={t.specs.isVisible} onToggle={() => updateTab("tab7", "specs.isVisible", !t.specs.isVisible)} label="Specifications">
         <Card accent>
           <div className="flex items-center gap-3 mb-5">
@@ -456,6 +624,35 @@ export function Tab7() {
           </div>
         </Card>
       </SectionWrap>
+
+      {/* Services included */}
+      <SectionWrap isVisible={t.services?.isVisible !== false} onToggle={() => updateTab("tab7", "services.isVisible", !(t.services?.isVisible !== false))} label="Services">
+        <Card dark>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-blue-400/20 rounded-xl"><Flame className="text-blue-400" size={20} /></div>
+            <h2 className="text-2xl font-bold">{isES ? "Servicios e Infraestructura Incluidos" : "Included Services & Infrastructure"}</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-3">
+            {(t.services?.items || []).map((item: any, i: number) => (
+              <div key={i} className="flex items-start gap-3 bg-background/10 rounded-xl p-3">
+                <Check size={16} className="text-emerald-400 mt-0.5 shrink-0" />
+                <span className="text-sm opacity-90">
+                  <EditableText value={item} onSave={(v) => { const items = [...(t.services?.items||[])]; items[i] = v; updateTab("tab7", "services.items", items); }} />
+                </span>
+              </div>
+            ))}
+            {isEditingMode && (
+              <button onClick={() => {
+                const items = [...(t.services?.items||[]), "Nuevo servicio"];
+                updateTab("tab7", "services.items", items);
+              }} className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-background/30 rounded-xl text-background/60 hover:text-background hover:border-background/60 transition-colors text-sm">
+                <Plus size={14} /> Agregar servicio
+              </button>
+            )}
+          </div>
+        </Card>
+      </SectionWrap>
+
       <CustomBlocks tabKey="tab7" />
     </div>
   );
@@ -468,7 +665,7 @@ export function Tab8() {
   const t = content[sector][language].tab8;
   const isES = language === "ES";
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.mixer.isVisible} onToggle={() => updateTab("tab8", "mixer.isVisible", !t.mixer.isVisible)} label="Co-Investment">
         <Card dark>
           <div className="flex items-center gap-3 mb-6">
@@ -519,7 +716,7 @@ export function Tab9() {
   ];
 
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.builder.isVisible} onToggle={() => updateTab("tab9", "builder.isVisible", !t.builder.isVisible)} label="LOI">
         <Card>
           <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
@@ -597,7 +794,7 @@ export function Tab10() {
   const categories = Array.from(new Set(items.map((i: any) => i.cat)));
 
   return (
-    <div data-print-section className="space-y-6">
+    <div className="space-y-6">
       <SectionWrap isVisible={t.data.isVisible} onToggle={() => updateTab("tab10", "data.isVisible", !t.data.isVisible)} label="Market Data">
         <Card>
           <div className="flex items-center gap-3 mb-8">
