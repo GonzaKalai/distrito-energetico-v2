@@ -69,8 +69,8 @@ export function EditableText({ value, onSave, multiline, className = "", placeho
   return (
     <span
       onClick={() => setEditing(true)}
-      className={`whitespace-pre-wrap cursor-text rounded px-0.5 -mx-0.5 hover:bg-accent/40 hover:outline hover:outline-1 hover:outline-dashed hover:outline-primary/40 transition-colors ${className}`}
-      title="Click to edit"
+      className={`whitespace-pre-wrap cursor-text rounded px-1 -mx-1 border border-dashed border-primary/30 hover:border-primary hover:bg-primary/5 transition-all group inline-block ${className}`}
+      title="Click para editar"
     >
       {value || <span className="italic opacity-50">{placeholder}</span>}
     </span>

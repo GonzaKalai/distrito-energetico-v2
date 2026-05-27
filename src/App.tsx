@@ -7,7 +7,7 @@ import { useApp } from "@/state/store";
 import { TAB_KEYS } from "@/lib/default-content";
 
 function PrintProxy({ children }: { children: React.ReactNode }) {
-  return <div className="[&_button[title='Drag']]:hidden">{children}</div>;
+  return <div>{children}</div>;
 }
 
 export function App() {
@@ -19,6 +19,13 @@ export function App() {
   return (
     <div className={`min-h-screen bg-background text-foreground ${themeClass}`}>
       <Toolbar />
+
+      {isEditingMode && (
+        <div className="bg-primary/10 border-b border-primary/20 px-4 py-2 text-center text-sm text-primary font-medium">
+          ✏️ Modo edición activo — hacé click en cualquier texto para editarlo · usá los toggles para mostrar/ocultar secciones
+        </div>
+      )}
+
       <main className="max-w-[1400px] mx-auto px-4 sm:px-8 py-8">
         <CoverPage />
         <TabNav activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -26,9 +33,21 @@ export function App() {
           <Active />
         </div>
 
-        {/* Hidden print tree for PDF export */}
-        <div id="print-root" className="absolute -left-[9999px] top-0 w-[1100px] bg-white">
-          <div data-print-section>
+        {/* Hidden print tree — opacity:0.001 keeps it visible to html2canvas */}
+        <div
+          id="print-root"
+          style={{
+            position: "fixed",
+            left: "-9999px",
+            top: 0,
+            width: "1100px",
+            opacity: 0.001,
+            pointerEvents: "none",
+            background: "white",
+            zIndex: -9999,
+          }}
+        >
+          <div data-print-section style={{ background: "white", padding: "2rem" }}>
             <CoverPage />
           </div>
           {TAB_KEYS.map((k) => {
@@ -37,8 +56,8 @@ export function App() {
             const C = TAB_COMPONENTS[k];
             if (!C) return null;
             return (
-              <div key={k} data-print-section className="p-8 bg-white">
-                <h2 className="text-3xl font-extrabold mb-6">{tab.title}</h2>
+              <div key={k} data-print-section style={{ background: "white", padding: "2rem" }}>
+                <h2 style={{ fontSize: "1.875rem", fontWeight: 800, marginBottom: "1.5rem" }}>{tab.title}</h2>
                 <PrintProxy><C /></PrintProxy>
               </div>
             );
@@ -46,7 +65,9 @@ export function App() {
         </div>
 
         <footer className="mt-12 text-center text-xs text-muted-foreground">
-          {isEditingMode ? "Modo edición · hacé click en cualquier texto para editar" : "Modo presentación"}
+          {isEditingMode
+            ? "Modo edición · Click en cualquier texto para editarlo · Botón 'Present' para vista final"
+            : "Modo presentación · Hacé click en 'Edit' en la barra superior para editar contenido"}
         </footer>
       </main>
     </div>

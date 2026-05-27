@@ -291,11 +291,14 @@ export function Toolbar() {
 
         <button
           onClick={() => setEditingMode(!isEditingMode)}
-          className={`px-4 py-1.5 rounded-lg flex items-center gap-2 font-bold transition-colors ${
-            isEditingMode ? "bg-primary text-primary-foreground" : "bg-background text-foreground"
+          className={`px-5 py-2 rounded-lg flex items-center gap-2 font-bold transition-all text-sm border-2 ${
+            isEditingMode
+              ? "bg-yellow-400 text-yellow-900 border-yellow-500 animate-pulse"
+              : "bg-background text-foreground border-background/30 hover:border-background/60"
           }`}
+          title={isEditingMode ? "Salir del modo edición" : "Activar modo edición — click en cualquier texto para editarlo"}
         >
-          {isEditingMode ? <><Presentation size={14} /> Present</> : <><Edit3 size={14} /> Edit</>}
+          {isEditingMode ? <><Presentation size={14} /> Presentar</> : <><Edit3 size={14} /> Editar</>}
         </button>
       </div>
     </div>

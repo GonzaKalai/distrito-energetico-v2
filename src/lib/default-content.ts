@@ -388,9 +388,28 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
         isVisible: true,
         title: isES ? "Resumen de Inversión / Carta de Intención" : "Investment Summary / Letter of Intent",
         investorName: isES ? "[Nombre del Inversor / Vehículo]" : "[Investor Name / Vehicle]",
-        entryAmount: "500000",
-        structure: isES ? "Fideicomiso (Trust)" : "Trust (Fideicomiso)",
+        entryAmount: isES ? "USD 500.000" : "USD 500,000",
+        structure: isES ? "Fideicomiso de Inversión (escritura pública)" : "Investment Trust (public deed)",
         package: isES ? "Nave Llave en Mano" : "Turnkey Warehouse",
+        irrExpected: sector === "Comercial / Retail" ? "14–16%" : sector === "Hotel" ? "16–20%" : sector === "Truck Center" ? "18–22%" : "15–18%",
+        term: isES ? "5–10 años" : "5–10 years",
+        guarantee: isES ? "Escritura de dominio / participación fiduciaria auditada por Big 4" : "Land title / Big-4 audited trust participation",
+        exitStrategy: isES ? "Alquiler institucional / Venta de activo / Re-financiamiento" : "Institutional lease / Asset sale / Refinancing",
+        sponsor: isES ? "Representante Distrito Energético" : "Distrito Energético Representative",
+        terms: isES
+          ? "El presente instrumento constituye una carta de intención no vinculante. Los términos definitivos serán establecidos en el contrato de inversión / instrumento fiduciario correspondiente, sujeto a due diligence satisfactorio de ambas partes. La confidencialidad de la información compartida es obligatoria."
+          : "This instrument constitutes a non-binding letter of intent. Definitive terms will be established in the corresponding investment agreement / trust instrument, subject to satisfactory due diligence by both parties. Confidentiality of shared information is mandatory.",
+        conditions: isES
+          ? "1. Firma del contrato de inversión / escritura fiduciaria
+2. Transferencia del monto de entrada según cronograma acordado
+3. Verificación de personería jurídica del inversor
+4. Aprobación del Comité de Inversión de Distrito Energético
+5. Obtención de permisos y habilitaciones correspondientes"
+          : "1. Execution of investment agreement / trust deed
+2. Transfer of entry amount per agreed schedule
+3. Verification of investor legal standing
+4. Approval by Distrito Energético Investment Committee
+5. Obtaining corresponding permits and authorizations",
       },
     },
 
