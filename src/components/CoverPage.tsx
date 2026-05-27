@@ -1,13 +1,15 @@
+import { useState } from "react";
 import { useApp } from "@/state/store";
-import { EditableText } from "./editor/EditableText";
+import { Calendar, X } from "lucide-react";
 
 export function CoverPage() {
-  const { profiles, activeProfileId, sector, language, logo, isEditingMode } = useApp();
+  const { profiles, activeProfileId, sector, language, logo, isEditingMode, coverDate, setCoverDate } = useApp();
   const profile = profiles.find(p => p.id === activeProfileId);
-  const today = new Date().toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" });
+  const [editingDate, setEditingDate] = useState(false);
+  const [tempDate, setTempDate] = useState(coverDate);
 
   return (
-    <div className="rounded-3xl border border-border bg-foreground text-background overflow-hidden min-h-[400px] flex flex-col justify-between p-8 md:p-12">
+    <div className="rounded-3xl border border-border bg-foreground text-background overflow-hidden min-h-[380px] flex flex-col justify-between p-8 md:p-12 mb-6">
       <div className="flex justify-between items-start">
         {logo
           ? <img src={logo} alt="Logo" className="h-12 w-auto object-contain" />
@@ -34,33 +36,64 @@ export function CoverPage() {
           <div className="text-xs opacity-50 uppercase tracking-widest mb-1">
             {language === "ES" ? "Preparado para" : "Prepared for"}
           </div>
-          {isEditingMode
-            ? (
-              <div className="text-lg font-semibold">
-                <EditableText
-                  value={profile?.name || "Nombre del Inversor"}
-                  onSave={() => {}}
-                />
-                {profile?.company && (
-                  <div className="text-sm opacity-70 mt-0.5">
-                    <EditableText value={profile.company} onSave={() => {}} />
-                  </div>
-                )}
-              </div>
-            )
-            : (
-              <div className="text-lg font-semibold">
-                {profile?.name || "Nombre del Inversor"}
-                {profile?.company && <div className="text-sm opacity-70 mt-0.5">{profile.company}</div>}
-              </div>
-            )
-          }
-        </div>
-        <div className="text-right">
-          <div className="text-xs opacity-50 uppercase tracking-widest mb-1">
-            {language === "ES" ? "Fecha" : "Date"}
+          <div className="text-lg font-semibold">
+            {profile?.name || (language === "ES" ? "Nombre del Inversor" : "Investor Name")}
           </div>
-          <div className="text-sm font-medium opacity-80">{today}</div>
+          {profile?.company && (
+            <div className="text-sm opacity-70 mt-0.5">{profile.company}</div>
+          )}
+        </div>
+
+        <div className="text-right">
+          <div className="text-xs opacity-50 uppercase tracking-widest mb-1 flex items-center justify-end gap-1">
+            {language === "ES" ? "Fecha" : "Date"}
+            {isEditingMode && !editingDate && (
+              <button
+                onClick={() => { setTempDate(coverDate); setEditingDate(true); }}
+                className="ml-1 p-0.5 bg-background/10 rounded hover:bg-background/20 transition-colors"
+                title="Editar fecha"
+              >
+                <Calendar size={11} />
+              </button>
+            )}
+          </div>
+
+          {editingDate ? (
+            <div className="flex items-center gap-2">
+              <input
+                autoFocus
+                type="text"
+                value={tempDate}
+                onChange={e => setTempDate(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === "Enter") { setCoverDate(tempDate); setEditingDate(false); }
+                  if (e.key === "Escape") setEditingDate(false);
+                }}
+                className="bg-background/10 border border-background/30 rounded-lg px-2 py-1 text-sm text-background w-44 text-right"
+                placeholder="27 de mayo de 2026"
+              />
+              <button onClick={() => { setCoverDate(tempDate); setEditingDate(false); }} className="p-1 bg-background/20 rounded hover:bg-background/30 transition-colors text-xs">✓</button>
+              <button onClick={() => setEditingDate(false)} className="p-1 hover:bg-background/20 rounded transition-colors"><X size={12} /></button>
+            </div>
+          ) : (
+            <div
+              className={`text-sm font-medium opacity-80 ${isEditingMode ? "cursor-pointer hover:opacity-100 hover:underline decoration-dashed underline-offset-2" : ""}`}
+              onClick={() => isEditingMode && (setTempDate(coverDate), setEditingDate(true))}
+              title={isEditingMode ? "Click para editar fecha" : undefined}
+            >
+              {coverDate || (language === "ES" ? "Fecha a confirmar" : "Date TBD")}
+            </div>
+          )}
+
+          {isEditingMode && !editingDate && (
+            <button
+              onClick={() => setCoverDate("")}
+              className="text-xs opacity-40 hover:opacity-70 mt-1 block ml-auto transition-opacity"
+              title="Borrar fecha"
+            >
+              {language === "ES" ? "Borrar fecha" : "Clear date"}
+            </button>
+          )}
         </div>
       </div>
     </div>

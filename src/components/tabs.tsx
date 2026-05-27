@@ -4,7 +4,7 @@ import {
   ArrowUpRight, BarChart3, Globe, Flame, DollarSign, Clock,
   Plus, Trash2
 } from "lucide-react";
-import React from "react";
+import React, { useRef } from "react";
 import { FinancialCalculator } from "./FinancialCalculator";
 import { CoverPage } from "./CoverPage";
 import { useState } from "react";
@@ -205,11 +205,82 @@ export function Tab2() {
 
 // ─── TAB 3 ────────────────────────────────────────────────────────────────────
 
+function ImageUploadSection({ tabKey, sectionKey }: { tabKey: string; sectionKey: string }) {
+  const { content, sector, language, updateTab, isEditingMode } = useApp();
+  const t = content[sector][language][tabKey];
+  const section = t[sectionKey];
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleFiles = (files: FileList | null) => {
+    if (!files) return;
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const images = [...(section.images || []), reader.result as string];
+        updateTab(tabKey, `${sectionKey}.images`, images);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeImage = (i: number) => {
+    const images = (section.images || []).filter((_: string, idx: number) => idx !== i);
+    updateTab(tabKey, `${sectionKey}.images`, images);
+  };
+
+  const images: string[] = section.images || [];
+
+  return (
+    <SectionWrap isVisible={section.isVisible} onToggle={() => updateTab(tabKey, `${sectionKey}.isVisible`, !section.isVisible)} label="Images">
+      <div className="space-y-4">
+        {images.length > 0 && (
+          <div className={`grid gap-4 ${images.length === 1 ? "grid-cols-1" : images.length === 2 ? "grid-cols-2" : "grid-cols-2 md:grid-cols-3"}`}>
+            {images.map((src: string, i: number) => (
+              <div key={i} className="relative group rounded-2xl overflow-hidden border border-border aspect-video bg-accent/20">
+                <img src={src} alt={`Location ${i + 1}`} className="w-full h-full object-cover" />
+                {isEditingMode && (
+                  <button onClick={() => removeImage(i)} className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+        {section.caption && (
+          <p className="text-xs text-muted-foreground text-center italic">
+            <EditableText value={section.caption} onSave={(v) => updateTab(tabKey, `${sectionKey}.caption`, v)} />
+          </p>
+        )}
+        {isEditingMode && (
+          <div
+            onClick={() => fileRef.current?.click()}
+            onDragOver={e => e.preventDefault()}
+            onDrop={e => { e.preventDefault(); handleFiles(e.dataTransfer.files); }}
+            className="border-2 border-dashed border-border rounded-2xl p-8 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
+          >
+            <div className="text-3xl mb-2">🗺️</div>
+            <p className="text-sm font-medium text-muted-foreground">Hacé click o arrastrá imágenes aquí</p>
+            <p className="text-xs text-muted-foreground mt-1">Mapas, fotos aéreas, renders del sitio · Múltiples imágenes</p>
+            <input ref={fileRef} type="file" multiple accept="image/*" className="hidden" onChange={e => handleFiles(e.target.files)} />
+          </div>
+        )}
+        {!isEditingMode && images.length === 0 && (
+          <div className="border-2 border-dashed border-border rounded-2xl p-8 text-center text-muted-foreground text-sm">
+            Activá modo edición para agregar mapas e imágenes del sitio
+          </div>
+        )}
+      </div>
+    </SectionWrap>
+  );
+}
+
 export function Tab3() {
   const { content, sector, language, updateTab } = useApp();
   const t = content[sector][language].tab3;
   return (
     <div className="space-y-6">
+      <ImageUploadSection tabKey="tab3" sectionKey="locationImages" />
       <SectionWrap isVisible={t.funnel.isVisible} onToggle={() => updateTab("tab3", "funnel.isVisible", !t.funnel.isVisible)} label="Traffic Funnel">
         <Card dark>
           <div className="flex items-center gap-3 mb-5">

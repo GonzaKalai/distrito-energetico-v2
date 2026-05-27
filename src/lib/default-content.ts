@@ -177,6 +177,11 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
     tab3: {
       title: isES ? "Ubicación" : "Location",
       isVisible: true,
+      locationImages: {
+        isVisible: true,
+        images: [] as string[], // base64 images
+        caption: isES ? "Mapa de ubicación e imágenes del sitio" : "Location map and site images",
+      },
       funnel: {
         isVisible: true,
         title: isES ? "El Embudo de Tráfico 2026" : "The 2026 Traffic Funnel",
@@ -579,6 +584,6 @@ export const createDefaultContent = (): ContentTree => {
   return data;
 };
 
-export const TAB_KEYS = ["tab1", "tab2", "tab3", "tab4", "tab5", "tab6", "tab7", "tab8", "tab9", "tab10"] as const;
+export const TAB_KEYS = ["tab1", "tab2", "tab3", "tab4", "tab5", "tab6", "tab7", "tab8", "tab10", "tab9"] as const;
 export const SECTORS_LIST = SECTORS;
 export const LANGUAGES_LIST = LANGUAGES;

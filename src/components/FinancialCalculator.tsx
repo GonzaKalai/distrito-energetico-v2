@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { usePrintMode } from "@/App";
 import { Calculator, TrendingUp, DollarSign, Clock, BarChart3 } from "lucide-react";
 
 function calcIRR(cashFlows: number[]): number {
@@ -18,12 +19,16 @@ function calcIRR(cashFlows: number[]): number {
   return rate;
 }
 
+// Hide from PDF - it's an interactive tool, not static content
+export function FinancialCalculatorPrint() { return null; }
+
 const fmt = (n: number, dec = 0) =>
   n.toLocaleString("es-AR", { minimumFractionDigits: dec, maximumFractionDigits: dec });
 
 const pct = (n: number) => (n * 100).toFixed(1) + "%";
 
 export function FinancialCalculator() {
+  const isPrintMode = usePrintMode();
   const [landPrice, setLandPrice] = useState(200000);
   const [infraCost, setInfraCost] = useState(100000);
   const [buildCost, setBuildCost] = useState(300000);
@@ -64,6 +69,9 @@ export function FinancialCalculator() {
       </div>
     </div>
   );
+
+  // Don't render in print mode
+  if (isPrintMode) return null;
 
   const Metric = ({ icon: Icon, label, value, color = "text-foreground", sub }: {
     icon: any; label: string; value: string; color?: string; sub?: string;

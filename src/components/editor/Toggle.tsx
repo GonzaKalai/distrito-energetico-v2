@@ -1,5 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useApp } from "@/state/store";
+import { usePrintMode } from "@/App";
 
 interface Props {
   isVisible: boolean;
@@ -39,7 +40,20 @@ export function SectionWrap({
   children: React.ReactNode;
 }) {
   const isEditingMode = useApp((s) => s.isEditingMode);
+  const isPrintMode = usePrintMode();
+
   if (!isVisible && !isEditingMode) return null;
+
+  // In print mode: each visible section gets data-pdf-section for smart pagination
+  if (isPrintMode) {
+    if (!isVisible) return null;
+    return (
+      <div data-pdf-section style={{ background: "white", padding: "1.5rem 2rem" }}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <section className={`relative ${!isVisible ? "opacity-40 grayscale" : ""}`}>
       {isEditingMode && (
