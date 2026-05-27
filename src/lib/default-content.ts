@@ -400,16 +400,8 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
           ? "El presente instrumento constituye una carta de intención no vinculante. Los términos definitivos serán establecidos en el contrato de inversión / instrumento fiduciario correspondiente, sujeto a due diligence satisfactorio de ambas partes. La confidencialidad de la información compartida es obligatoria."
           : "This instrument constitutes a non-binding letter of intent. Definitive terms will be established in the corresponding investment agreement / trust instrument, subject to satisfactory due diligence by both parties. Confidentiality of shared information is mandatory.",
         conditions: isES
-          ? "1. Firma del contrato de inversión / escritura fiduciaria
-2. Transferencia del monto de entrada según cronograma acordado
-3. Verificación de personería jurídica del inversor
-4. Aprobación del Comité de Inversión de Distrito Energético
-5. Obtención de permisos y habilitaciones correspondientes"
-          : "1. Execution of investment agreement / trust deed
-2. Transfer of entry amount per agreed schedule
-3. Verification of investor legal standing
-4. Approval by Distrito Energético Investment Committee
-5. Obtaining corresponding permits and authorizations",
+          ? "1. Firma del contrato de inversión / escritura fiduciaria\n2. Transferencia del monto de entrada según cronograma acordado\n3. Verificación de personería jurídica del inversor\n4. Aprobación del Comité de Inversión de Distrito Energético\n5. Obtención de permisos y habilitaciones correspondientes"
+          : "1. Execution of investment agreement / trust deed\n2. Transfer of entry amount per agreed schedule\n3. Verification of investor legal standing\n4. Approval by Distrito Energético Investment Committee\n5. Obtaining corresponding permits and authorizations",
       },
     },
 
