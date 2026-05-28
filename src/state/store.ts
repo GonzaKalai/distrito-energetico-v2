@@ -81,18 +81,16 @@ const initial = newProfile("General", "");
 // Merge user content with defaults so new tabs always get initialized
 try {
   const uc = userContent as any;
-  const defaultC = initial.content;
-  // Deep merge: user content wins, but missing keys fall back to defaults
+  const defaultC = initial.content as any;
   const merged: any = {};
   for (const sector of Object.keys(defaultC)) {
     merged[sector] = {};
     for (const lang of Object.keys(defaultC[sector])) {
       merged[sector][lang] = { ...(defaultC[sector][lang] || {}) };
-      const userSectorLang = uc?.[sector]?.[lang] || {};
+      const userSectorLang = (uc as any)?.[sector]?.[lang] || {};
       for (const tabKey of Object.keys(userSectorLang)) {
         merged[sector][lang][tabKey] = userSectorLang[tabKey];
       }
-      // Ensure new tabs from defaults are always present
       for (const tabKey of Object.keys(defaultC[sector][lang])) {
         if (!merged[sector][lang][tabKey]) {
           merged[sector][lang][tabKey] = defaultC[sector][lang][tabKey];
@@ -100,7 +98,7 @@ try {
       }
     }
   }
-  initial.content = merged;
+  initial.content = merged as any;
 } catch {
   // fallback to default content
 }
