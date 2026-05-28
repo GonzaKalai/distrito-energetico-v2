@@ -197,7 +197,9 @@ export function Tab2() {
         </Card>
       </SectionWrap>
 
-      <FinancialCalculator />
+      <SectionWrap isVisible={t.calculatorVisible !== false} onToggle={() => updateTab("tab2", "calculatorVisible", !(t.calculatorVisible !== false))} label="Calculadora">
+        <FinancialCalculator />
+      </SectionWrap>
       <CustomBlocks tabKey="tab2" />
     </div>
   );
@@ -291,9 +293,16 @@ export function Tab3() {
             <EditableText multiline value={t.funnel.text} onSave={(v) => updateTab("tab3", "funnel.text", v)} />
           </div>
           <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-background/20">
-            <div className="text-center"><div className="text-3xl font-black text-yellow-400">95%</div><div className="text-xs opacity-60 mt-1">Tráfico pesado canalizado</div></div>
-            <div className="text-center"><div className="text-3xl font-black text-yellow-400">15K</div><div className="text-xs opacity-60 mt-1">Vehículos/día actuales</div></div>
-            <div className="text-center"><div className="text-3xl font-black text-yellow-400">30K</div><div className="text-xs opacity-60 mt-1">Proyectado 2028</div></div>
+            {(t.funnel.stats || []).map((s: any, i: number) => (
+              <div key={i} className="text-center">
+                <div className="text-3xl font-black text-yellow-400">
+                  <EditableText value={s.value} onSave={(v) => { const stats = [...(t.funnel.stats||[])]; stats[i] = {...stats[i], value: v}; updateTab("tab3", "funnel.stats", stats); }} />
+                </div>
+                <div className="text-xs opacity-60 mt-1">
+                  <EditableText value={s.label} onSave={(v) => { const stats = [...(t.funnel.stats||[])]; stats[i] = {...stats[i], label: v}; updateTab("tab3", "funnel.stats", stats); }} />
+                </div>
+              </div>
+            ))}
           </div>
         </Card>
       </SectionWrap>
@@ -324,12 +333,20 @@ export function Tab3() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-background rounded-xl p-4 border border-border text-center">
-              <div className="text-2xl font-black text-primary">8-12 km</div>
-              <div className="text-xs text-muted-foreground mt-1">Distrito Energético al pad</div>
+              <div className="text-2xl font-black text-primary">
+                <EditableText value={t.proximity.stat1value || "8-12 km"} onSave={(v) => updateTab("tab3", "proximity.stat1value", v)} />
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+                <EditableText value={t.proximity.stat1label || "Distrito Energético al pad"} onSave={(v) => updateTab("tab3", "proximity.stat1label", v)} />
+              </div>
             </div>
             <div className="bg-background rounded-xl p-4 border border-border text-center">
-              <div className="text-2xl font-black text-red-500">60-120 km</div>
-              <div className="text-xs text-muted-foreground mt-1">Alternativas actuales</div>
+              <div className="text-2xl font-black text-red-500">
+                <EditableText value={t.proximity.stat2value || "60-120 km"} onSave={(v) => updateTab("tab3", "proximity.stat2value", v)} />
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+                <EditableText value={t.proximity.stat2label || "Alternativas actuales"} onSave={(v) => updateTab("tab3", "proximity.stat2label", v)} />
+              </div>
             </div>
           </div>
         </Card>
@@ -398,14 +415,38 @@ export function Tab4() {
 
 // ─── TAB 5 ────────────────────────────────────────────────────────────────────
 
-const ComparisonTable = ({ rows, cols, onUpdate }: { rows: any[]; cols: string[]; onUpdate: (rows: any[]) => void }) => {
+const ComparisonTable = ({ rows, cols, onUpdate, onUpdateCols }: { rows: any[]; cols: string[]; onUpdate: (rows: any[]) => void; onUpdateCols?: (cols: string[]) => void }) => {
   const { isEditingMode } = useApp();
+  const addColumn = () => {
+    const newKey = `col${cols.length}`;
+    const newCols = [...cols, "Nueva columna"];
+    const newRows = rows.map(r => ({ ...r, [newKey]: "—" }));
+    onUpdateCols?.(newCols);
+    onUpdate(newRows);
+  };
+  const removeColumn = (ci: number) => {
+    const key = Object.keys(rows[0] || {})[ci];
+    const newCols = cols.filter((_, i) => i !== ci);
+    const newRows = rows.map(r => { const nr = { ...r }; delete nr[key]; return nr; });
+    onUpdateCols?.(newCols);
+    onUpdate(newRows);
+  };
   return (
     <div className="overflow-x-auto rounded-xl border border-border">
       <table className="w-full text-sm">
         <thead>
           <tr className="bg-foreground text-background">
-            {cols.map((c, i) => <th key={i} className={`px-4 py-3 text-left font-bold text-xs uppercase tracking-wide ${i === 0 ? "" : "text-center"}`}>{c}</th>)}
+            {cols.map((c, i) => (
+              <th key={i} className={`px-4 py-3 text-left font-bold text-xs uppercase tracking-wide group ${i === 0 ? "" : "text-center"}`}>
+                {onUpdateCols ? (
+                  <EditableText value={c} onSave={(v) => { const nc = [...cols]; nc[i] = v; onUpdateCols(nc); }} />
+                ) : c}
+                {isEditingMode && onUpdateCols && i > 0 && (
+                  <button onClick={() => removeColumn(i)} className="ml-1 opacity-0 group-hover:opacity-100 text-red-300 hover:text-red-100 transition-all" title="Quitar columna"><X size={10} /></button>
+                )}
+              </th>
+            ))}
+            {isEditingMode && onUpdateCols && <th className="px-2"><button onClick={addColumn} className="text-background/60 hover:text-background text-xs" title="Agregar columna"><Plus size={12} /></button></th>}
           </tr>
         </thead>
         <tbody>
@@ -463,8 +504,9 @@ export function Tab5() {
           <div className="mb-6">
             <ComparisonTable
               rows={t.benchmarks.table || []}
-              cols={isES ? ["Mercado / Zona", "Precio m²/mes (USD)", "Clase", "Disponibilidad", "Distancia al pad"] : ["Market / Zone", "Price sqm/month (USD)", "Class", "Availability", "Distance to pad"]}
+              cols={t.benchmarks.cols || (isES ? ["Mercado / Zona","Precio m²/mes (USD)","Clase","Disponibilidad","Distancia al pad"] : ["Market / Zone","Price sqm/month (USD)","Class","Availability","Distance to pad"])}
               onUpdate={(rows) => updateTab("tab5", "benchmarks.table", rows)}
+              onUpdateCols={(cols) => updateTab("tab5", "benchmarks.cols", cols)}
             />
           </div>
           <div className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground bg-accent/20 rounded-xl p-4">
@@ -499,8 +541,9 @@ export function Tab5() {
           </div>
           <ComparisonTable
             rows={t.comparison?.rows || []}
-            cols={isES ? ["Atributo", "Distrito Energético", "Alternativas Neuquén", "Alternativas Añelo", "Permian Basin (TX)"] : ["Attribute", "Distrito Energético", "Neuquén Alternatives", "Añelo Alternatives", "Permian Basin (TX)"]}
+            cols={t.comparison?.cols || (isES ? ["Atributo","Distrito Energético","Alternativas Neuquén","Alternativas Añelo","Permian Basin (TX)"] : ["Attribute","Distrito Energético","Neuquén Alternatives","Añelo Alternatives","Permian Basin (TX)"])}
             onUpdate={(rows) => updateTab("tab5", "comparison.rows", rows)}
+            onUpdateCols={(cols) => updateTab("tab5", "comparison.cols", cols)}
           />
         </Card>
       </SectionWrap>
@@ -531,9 +574,10 @@ export function Tab6() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-foreground text-background">
-                  <th className="px-4 py-3 text-left text-xs uppercase font-bold tracking-wide">{isES ? "Concepto" : "Item"}</th>
-                  {["Año 1","Año 2","Año 3","Año 4","Año 5"].map(y => (
-                    <th key={y} className="px-4 py-3 text-center text-xs uppercase font-bold tracking-wide">{y}</th>
+                  {(t.cashflow?.cols || (isES ? ["Concepto","Año 1","Año 2","Año 3","Año 4","Año 5"] : ["Item","Year 1","Year 2","Year 3","Year 4","Year 5"])).map((col: string, ci: number) => (
+                    <th key={ci} className={`px-4 py-3 text-xs uppercase font-bold tracking-wide ${ci === 0 ? "text-left" : "text-center"}`}>
+                      <EditableText value={col} onSave={(v) => { const cols = [...(t.cashflow?.cols || (isES ? ["Concepto","Año 1","Año 2","Año 3","Año 4","Año 5"] : ["Item","Year 1","Year 2","Year 3","Year 4","Year 5"]))]; cols[ci] = v; updateTab("tab6", "cashflow.cols", cols); }} />
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -747,15 +791,17 @@ export function Tab8() {
             <EditableText multiline value={t.mixer.text} onSave={(v) => updateTab("tab8", "mixer.text", v)} />
           </div>
           <div className="grid md:grid-cols-3 gap-4">
-            {[
-              { icon: "🏗", label: isES ? "EPC / Constructora" : "EPC / Construction", desc: isES ? "Aportás capacidad de obra, recibís equity" : "Contribute construction capacity, receive equity" },
-              { icon: "🚛", label: isES ? "Operador Logístico" : "Logistics Operator", desc: isES ? "Aportás cliente ancla, reducís tu ticket" : "Bring anchor tenant, reduce your ticket" },
-              { icon: "💡", label: isES ? "Proveedor de Energía" : "Energy Provider", desc: isES ? "Aportás generación solar, recibís participación" : "Contribute solar generation, receive participation" },
-            ].map((item, i) => (
+            {(t.mixer.partners || []).map((item: any, i: number) => (
               <div key={i} className="bg-background/10 rounded-2xl p-5 text-center">
-                <div className="text-3xl mb-3">{item.icon}</div>
-                <div className="font-bold text-sm mb-1">{item.label}</div>
-                <div className="text-xs opacity-70">{item.desc}</div>
+                <div className="text-3xl mb-3">
+                  <EditableText value={item.icon} onSave={(v) => { const p = [...t.mixer.partners]; p[i] = {...p[i], icon: v}; updateTab("tab8", "mixer.partners", p); }} />
+                </div>
+                <div className="font-bold text-sm mb-1">
+                  <EditableText value={item.label} onSave={(v) => { const p = [...t.mixer.partners]; p[i] = {...p[i], label: v}; updateTab("tab8", "mixer.partners", p); }} />
+                </div>
+                <div className="text-xs opacity-70">
+                  <EditableText multiline value={item.desc} onSave={(v) => { const p = [...t.mixer.partners]; p[i] = {...p[i], desc: v}; updateTab("tab8", "mixer.partners", p); }} />
+                </div>
               </div>
             ))}
           </div>

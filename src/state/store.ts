@@ -46,7 +46,7 @@ interface AppState {
   theme: Theme;
   sentLog: SentEntry[];
   coverDate: string;
-  pdfLayout: "compact" | "section";
+  draftNotes: string;
 
   setSector: (s: Sector) => void;
   setLanguage: (l: Language) => void;
@@ -70,7 +70,7 @@ interface AppState {
   addSentEntry: (entry: Omit<SentEntry, "id">) => void;
   deleteSentEntry: (id: string) => void;
   setCoverDate: (d: string) => void;
-  setPdfLayout: (l: "compact" | "section") => void;
+  setDraftNotes: (n: string) => void;
 }
 
 const initial = newProfile("General", "");
@@ -88,7 +88,7 @@ export const useApp = create<AppState>()(
       theme: initial.theme,
       sentLog: [],
       coverDate: new Date().toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" }),
-      pdfLayout: "compact",
+      draftNotes: "",
 
       setSector: (sector) => set({ sector }),
       setLanguage: (language) => set({ language }),
@@ -184,7 +184,7 @@ export const useApp = create<AppState>()(
         set((s) => ({ sentLog: s.sentLog.filter(e => e.id !== id) })),
 
       setCoverDate: (coverDate) => set({ coverDate }),
-      setPdfLayout: (pdfLayout) => set({ pdfLayout }),
+      setDraftNotes: (draftNotes) => set({ draftNotes }),
     }),
     {
       name: "distrito-energetico-v3",
@@ -198,7 +198,7 @@ export const useApp = create<AppState>()(
         theme: s.theme,
         sentLog: s.sentLog,
         coverDate: s.coverDate,
-        pdfLayout: s.pdfLayout,
+        draftNotes: s.draftNotes,
       }),
     }
   )

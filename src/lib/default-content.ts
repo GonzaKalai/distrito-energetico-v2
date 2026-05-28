@@ -66,6 +66,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
     tab2: {
       title: isES ? "Visión General" : "Overview",
       isVisible: true,
+      calculatorVisible: true,
       packages: {
         title: isES ? "Opciones de Paquetes de Inversión" : "Investment Package Options",
         isVisible: true,
@@ -185,6 +186,11 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       funnel: {
         isVisible: true,
         title: isES ? "El Embudo de Tráfico 2026" : "The 2026 Traffic Funnel",
+        stats: [
+          { value: "95%", label: isES ? "Tráfico pesado canalizado" : "Heavy traffic funneled" },
+          { value: "15K", label: isES ? "Vehículos/día actuales" : "Current vehicles/day" },
+          { value: "30K", label: isES ? "Proyectado 2028" : "Projected 2028" },
+        ],
         text: isES
           ? "Para 2026, la nueva rotonda de las Rutas 7 y 17 canalizará el 95% del tráfico pesado de Vaca Muerta a través del sitio Distrito Energético. Hoy ese tráfico ya supera los 15.000 vehículos/día y se proyecta a 30.000 vehículos/día en 2028, lo que convierte al proyecto en un cuello de botella natural de la cadena logística regional."
           : "By 2026, the new Route 7 & 17 roundabout will funnel 95% of Vaca Muerta's heavy equipment traffic through the Distrito Energético site. That traffic already exceeds 15,000 vehicles/day and is projected to reach 30,000 vehicles/day by 2028, making the project a natural bottleneck in the regional supply chain.",
@@ -199,6 +205,8 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       proximity: {
         isVisible: true,
         title: isES ? "Proximidad Industrial" : "Industrial Proximity",
+        stat1value: "8-12 km", stat1label: isES ? "Distrito Energético al pad" : "Distrito Energético to pad",
+        stat2value: "60-120 km", stat2label: isES ? "Alternativas actuales" : "Current alternatives",
         text: isES
           ? "Conectividad de última milla a plantas de procesamiento de arena, talleres de fractura, pads de perforación y centros de tratamiento de crudo. Distancia promedio al pad: 8-12 km versus 60-120 km de las alternativas actuales."
           : "Zero-last-mile connectivity to sand processing plants, frac shops, drilling pads and crude treatment centers. Average distance to pad: 8-12 km versus 60-120 km for current alternatives.",
@@ -263,6 +271,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       benchmarks: {
         isVisible: true,
         title: isES ? "Benchmarks de Alquiler — Naves Industriales" : "Industrial Warehouse Rental Benchmarks",
+        cols: isES ? ["Mercado / Zona","Precio m²/mes (USD)","Clase","Disponibilidad","Distancia al pad"] : ["Market / Zone","Price sqm/month (USD)","Class","Availability","Distance to pad"],
         table: isES ? [
           { col0: "Neuquén capital", col1: "USD 12–16", col2: "Clase B", col3: "Limitada", col4: "60–90 km" },
           { col0: "Añelo (informal)", col1: "USD 18–22", col2: "Sin Clase A", col3: "Escasa", col4: "15–30 km" },
@@ -280,6 +289,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       },
       comparison: {
         isVisible: true,
+        cols: isES ? ["Atributo","Distrito Energético","Alternativas Neuquén","Alternativas Añelo","Permian Basin (TX)"] : ["Attribute","Distrito Energético","Neuquén Alternatives","Añelo Alternatives","Permian Basin (TX)"],
         rows: isES ? [
           { col0: "Clase de activo", col1: "Clase A — diseño industrial pesado", col2: "Clase B/C — adaptaciones", col3: "Sin clasificación formal", col4: "Clase A internacional" },
           { col0: "Precio alquiler (USD/m²/mes)", col1: "20–28", col2: "12–16", col3: "18–22", col4: "24–32" },
@@ -336,6 +346,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       isVisible: true,
       cashflow: {
         isVisible: true,
+        cols: isES ? ["Concepto","Año 1","Año 2","Año 3","Año 4","Año 5"] : ["Item","Year 1","Year 2","Year 3","Year 4","Year 5"],
         rows: isES ? [
           { label: "Inversión inicial (salida)", y1: "(USD 600K)", y2: "—", y3: "—", y4: "—", y5: "—" },
           { label: "Ingresos por alquiler (bruto)", y1: "USD 96K", y2: "USD 100K", y3: "USD 104K", y4: "USD 108K", y5: "USD 113K" },
@@ -474,6 +485,11 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       mixer: {
         isVisible: true,
         title: isES ? "Partnership Estratégico" : "Strategic Partnership",
+        partners: [
+          { icon: "🏗", label: isES ? "EPC / Constructora" : "EPC / Construction", desc: isES ? "Aportás capacidad de obra, recibís equity" : "Contribute construction capacity, receive equity" },
+          { icon: "🚛", label: isES ? "Operador Logístico" : "Logistics Operator", desc: isES ? "Aportás cliente ancla, reducís tu ticket" : "Bring anchor tenant, reduce your ticket" },
+          { icon: "💡", label: isES ? "Proveedor de Energía" : "Energy Provider", desc: isES ? "Aportás generación solar, recibís participación" : "Contribute solar generation, receive participation" },
+        ],
         text: isES
           ? "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
           : "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers.",
