@@ -210,7 +210,7 @@ export function Tab2() {
 function ImageUploadSection({ tabKey, sectionKey }: { tabKey: string; sectionKey: string }) {
   const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language][tabKey];
-  const section = t[sectionKey];
+  const section = t[sectionKey] || { isVisible: true, images: [], caption: "" };
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFiles = (files: FileList | null) => {
@@ -293,7 +293,7 @@ export function Tab3() {
             <EditableText multiline value={t.funnel.text} onSave={(v) => updateTab("tab3", "funnel.text", v)} />
           </div>
           <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-background/20">
-            {(t.funnel.stats || []).map((s: any, i: number) => (
+{(t.funnel?.stats || [{value:"95%",label:"Tráfico pesado canalizado"},{value:"15K",label:"Vehículos/día actuales"},{value:"30K",label:"Proyectado 2028"}]).map((s: any, i: number) => (
               <div key={i} className="text-center">
                 <div className="text-3xl font-black text-yellow-400">
                   <EditableText value={s.value} onSave={(v) => { const stats = [...(t.funnel.stats||[])]; stats[i] = {...stats[i], value: v}; updateTab("tab3", "funnel.stats", stats); }} />
@@ -695,12 +695,18 @@ export function Tab7() {
           {/* Lot sizes table */}
           {t.metrics.lots && (
             <div>
-              <h3 className="font-bold text-sm uppercase tracking-wide text-muted-foreground mb-3">{isES ? "Tamaños de Lote Disponibles" : "Available Lot Sizes"}</h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-sm uppercase tracking-wide text-muted-foreground">
+                  <EditableText value={t.metrics.lotsTitle || (isES ? "Tamaños de Lote Disponibles" : "Available Lot Sizes")} onSave={(v) => updateTab("tab7", "metrics.lotsTitle", v)} />
+                </h3>
+              </div>
               <div className="overflow-x-auto rounded-xl border border-border">
                 <table className="w-full text-sm">
                   <thead><tr className="bg-foreground text-background">
-                    {(isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"]).map(h => (
-                      <th key={h} className="px-4 py-3 text-left text-xs uppercase font-bold tracking-wide">{h}</th>
+                    {(t.metrics.lotsCols || (isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"])).map((h: string, hi: number) => (
+                      <th key={hi} className="px-4 py-3 text-left text-xs uppercase font-bold tracking-wide">
+                        <EditableText value={h} onSave={(v) => { const cols = [...(t.metrics.lotsCols || (isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"]))]; cols[hi] = v; updateTab("tab7", "metrics.lotsCols", cols); }} />
+                      </th>
                     ))}
                   </tr></thead>
                   <tbody>
@@ -745,7 +751,7 @@ export function Tab7() {
         <Card dark>
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-blue-400/20 rounded-xl"><Flame className="text-blue-400" size={20} /></div>
-            <h2 className="text-2xl font-bold">{isES ? "Servicios e Infraestructura Incluidos" : "Included Services & Infrastructure"}</h2>
+            <h2 className="text-2xl font-bold"><EditableText value={t.services?.title || (isES ? "Servicios e Infraestructura Incluidos" : "Included Services & Infrastructure")} onSave={(v) => updateTab("tab7", "services.title", v)} /></h2>
           </div>
           <div className="grid md:grid-cols-2 gap-3">
             {(t.services?.items || []).map((item: any, i: number) => (
@@ -791,7 +797,7 @@ export function Tab8() {
             <EditableText multiline value={t.mixer.text} onSave={(v) => updateTab("tab8", "mixer.text", v)} />
           </div>
           <div className="grid md:grid-cols-3 gap-4">
-            {(t.mixer.partners || []).map((item: any, i: number) => (
+{(t.mixer?.partners || [{icon:"🏗",label:"EPC / Constructora",desc:"Aportás capacidad de obra, recibís equity"},{icon:"🚛",label:"Operador Logístico",desc:"Aportás cliente ancla, reducís tu ticket"},{icon:"💡",label:"Proveedor de Energía",desc:"Aportás generación solar, recibís participación"}]).map((item: any, i: number) => (
               <div key={i} className="bg-background/10 rounded-2xl p-5 text-center">
                 <div className="text-3xl mb-3">
                   <EditableText value={item.icon} onSave={(v) => { const p = [...t.mixer.partners]; p[i] = {...p[i], icon: v}; updateTab("tab8", "mixer.partners", p); }} />
@@ -821,16 +827,18 @@ export function Tab9() {
   const today = new Date().toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" });
   const isES = language === "ES";
 
-  const fields: [string, string][] = [
-    ["investorName", isES ? "Inversor / Vehículo" : "Investor / Vehicle"],
-    ["entryAmount", isES ? "Monto de Entrada (USD)" : "Entry Amount (USD)"],
-    ["structure", isES ? "Estructura Legal" : "Legal Structure"],
-    ["package", isES ? "Paquete Seleccionado" : "Selected Package"],
-    ["irrExpected", isES ? "IRR Esperado" : "Expected IRR"],
-    ["term", isES ? "Plazo de Inversión" : "Investment Term"],
-    ["guarantee", isES ? "Garantía / Respaldo" : "Guarantee / Security"],
-    ["exitStrategy", isES ? "Estrategia de Salida" : "Exit Strategy"],
+  const { isEditingMode } = useApp();
+  const dynamicFields: Array<{label: string; value: string}> = b.fields || [
+    { label: isES ? "Inversor / Vehículo" : "Investor / Vehicle", value: b.investorName || "—" },
+    { label: isES ? "Monto de Entrada (USD)" : "Entry Amount (USD)", value: b.entryAmount || "—" },
+    { label: isES ? "Estructura Legal" : "Legal Structure", value: b.structure || "—" },
+    { label: isES ? "Paquete Seleccionado" : "Selected Package", value: b.package || "—" },
+    { label: isES ? "IRR Esperado" : "Expected IRR", value: b.irrExpected || "—" },
+    { label: isES ? "Plazo de Inversión" : "Investment Term", value: b.term || "—" },
+    { label: isES ? "Garantía / Respaldo" : "Guarantee / Security", value: b.guarantee || "—" },
+    { label: isES ? "Estrategia de Salida" : "Exit Strategy", value: b.exitStrategy || "—" },
   ];
+  const updateFields = (fields: typeof dynamicFields) => updateTab("tab9", "builder.fields", fields);
 
   return (
     <div className="space-y-6">
@@ -851,12 +859,28 @@ export function Tab9() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-4 mb-8">
-            {fields.map(([k, label]) => (
-              <div key={k} className="bg-accent/30 p-5 rounded-xl border border-border">
-                <div className="text-xs uppercase font-bold text-muted-foreground mb-1">{label}</div>
-                <div className="text-base font-semibold"><EditableText value={b[k] || "—"} onSave={(v) => updateTab("tab9", `builder.${k}`, v)} /></div>
+            {dynamicFields.map((field, i) => (
+              <div key={i} className="relative bg-accent/30 p-5 rounded-xl border border-border group">
+                {isEditingMode && (
+                  <button onClick={() => updateFields(dynamicFields.filter((_, j) => j !== i))}
+                    className="absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 hover:bg-red-100 hover:text-red-600 rounded transition-all">
+                    <Trash2 size={12} />
+                  </button>
+                )}
+                <div className="text-xs uppercase font-bold text-muted-foreground mb-1">
+                  <EditableText value={field.label} onSave={(v) => { const f = [...dynamicFields]; f[i] = {...f[i], label: v}; updateFields(f); }} />
+                </div>
+                <div className="text-base font-semibold">
+                  <EditableText value={field.value} onSave={(v) => { const f = [...dynamicFields]; f[i] = {...f[i], value: v}; updateFields(f); }} />
+                </div>
               </div>
             ))}
+            {isEditingMode && (
+              <button onClick={() => updateFields([...dynamicFields, { label: isES ? "Nuevo campo" : "New field", value: "—" }])}
+                className="bg-accent/10 border-2 border-dashed border-border rounded-xl p-5 flex items-center justify-center gap-2 text-muted-foreground hover:border-primary hover:text-primary transition-colors text-sm font-medium">
+                <Plus size={16} /> {isES ? "Agregar campo" : "Add field"}
+              </button>
+            )}
           </div>
 
           <div className="space-y-4 mb-8">
@@ -927,10 +951,16 @@ export function Tab10() {
             {categories.map((cat) => {
               const catItems = items.filter((i: any) => i.cat === cat && (i.isVisible !== false || isEditingMode));
               const colors = CAT_COLORS[cat] || { bg: "bg-gray-100", text: "text-gray-800", bar: "bg-gray-500" };
+              const catLabel = (t.data.catLabels || {})[cat] || cat;
               return (
                 <div key={cat} className={`rounded-2xl border overflow-hidden`}>
                   <div className={`${colors.bg} px-5 py-3 flex items-center justify-between`}>
-                    <span className={`font-bold text-sm ${colors.text}`}>{cat}</span>
+                    <span className={`font-bold text-sm ${colors.text}`}>
+                      <EditableText value={catLabel} onSave={(v) => {
+                        const newLabels = {...(t.data.catLabels || {}), [cat]: v};
+                        updateTab("tab10", "data.catLabels", newLabels);
+                      }} />
+                    </span>
                     <BarChart3 size={16} className={colors.text} />
                   </div>
                   <div className="divide-y divide-border">

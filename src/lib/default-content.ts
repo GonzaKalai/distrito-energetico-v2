@@ -413,6 +413,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       isVisible: true,
       services: {
         isVisible: true,
+        title: isES ? "Servicios e Infraestructura Incluidos" : "Included Services & Infrastructure",
         items: isES ? [
           "Energía eléctrica en media tensión (hasta 1 MW/lote, ampliable)",
           "Gas natural — conexión a red troncal Neuquén-Zapala",
@@ -440,6 +441,8 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       metrics: {
         isVisible: true,
         title: isES ? "Métricas Clave de Edificabilidad" : "Key Land Metrics",
+        lotsTitle: isES ? "Tamaños de Lote Disponibles" : "Available Lot Sizes",
+        lotsCols: isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"],
         lots: isES ? [
           { tipo: "Lote estándar industrial", superficie: "2.500 m²", edificabilidad: "1.750 m²", precio: "USD 180–220/m²", status: "Disponible" },
           { tipo: "Lote mediano industrial", superficie: "5.000 m²", edificabilidad: "3.500 m²", precio: "USD 160–190/m²", status: "Disponible" },
@@ -511,6 +514,25 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
         guarantee: isES ? "Escritura de dominio / participación fiduciaria auditada por Big 4" : "Land title / Big-4 audited trust participation",
         exitStrategy: isES ? "Alquiler institucional / Venta de activo / Re-financiamiento" : "Institutional lease / Asset sale / Refinancing",
         sponsor: isES ? "Representante Distrito Energético" : "Distrito Energético Representative",
+        fields: isES ? [
+          { label: "Inversor / Vehículo", value: "[Nombre del Inversor / Vehículo]" },
+          { label: "Monto de Entrada (USD)", value: "USD 500.000" },
+          { label: "Estructura Legal", value: "Fideicomiso de Inversión (escritura pública)" },
+          { label: "Paquete Seleccionado", value: "Nave Llave en Mano" },
+          { label: "IRR Esperado", value: "15–18%" },
+          { label: "Plazo de Inversión", value: "5–10 años" },
+          { label: "Garantía / Respaldo", value: "Escritura de dominio / Participación fideicomiso / Flujo de fondos" },
+          { label: "Estrategia de Salida", value: "Alquiler / Venta de activo" },
+        ] : [
+          { label: "Investor / Vehicle", value: "[Investor Name / Vehicle]" },
+          { label: "Entry Amount (USD)", value: "USD 500,000" },
+          { label: "Legal Structure", value: "Investment Trust (public deed)" },
+          { label: "Selected Package", value: "Turnkey Warehouse" },
+          { label: "Expected IRR", value: "15–18%" },
+          { label: "Investment Term", value: "5–10 years" },
+          { label: "Guarantee / Security", value: "Land title / Trust participation / Cash flow" },
+          { label: "Exit Strategy", value: "Institutional lease / Asset sale" },
+        ],
         terms: isES
           ? "El presente instrumento constituye una carta de intención no vinculante. Los términos definitivos serán establecidos en el contrato de inversión / instrumento fiduciario correspondiente, sujeto a due diligence satisfactorio de ambas partes. La confidencialidad de la información compartida es obligatoria."
           : "This instrument constitutes a non-binding letter of intent. Definitive terms will be established in the corresponding investment agreement / trust instrument, subject to satisfactory due diligence by both parties. Confidentiality of shared information is mandatory.",
@@ -526,6 +548,17 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       data: {
         isVisible: true,
         title: isES ? "Inteligencia de Mercado — Vaca Muerta" : "Market Intelligence — Vaca Muerta",
+        catLabels: isES ? {
+          "Oil & Gas": "Oil & Gas",
+          "Logistics": "Logística",
+          "Real Estate": "Real Estate",
+          "Macro": "Macro",
+        } : {
+          "Oil & Gas": "Oil & Gas",
+          "Logistics": "Logistics",
+          "Real Estate": "Real Estate",
+          "Macro": "Macro",
+        },
         items: [
           {
             isVisible: true,

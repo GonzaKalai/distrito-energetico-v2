@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ContentTree, Sector, Language, CustomBlock, InvestorProfile, Theme, SentEntry } from "@/lib/types";
 import { createDefaultContent } from "@/lib/default-content";
+import userContent from "@/lib/user-content.json";
 
 let _counter = 0;
 const makeId = () => `${Date.now()}-${++_counter}`;
@@ -74,6 +75,12 @@ interface AppState {
 }
 
 const initial = newProfile("General", "");
+// Load user's saved content as default
+try {
+  initial.content = userContent as any;
+} catch {
+  // fallback to default content
+}
 
 export const useApp = create<AppState>()(
   persist(
