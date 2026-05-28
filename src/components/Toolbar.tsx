@@ -1,3 +1,4 @@
+import { RotateCcw } from "lucide-react";
 import {
   ChevronDown, Copy, Download, Edit3, Eraser, FileBox,
   Image as ImageIcon, Plus, Presentation, RefreshCw,
@@ -183,8 +184,8 @@ function ProfileSwitcher() {
 
 export function Toolbar() {
   const {
-    isEditingMode, language, sector, logo, theme,
-    setEditingMode, setLanguage, setSector, setLogo, setTheme,
+    isEditingMode, language, sector, logo, theme, contentHistory,
+    setEditingMode, setLanguage, setSector, setLogo, setTheme, undo,
     replaceContent, resetContent, content,
   } = useApp();
   const [busy, setBusy] = useState<null | "pdf" | "pptx">(null);
@@ -276,6 +277,11 @@ export function Toolbar() {
         <button onClick={onPDF} disabled={busy === "pdf"} className="bg-background/10 hover:bg-background/20 px-3 py-1.5 rounded-lg flex items-center gap-2 font-medium">
           {busy === "pdf" ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />} PDF
         </button>
+        {contentHistory.length > 0 && (
+          <button onClick={undo} className="bg-background/10 hover:bg-background/20 px-3 py-1.5 rounded-lg flex items-center gap-2 font-medium" title="Deshacer último cambio (Ctrl+Z)">
+            <RotateCcw size={14} /> Undo {contentHistory.length > 1 ? `(${contentHistory.length})` : ""}
+          </button>
+        )}
         <button onClick={() => exportJSON(content)} className="bg-background/10 hover:bg-background/20 px-3 py-1.5 rounded-lg flex items-center gap-2 font-medium" title="Backup">
           <FileBox size={14} /> JSON
         </button>

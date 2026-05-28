@@ -318,11 +318,32 @@ export function Tab3() {
           <div className="text-base leading-relaxed text-muted-foreground mb-5">
             <EditableText multiline value={t.epicenter.text} onSave={(v) => updateTab("tab3", "epicenter.text", v)} />
           </div>
-          <div className="flex flex-wrap gap-2">
-            {["YPF", "Chevron", "Shell", "ExxonMobil", "Pan American Energy", "Tecpetrol"].map(op => (
-              <span key={op} className="bg-primary/10 text-primary text-xs font-bold px-3 py-1.5 rounded-full">{op}</span>
-            ))}
-          </div>
+          {(() => {
+            const ops: string[] = t.epicenter?.operators || ["YPF", "Chevron", "Shell", "ExxonMobil", "Pan American Energy", "Tecpetrol"];
+            return (
+              <div className="flex flex-wrap gap-2 items-center">
+                {ops.map((op: string, i: number) => (
+                  <div key={i} className="group relative">
+                    <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1">
+                      <EditableText value={op} onSave={(v) => { const arr = [...ops]; arr[i] = v; updateTab("tab3", "epicenter.operators", arr); }} />
+                      {isEditingMode && (
+                        <button onClick={() => updateTab("tab3", "epicenter.operators", ops.filter((_:string, j:number) => j !== i))}
+                          className="opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all ml-0.5">
+                          <X size={10} />
+                        </button>
+                      )}
+                    </span>
+                  </div>
+                ))}
+                {isEditingMode && (
+                  <button onClick={() => updateTab("tab3", "epicenter.operators", [...ops, "Nueva empresa"])}
+                    className="bg-accent border-2 border-dashed border-border text-muted-foreground text-xs font-bold px-3 py-1.5 rounded-full hover:border-primary hover:text-primary transition-colors flex items-center gap-1">
+                    <Plus size={10} /> Agregar
+                  </button>
+                )}
+              </div>
+            );
+          })()}
         </Card>
       </SectionWrap>
       <SectionWrap isVisible={t.proximity.isVisible} onToggle={() => updateTab("tab3", "proximity.isVisible", !t.proximity.isVisible)} label="Proximity">
@@ -417,6 +438,32 @@ export function Tab4() {
 }
 
 // ─── TAB 5 ────────────────────────────────────────────────────────────────────
+
+function CycleCell({ val, onSave, center = true }: { val: string; onSave: (v: string) => void; center?: boolean }) {
+  const { isEditingMode } = useApp();
+  const isCheck = val === "✓" || val === "✗";
+  const cycle = () => {
+    if (val === "✓") onSave("✗");
+    else if (val === "✗") onSave("—");
+    else onSave("✓");
+  };
+  return (
+    <div className={`flex items-center gap-1 ${center ? "justify-center" : ""}`}>
+      {isCheck ? (
+        <span
+          className={`text-base font-bold ${val === "✓" ? "text-emerald-600" : "text-red-500"} ${isEditingMode ? "cursor-pointer hover:opacity-70" : ""}`}
+          onClick={isEditingMode ? cycle : undefined}
+          title={isEditingMode ? "Click para cambiar: ✓ → ✗ → texto" : undefined}
+        >{val}</span>
+      ) : (
+        <EditableText value={val} onSave={onSave} />
+      )}
+      {isEditingMode && !isCheck && (
+        <button onClick={cycle} className="text-[10px] text-muted-foreground hover:text-primary transition-colors shrink-0" title="Convertir a ✓ / ✗">⊙</button>
+      )}
+    </div>
+  );
+}
 
 const ComparisonTable = ({ rows, cols, onUpdate, onUpdateCols }: { rows: any[]; cols: string[]; onUpdate: (rows: any[]) => void; onUpdateCols?: (cols: string[]) => void }) => {
   const { isEditingMode } = useApp();
@@ -650,11 +697,32 @@ export function Tab6() {
           <div className="text-base leading-relaxed opacity-90 mb-5">
             <EditableText multiline value={t.protection.text} onSave={(v) => updateTab("tab6", "protection.text", v)} />
           </div>
-          <div className="flex flex-wrap gap-2">
-            {["KPMG", "Deloitte", "EY", "PwC"].map(firm => (
-              <span key={firm} className="bg-background/20 text-background text-xs font-bold px-3 py-1 rounded-full">{firm}</span>
-            ))}
-          </div>
+          {(() => {
+            const firms: string[] = t.protection?.firms || ["KPMG", "Deloitte", "EY", "PwC"];
+            return (
+              <div className="flex flex-wrap gap-2 items-center">
+                {firms.map((firm: string, i: number) => (
+                  <div key={i} className="group relative">
+                    <span className="bg-background/20 text-background text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                      <EditableText value={firm} onSave={(v) => { const arr = [...firms]; arr[i] = v; updateTab("tab6", "protection.firms", arr); }} />
+                      {isEditingMode && (
+                        <button onClick={() => updateTab("tab6", "protection.firms", firms.filter((_:string, j:number) => j !== i))}
+                          className="opacity-0 group-hover:opacity-100 hover:text-red-300 transition-all ml-0.5">
+                          <X size={10} />
+                        </button>
+                      )}
+                    </span>
+                  </div>
+                ))}
+                {isEditingMode && (
+                  <button onClick={() => updateTab("tab6", "protection.firms", [...firms, "Nueva firma"])}
+                    className="bg-background/10 border-2 border-dashed border-background/30 text-background/60 text-xs font-bold px-3 py-1 rounded-full hover:border-background hover:text-background transition-colors flex items-center gap-1">
+                    <Plus size={10} /> Agregar
+                  </button>
+                )}
+              </div>
+            );
+          })()}
         </Card>
       </SectionWrap>
 
@@ -824,13 +892,14 @@ export function Tab8() {
 // ─── TAB 9 — LOI ──────────────────────────────────────────────────────────────
 
 export function Tab9() {
-  const { content, sector, language, updateTab } = useApp();
+  const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language].tab9;
   const b = t.builder;
-  const today = new Date().toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" });
   const isES = language === "ES";
+  const today = new Date().toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" });
 
-  const { isEditingMode } = useApp();
+  const [loiMode, setLoiMode] = React.useState<"summary" | "formal">("summary");
+
   const dynamicFields: Array<{label: string; value: string}> = b.fields || [
     { label: isES ? "Inversor / Vehículo" : "Investor / Vehicle", value: b.investorName || "—" },
     { label: isES ? "Monto de Entrada (USD)" : "Entry Amount (USD)", value: b.entryAmount || "—" },
@@ -843,11 +912,19 @@ export function Tab9() {
   ];
   const updateFields = (fields: typeof dynamicFields) => updateTab("tab9", "builder.fields", fields);
 
+  const formalSections: any[] = b.formalSections || [];
+  const updateSection = (i: number, patch: any) => {
+    const sections = structuredClone(formalSections);
+    sections[i] = { ...sections[i], ...patch };
+    updateTab("tab9", "builder.formalSections", sections);
+  };
+
   return (
     <div className="space-y-6">
       <SectionWrap isVisible={t.builder.isVisible} onToggle={() => updateTab("tab9", "builder.isVisible", !t.builder.isVisible)} label="LOI">
         <Card>
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
+          {/* Mode switcher */}
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
             <div>
               <h2 className="text-2xl font-bold flex items-center gap-3">
                 <FileBox className="text-primary" />
@@ -855,66 +932,160 @@ export function Tab9() {
               </h2>
               <p className="text-sm text-muted-foreground mt-1">Distrito Energético · Vaca Muerta · {today}</p>
             </div>
-            <div className="text-right bg-accent/30 rounded-xl px-4 py-2">
-              <div className="text-xs uppercase font-bold text-muted-foreground">Sector</div>
-              <div className="text-sm font-bold">{sector}</div>
+            <div className="flex bg-accent p-1 rounded-xl border border-border">
+              <button onClick={() => setLoiMode("summary")} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${loiMode === "summary" ? "bg-foreground text-background shadow" : "opacity-50 hover:opacity-80"}`}>
+                Summary
+              </button>
+              <button onClick={() => setLoiMode("formal")} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${loiMode === "formal" ? "bg-foreground text-background shadow" : "opacity-50 hover:opacity-80"}`}>
+                Formal
+              </button>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-8">
-            {dynamicFields.map((field, i) => (
-              <div key={i} className="relative bg-accent/30 p-5 rounded-xl border border-border group">
+          {loiMode === "summary" && (
+            <div>
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                {dynamicFields.map((field, i) => (
+                  <div key={i} className="relative bg-accent/30 p-5 rounded-xl border border-border group">
+                    {isEditingMode && (
+                      <button onClick={() => updateFields(dynamicFields.filter((_, j) => j !== i))}
+                        className="absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 hover:bg-red-100 hover:text-red-600 rounded transition-all">
+                        <Trash2 size={12} />
+                      </button>
+                    )}
+                    <div className="text-xs uppercase font-bold text-muted-foreground mb-1">
+                      <EditableText value={field.label} onSave={(v) => { const f = [...dynamicFields]; f[i] = {...f[i], label: v}; updateFields(f); }} />
+                    </div>
+                    <div className="text-base font-semibold">
+                      <EditableText value={field.value} onSave={(v) => { const f = [...dynamicFields]; f[i] = {...f[i], value: v}; updateFields(f); }} />
+                    </div>
+                  </div>
+                ))}
                 {isEditingMode && (
-                  <button onClick={() => updateFields(dynamicFields.filter((_, j) => j !== i))}
-                    className="absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 hover:bg-red-100 hover:text-red-600 rounded transition-all">
-                    <Trash2 size={12} />
+                  <button onClick={() => updateFields([...dynamicFields, { label: isES ? "Nuevo campo" : "New field", value: "—" }])}
+                    className="bg-accent/10 border-2 border-dashed border-border rounded-xl p-5 flex items-center justify-center gap-2 text-muted-foreground hover:border-primary hover:text-primary transition-colors text-sm font-medium">
+                    <Plus size={16} /> {isES ? "Agregar campo" : "Add field"}
                   </button>
                 )}
-                <div className="text-xs uppercase font-bold text-muted-foreground mb-1">
-                  <EditableText value={field.label} onSave={(v) => { const f = [...dynamicFields]; f[i] = {...f[i], label: v}; updateFields(f); }} />
-                </div>
-                <div className="text-base font-semibold">
-                  <EditableText value={field.value} onSave={(v) => { const f = [...dynamicFields]; f[i] = {...f[i], value: v}; updateFields(f); }} />
-                </div>
               </div>
-            ))}
-            {isEditingMode && (
-              <button onClick={() => updateFields([...dynamicFields, { label: isES ? "Nuevo campo" : "New field", value: "—" }])}
-                className="bg-accent/10 border-2 border-dashed border-border rounded-xl p-5 flex items-center justify-center gap-2 text-muted-foreground hover:border-primary hover:text-primary transition-colors text-sm font-medium">
-                <Plus size={16} /> {isES ? "Agregar campo" : "Add field"}
-              </button>
-            )}
-          </div>
+            </div>
+          )}
 
-          <div className="space-y-4 mb-8">
-            <div className="bg-blue-50 rounded-xl p-5 border border-blue-200">
-              <div className="text-xs uppercase font-bold text-blue-700 mb-2">{isES ? "Términos & Condiciones" : "Terms & Conditions"}</div>
-              <div className="text-sm leading-relaxed text-muted-foreground">
-                <EditableText multiline value={b.terms || "—"} onSave={(v) => updateTab("tab9", "builder.terms", v)} />
-              </div>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-5 border border-amber-200">
-              <div className="text-xs uppercase font-bold text-amber-700 mb-2">{isES ? "Condiciones Precedentes" : "Conditions Precedent"}</div>
-              <div className="text-sm leading-relaxed text-muted-foreground">
-                <EditableText multiline value={b.conditions || "—"} onSave={(v) => updateTab("tab9", "builder.conditions", v)} />
-              </div>
-            </div>
-          </div>
+          {loiMode === "formal" && (
+            <div className="space-y-4">
+              {formalSections.map((section: any, i: number) => (
+                <div key={section.id} className="relative group">
+                  {isEditingMode && (
+                    <div className="absolute -right-2 top-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <button onClick={() => { const s = formalSections.filter((_:any,j:number)=>j!==i); updateTab("tab9","builder.formalSections",s); }}
+                        className="p-1 bg-white border border-red-200 hover:bg-red-50 hover:text-red-600 rounded shadow-sm"><Trash2 size={11} /></button>
+                    </div>
+                  )}
 
-          <div className="grid md:grid-cols-2 gap-8 pt-6 border-t-2 border-foreground">
-            <div>
-              <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Firma del Inversor" : "Investor Signature"}</div>
-              <div className="h-14 border-b border-dashed border-muted-foreground mb-2"></div>
-              <div className="font-semibold text-sm"><EditableText value={b.investorName || "—"} onSave={(v) => updateTab("tab9", "builder.investorName", v)} /></div>
-              <div className="text-xs text-muted-foreground mt-1">{isES ? "Fecha" : "Date"}: {today}</div>
+                  {section.type === "header" && (
+                    <div className="text-center py-6 border-b-2 border-foreground mb-2">
+                      <div className="text-lg font-black tracking-wide whitespace-pre-line">
+                        <EditableText multiline value={section.content} onSave={(v) => updateSection(i, { content: v })} />
+                      </div>
+                    </div>
+                  )}
+
+                  {section.type === "auto_table" && (
+                    <div>
+                      <div className="text-xs uppercase font-bold text-muted-foreground mb-3 flex items-center gap-2">
+                        <EditableText value={section.label} onSave={(v) => updateSection(i, { label: v })} />
+                      </div>
+                      <div className="overflow-hidden rounded-xl border border-border">
+                        <table className="w-full text-sm">
+                          <thead><tr className="bg-foreground text-background">
+                            <th className="px-4 py-2 text-left text-xs uppercase font-bold">{isES ? "Término" : "Term"}</th>
+                            <th className="px-4 py-2 text-left text-xs uppercase font-bold">{isES ? "Valor" : "Value"}</th>
+                          </tr></thead>
+                          <tbody>
+                            {dynamicFields.map((f, fi) => (
+                              <tr key={fi} className={`border-t border-border ${fi%2===0?"bg-background":"bg-accent/20"}`}>
+                                <td className="px-4 py-2 font-semibold text-xs text-muted-foreground uppercase">{f.label}</td>
+                                <td className="px-4 py-2 font-medium text-sm">{f.value}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {(section.type === "section" || section.type === "field") && (
+                    <div className={section.type === "section" ? "bg-accent/20 rounded-xl p-5 border border-border" : ""}>
+                      <div className="text-xs uppercase font-bold text-muted-foreground mb-2">
+                        <EditableText value={section.label} onSave={(v) => updateSection(i, { label: v })} />
+                      </div>
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">
+                        <EditableText multiline value={section.content} onSave={(v) => updateSection(i, { content: v })} />
+                      </div>
+                    </div>
+                  )}
+
+                  {section.type === "signatures" && (
+                    <div className="grid md:grid-cols-2 gap-8 pt-6 border-t-2 border-foreground mt-4">
+                      <div>
+                        <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Firma del Inversor" : "Investor Signature"}</div>
+                        <div className="h-14 border-b border-dashed border-muted-foreground mb-2"></div>
+                        <div className="font-semibold text-sm">{dynamicFields[0]?.value || "—"}</div>
+                        <div className="text-xs text-muted-foreground mt-1">{isES ? "Fecha" : "Date"}: {today}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Representante Distrito Energético" : "Distrito Energético Representative"}</div>
+                        <div className="h-14 border-b border-dashed border-muted-foreground mb-2"></div>
+                        <div className="font-semibold text-sm">
+                          <EditableText value={b.sponsor || (isES ? "Representante Distrito Energético" : "Distrito Energético Representative")} onSave={(v) => updateTab("tab9", "builder.sponsor", v)} />
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">{isES ? "Fecha" : "Date"}: {today}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {isEditingMode && (
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-dashed border-border">
+                  <span className="text-xs text-muted-foreground font-semibold uppercase mr-2 self-center">{isES ? "Agregar bloque:" : "Add block:"}</span>
+                  {[
+                    { type: "section", label: isES ? "+ Sección" : "+ Section" },
+                    { type: "field", label: isES ? "+ Campo" : "+ Field" },
+                  ].map(({ type, label }) => (
+                    <button key={type} onClick={() => {
+                      const newSection = { id: `custom_${Date.now()}`, type, label: isES ? "Nueva sección" : "New section", content: "—" };
+                      const sigIdx = formalSections.findIndex((s:any) => s.type === "signatures");
+                      const sections = [...formalSections];
+                      if (sigIdx >= 0) sections.splice(sigIdx, 0, newSection);
+                      else sections.push(newSection);
+                      updateTab("tab9", "builder.formalSections", sections);
+                    }} className="text-xs px-3 py-1.5 border border-dashed border-border rounded-lg text-muted-foreground hover:border-primary hover:text-primary transition-colors">
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-            <div>
-              <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Representante Distrito Energético" : "Distrito Energético Representative"}</div>
-              <div className="h-14 border-b border-dashed border-muted-foreground mb-2"></div>
-              <div className="font-semibold text-sm"><EditableText value={b.sponsor || "—"} onSave={(v) => updateTab("tab9", "builder.sponsor", v)} /></div>
-              <div className="text-xs text-muted-foreground mt-1">{isES ? "Fecha" : "Date"}: {today}</div>
+          )}
+
+          {/* Bottom sections: terms, conditions — only in summary mode */}
+          {loiMode === "summary" && (
+            <div className="space-y-4 mt-4">
+              <div className="bg-blue-50 rounded-xl p-5 border border-blue-200">
+                <div className="text-xs uppercase font-bold text-blue-700 mb-2">{isES ? "Términos & Condiciones" : "Terms & Conditions"}</div>
+                <div className="text-sm leading-relaxed text-muted-foreground">
+                  <EditableText multiline value={b.terms || "—"} onSave={(v) => updateTab("tab9", "builder.terms", v)} />
+                </div>
+              </div>
+              <div className="bg-amber-50 rounded-xl p-5 border border-amber-200">
+                <div className="text-xs uppercase font-bold text-amber-700 mb-2">{isES ? "Condiciones Precedentes" : "Conditions Precedent"}</div>
+                <div className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
+                  <EditableText multiline value={b.conditions || "—"} onSave={(v) => updateTab("tab9", "builder.conditions", v)} />
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </Card>
       </SectionWrap>
       <CustomBlocks tabKey="tab9" />
@@ -922,7 +1093,7 @@ export function Tab9() {
   );
 }
 
-// ─── TAB 10 — Market Intelligence ─────────────────────────────────────────────
+// ─── TAB 10 — Market Intelligence// ─── TAB 10 — Market Intelligence ─────────────────────────────────────────────
 
 const CAT_COLORS: Record<string, { bg: string; text: string; bar: string }> = {
   "Oil & Gas": { bg: "bg-orange-100", text: "text-orange-800", bar: "bg-orange-500" },
@@ -1036,5 +1207,181 @@ export function Tab10() {
 
 export const TAB_COMPONENTS: Record<string, React.FC> = {
   tab1: Tab1, tab2: Tab2, tab3: Tab3, tab4: Tab4, tab5: Tab5,
-  tab6: Tab6, tab7: Tab7, tab8: Tab8, tab9: Tab9, tab10: Tab10,
+  tab6: Tab6, tab7: Tab7, tab8: Tab8, tab9: Tab9, tab10: Tab10, tab11: Tab11,
 };
+
+// ─── TAB 11 — Due Diligence ────────────────────────────────────────────────────
+
+function ChecklistItem({ item, onToggle, onUpdate, onRemove, isEditingMode }: {
+  item: any; onToggle: () => void; onUpdate: (patch: any) => void; onRemove: () => void; isEditingMode: boolean;
+}) {
+  return (
+    <div className={`flex items-start gap-3 p-3 rounded-xl border ${item.checked ? "border-emerald-200 bg-emerald-50" : "border-border bg-background"} group`}>
+      <button onClick={onToggle} className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${item.checked ? "bg-emerald-500 border-emerald-500 text-white" : "border-border hover:border-primary"}`}>
+        {item.checked && <Check size={11} />}
+      </button>
+      <div className="flex-1 min-w-0">
+        <div className={`font-medium text-sm ${item.checked ? "line-through text-muted-foreground" : ""}`}>
+          <EditableText value={item.label} onSave={(v) => onUpdate({ label: v })} />
+        </div>
+        <div className="text-xs text-muted-foreground mt-0.5">
+          <EditableText value={item.detail} onSave={(v) => onUpdate({ detail: v })} />
+        </div>
+      </div>
+      {isEditingMode && (
+        <button onClick={onRemove} className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-100 hover:text-red-600 rounded transition-all shrink-0"><Trash2 size={11} /></button>
+      )}
+    </div>
+  );
+}
+
+export function Tab11() {
+  const { content, sector, language, updateTab, isEditingMode } = useApp();
+  const t = content[sector][language].tab11;
+  const isES = language === "ES";
+
+  if (!t) return <div className="p-8 text-muted-foreground text-center">Cargando...</div>;
+
+  const { checklist, servicePackage, experience } = t;
+
+  const updateChecklist = (categories: any[]) => updateTab("tab11", "checklist.categories", categories);
+  const updateItem = (ci: number, ii: number, patch: any) => {
+    const cats = structuredClone(checklist.categories);
+    cats[ci].items[ii] = { ...cats[ci].items[ii], ...patch };
+    updateChecklist(cats);
+  };
+  const toggleItem = (ci: number, ii: number) => {
+    const cats = structuredClone(checklist.categories);
+    cats[ci].items[ii].checked = !cats[ci].items[ii].checked;
+    updateChecklist(cats);
+  };
+  const removeItem = (ci: number, ii: number) => {
+    const cats = structuredClone(checklist.categories);
+    cats[ci].items = cats[ci].items.filter((_: any, j: number) => j !== ii);
+    updateChecklist(cats);
+  };
+  const addItem = (ci: number) => {
+    const cats = structuredClone(checklist.categories);
+    cats[ci].items.push({ label: isES ? "Nuevo ítem" : "New item", detail: "—", checked: false });
+    updateChecklist(cats);
+  };
+  const updateServiceItem = (i: number, patch: any) => {
+    const svcs = [...(servicePackage.services || [])];
+    svcs[i] = { ...svcs[i], ...patch };
+    updateTab("tab11", "servicePackage.services", svcs);
+  };
+
+  const totalItems = checklist.categories?.reduce((a: number, c: any) => a + c.items.length, 0) || 0;
+  const completedItems = checklist.categories?.reduce((a: number, c: any) => a + c.items.filter((i: any) => i.checked).length, 0) || 0;
+
+  return (
+    <div className="space-y-6">
+      {/* Checklist */}
+      <SectionWrap isVisible={checklist?.isVisible !== false} onToggle={() => updateTab("tab11", "checklist.isVisible", !(checklist?.isVisible !== false))} label="Checklist">
+        <Card>
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <div className="p-2 bg-primary/10 rounded-xl"><FileText className="text-primary" size={20} /></div>
+                <h2 className="text-2xl font-bold"><EditableText value={checklist.title} onSave={(v) => updateTab("tab11", "checklist.title", v)} /></h2>
+              </div>
+              <p className="text-sm text-muted-foreground ml-14"><EditableText value={checklist.subtitle} onSave={(v) => updateTab("tab11", "checklist.subtitle", v)} /></p>
+            </div>
+            <div className="text-right shrink-0 ml-4">
+              <div className="text-2xl font-black text-primary">{completedItems}/{totalItems}</div>
+              <div className="text-xs text-muted-foreground">{isES ? "completados" : "completed"}</div>
+              <div className="w-24 h-2 bg-border rounded-full mt-1 ml-auto">
+                <div className="h-2 bg-primary rounded-full transition-all" style={{ width: `${totalItems > 0 ? (completedItems/totalItems)*100 : 0}%` }} />
+              </div>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {(checklist.categories || []).map((cat: any, ci: number) => (
+              <div key={ci} className="space-y-2">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    <h3 className="font-bold text-sm">
+                      <EditableText value={cat.title} onSave={(v) => { const cats = structuredClone(checklist.categories); cats[ci].title = v; updateChecklist(cats); }} />
+                    </h3>
+                  </div>
+                  <span className="text-xs text-muted-foreground">{cat.items.filter((i: any) => i.checked).length}/{cat.items.length}</span>
+                </div>
+                {cat.items.map((item: any, ii: number) => (
+                  <ChecklistItem key={ii} item={item}
+                    onToggle={() => toggleItem(ci, ii)}
+                    onUpdate={(p) => updateItem(ci, ii, p)}
+                    onRemove={() => removeItem(ci, ii)}
+                    isEditingMode={isEditingMode}
+                  />
+                ))}
+                {isEditingMode && (
+                  <button onClick={() => addItem(ci)} className="w-full text-xs text-muted-foreground hover:text-primary border border-dashed border-border hover:border-primary rounded-xl p-2 transition-colors flex items-center justify-center gap-1">
+                    <Plus size={12} /> {isES ? "Agregar ítem" : "Add item"}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </Card>
+      </SectionWrap>
+
+      {/* Service Package */}
+      <SectionWrap isVisible={servicePackage?.isVisible !== false} onToggle={() => updateTab("tab11", "servicePackage.isVisible", !(servicePackage?.isVisible !== false))} label="Service Package">
+        <Card accent>
+          <div className="flex items-start gap-4 mb-5">
+            <div className="p-2 bg-primary/10 rounded-xl shrink-0"><Building className="text-primary" size={20} /></div>
+            <div className="flex-1">
+              <div className="flex items-center gap-3 flex-wrap">
+                <h2 className="text-xl font-bold"><EditableText value={servicePackage?.title} onSave={(v) => updateTab("tab11", "servicePackage.title", v)} /></h2>
+                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-semibold">
+                  <EditableText value={servicePackage?.badge} onSave={(v) => updateTab("tab11", "servicePackage.badge", v)} />
+                </span>
+              </div>
+              <div className="text-sm text-muted-foreground leading-relaxed mt-2">
+                <EditableText multiline value={servicePackage?.description} onSave={(v) => updateTab("tab11", "servicePackage.description", v)} />
+              </div>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4 mb-5">
+            {(servicePackage?.services || []).map((svc: any, i: number) => (
+              <div key={i} className="bg-background rounded-xl p-4 border border-border group relative">
+                {isEditingMode && (
+                  <button onClick={() => { const s = (servicePackage.services||[]).filter((_:any,j:number)=>j!==i); updateTab("tab11","servicePackage.services",s); }} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 hover:bg-red-100 hover:text-red-600 rounded"><Trash2 size={11} /></button>
+                )}
+                <div className="flex items-center gap-2 mb-1">
+                  <Check size={14} className="text-primary shrink-0" />
+                  <div className="font-bold text-sm"><EditableText value={svc.label} onSave={(v) => updateServiceItem(i, { label: v })} /></div>
+                </div>
+                <div className="text-xs text-muted-foreground pl-5"><EditableText value={svc.detail} onSave={(v) => updateServiceItem(i, { detail: v })} /></div>
+              </div>
+            ))}
+            {isEditingMode && (
+              <button onClick={() => { const s = [...(servicePackage.services||[]), {label: isES?"Nuevo servicio":"New service", detail:"—"}]; updateTab("tab11","servicePackage.services",s); }} className="border-2 border-dashed border-border rounded-xl p-4 text-muted-foreground hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2 text-sm">
+                <Plus size={14} />{isES?"Agregar":"Add"}
+              </button>
+            )}
+          </div>
+          <div className="bg-background/60 rounded-xl p-4 border border-border italic text-sm text-muted-foreground">
+            <EditableText multiline value={servicePackage?.differentiator} onSave={(v) => updateTab("tab11", "servicePackage.differentiator", v)} />
+          </div>
+        </Card>
+      </SectionWrap>
+
+      {/* Experience */}
+      <SectionWrap isVisible={experience?.isVisible !== false} onToggle={() => updateTab("tab11", "experience.isVisible", !(experience?.isVisible !== false))} label="Experience">
+        <Card dark>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-yellow-400/20 rounded-xl"><Shield className="text-yellow-400" size={20} /></div>
+            <h2 className="text-xl font-bold"><EditableText value={experience?.title} onSave={(v) => updateTab("tab11", "experience.title", v)} /></h2>
+          </div>
+          <div className="text-base leading-relaxed opacity-90">
+            <EditableText multiline value={experience?.content} onSave={(v) => updateTab("tab11", "experience.content", v)} />
+          </div>
+        </Card>
+      </SectionWrap>
+
+      <CustomBlocks tabKey="tab11" />
+    </div>
+  );
+}

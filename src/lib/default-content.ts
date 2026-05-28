@@ -198,6 +198,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       epicenter: {
         isVisible: true,
         title: isES ? "Epicentro Loma Campana" : "Loma Campana Epicenter",
+        operators: ["YPF", "Chevron", "Shell", "ExxonMobil", "Pan American Energy", "Tecpetrol"],
         text: isES
           ? "El sitio está rodeado por operaciones de YPF, Chevron, Shell, ExxonMobil, Pan American Energy y Tecpetrol — los seis mayores operadores de la cuenca. Esta densidad operativa única en Argentina genera demanda inelástica de servicios logísticos, hoteleros y residenciales."
           : "The site is surrounded by YPF, Chevron, Shell, ExxonMobil, Pan American Energy and Tecpetrol operations — the six largest operators in the basin. This operational density (unique in Argentina) generates inelastic demand for logistics, hospitality and residential services.",
@@ -342,7 +343,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
     },
 
     tab6: {
-      title: isES ? "Modelo Financiero" : "Financial Model",
+      title: isES ? "Desarrollo & Estructura" : "Development & Structure",
       isVisible: true,
       cashflow: {
         isVisible: true,
@@ -402,6 +403,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       protection: {
         isVisible: true,
         title: isES ? "Protección de Capital" : "Capital Protection",
+        firms: ["KPMG", "Deloitte", "EY", "PwC"],
         text: isES
           ? "Vehículo fiduciario profesionalmente administrado, con marco de auditoría Big 4 (KPMG / Deloitte / EY / PwC), reporting trimestral, valuación independiente anual y comité de inversores con poder de veto sobre decisiones materiales."
           : "Professionally managed trust vehicle, Big 4 audit framework (KPMG / Deloitte / EY / PwC), quarterly reporting, annual independent valuation and investor committee with veto power over material decisions.",
@@ -499,6 +501,7 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
       },
     },
 
+    tab11: createTab11Content(isES),
     tab9: {
       title: "LOI",
       isVisible: true,
@@ -532,6 +535,38 @@ const buildSectorLang = (lang: Language, sector: Sector): SectorContent => {
           { label: "Investment Term", value: "5–10 years" },
           { label: "Guarantee / Security", value: "Land title / Trust participation / Cash flow" },
           { label: "Exit Strategy", value: "Institutional lease / Asset sale" },
+        ],
+        loiMode: "summary",
+        formalSections: isES ? [
+          { id: "header", type: "header", label: "Encabezado del documento", content: "CARTA DE INTENCIÓN NO VINCULANTE\nReserva de Participación — Distrito Energético Vaca Muerta" },
+          { id: "date", type: "field", label: "Ciudad y Fecha", content: "Ciudad de Buenos Aires / Neuquén, [fecha]" },
+          { id: "parties", type: "section", label: "Las Partes", content: "ENTRE:\n\nDISTRITO ENERGÉTICO S.A. ('el Desarrollador'), con domicilio en Loma Campana, Provincia de Neuquén, representada por [representante], en su carácter de apoderado;\n\nY:\n\n[Nombre del Inversor] ('el Inversor'), con [CUIT/DNI/Pasaporte] N°[número], representado por [representante]." },
+          { id: "recitals", type: "section", label: "Antecedentes", content: "El Desarrollador está ejecutando el desarrollo de Distrito Energético Vaca Muerta, un hub multimodal de infraestructura logística, industrial, hotelera y residencial ubicado en Loma Campana, Provincia de Neuquén, en el epicentro de la cuenca hidrocarburífera más importante de Argentina.\n\nEl Inversor ha manifestado interés en participar en dicho proyecto bajo los términos indicados en la presente." },
+          { id: "object", type: "section", label: "Objeto", content: "La presente carta de intención tiene por objeto establecer los términos preliminares bajo los cuales el Inversor manifiesta su intención de participar en el proyecto, sujeto a la suscripción del contrato definitivo correspondiente (contrato de inversión / instrumento fiduciario)." },
+          { id: "terms_table", type: "auto_table", label: "Términos Principales de la Inversión", content: "(Los campos se toman automáticamente del modo Summary)" },
+          { id: "terms_text", type: "section", label: "Términos — Texto Complementario", content: "La participación del Inversor se estructurará mediante [fideicomiso / dominio directo], con los derechos y obligaciones establecidos en el contrato definitivo. El Desarrollador se reserva el derecho de adecuar la estructura legal en función de la normativa vigente al momento de la suscripción." },
+          { id: "developer_commitments", type: "section", label: "Compromisos del Desarrollador", content: "El Desarrollador se compromete a:\n\n(i) Mantener la reserva de la unidad/lote seleccionado por el plazo acordado en la presente;\n(ii) Proveer al Inversor toda la información de due diligence solicitada dentro de un plazo razonable;\n(iii) No ofrecer la misma unidad/participación a terceros durante la vigencia de la presente;\n(iv) Mantener informado al Inversor sobre el avance del proyecto." },
+          { id: "investor_commitments", type: "section", label: "Compromisos del Inversor", content: "El Inversor se compromete a:\n\n(i) Mantener la confidencialidad de toda la información recibida en el marco de la presente;\n(ii) Avanzar de buena fe en la negociación del contrato definitivo;\n(iii) Comunicar al Desarrollador cualquier decisión negativa dentro de los [5] días hábiles de adoptada." },
+          { id: "confidentiality", type: "section", label: "Confidencialidad", content: "La información compartida en el marco de la presente es estrictamente confidencial. Ninguna de las partes podrá divulgarla a terceros sin el consentimiento previo y escrito de la otra, salvo requerimiento legal o regulatorio." },
+          { id: "non_binding", type: "section", label: "Naturaleza No Vinculante", content: "La presente carta de intención no genera obligaciones contractuales definitivas para ninguna de las partes, excepto en lo relativo a la confidencialidad. Los términos definitivos y vinculantes serán establecidos únicamente en el contrato de inversión / instrumento fiduciario correspondiente." },
+          { id: "validity", type: "field", label: "Vigencia", content: "La presente tendrá vigencia por [30] días corridos a partir de la fecha de firma. Vencido dicho plazo sin que las partes hayan suscripto el contrato definitivo, la presente quedará sin efecto de pleno derecho." },
+          { id: "governing_law", type: "field", label: "Ley Aplicable & Jurisdicción", content: "La presente se rige por las leyes de la República Argentina. Para cualquier controversia, las partes se someten a la jurisdicción de los Tribunales Ordinarios de la Ciudad de Neuquén, renunciando a cualquier otro fuero." },
+          { id: "signatures", type: "signatures", label: "Firmas", content: "" },
+        ] : [
+          { id: "header", type: "header", label: "Document Header", content: "NON-BINDING LETTER OF INTENT\nInvestment Reservation — Distrito Energético Vaca Muerta" },
+          { id: "date", type: "field", label: "City & Date", content: "Buenos Aires / Neuquén, [date]" },
+          { id: "parties", type: "section", label: "The Parties", content: "BETWEEN:\n\nDISTRITO ENERGÉTICO S.A. ('the Developer'), with registered address in Loma Campana, Neuquén Province, represented by [representative];\n\nAND:\n\n[Investor Name] ('the Investor'), with [ID/Passport] No.[number], represented by [representative]." },
+          { id: "recitals", type: "section", label: "Recitals", content: "The Developer is executing the development of Distrito Energético Vaca Muerta, a multimodal hub of logistics, industrial, hotel and residential infrastructure located in Loma Campana, Neuquén Province.\n\nThe Investor has expressed interest in participating in said project under the terms set forth herein." },
+          { id: "object", type: "section", label: "Object", content: "This letter of intent establishes the preliminary terms under which the Investor expresses their intention to participate in the project, subject to the execution of the definitive agreement (investment agreement / trust instrument)." },
+          { id: "terms_table", type: "auto_table", label: "Main Investment Terms", content: "(Fields are taken automatically from Summary mode)" },
+          { id: "terms_text", type: "section", label: "Terms — Supplementary Text", content: "The Investor's participation will be structured through [trust / direct title], with rights and obligations to be established in the definitive agreement." },
+          { id: "developer_commitments", type: "section", label: "Developer Commitments", content: "The Developer commits to:\n\n(i) Reserve the selected unit/plot for the agreed period;\n(ii) Provide the Investor with all requested due diligence information within a reasonable timeframe;\n(iii) Not offer the same unit/participation to third parties during the term hereof;\n(iv) Keep the Investor informed of project progress." },
+          { id: "investor_commitments", type: "section", label: "Investor Commitments", content: "The Investor commits to:\n\n(i) Maintain confidentiality of all information received;\n(ii) Proceed in good faith toward executing the definitive agreement;\n(iii) Notify the Developer of any negative decision within [5] business days." },
+          { id: "confidentiality", type: "section", label: "Confidentiality", content: "Information shared hereunder is strictly confidential. Neither party may disclose it to third parties without prior written consent, except as required by law." },
+          { id: "non_binding", type: "section", label: "Non-Binding Nature", content: "This letter of intent does not create binding contractual obligations for either party, except with respect to confidentiality. Binding terms will be established solely in the definitive investment agreement." },
+          { id: "validity", type: "field", label: "Term", content: "This letter shall remain in effect for [30] calendar days from the date of execution." },
+          { id: "governing_law", type: "field", label: "Governing Law & Jurisdiction", content: "This letter is governed by Argentine law. The parties submit to the jurisdiction of the Courts of Neuquén City." },
+          { id: "signatures", type: "signatures", label: "Signatures", content: "" },
         ],
         terms: isES
           ? "El presente instrumento constituye una carta de intención no vinculante. Los términos definitivos serán establecidos en el contrato de inversión / instrumento fiduciario correspondiente, sujeto a due diligence satisfactorio de ambas partes. La confidencialidad de la información compartida es obligatoria."
@@ -633,6 +668,74 @@ export const createDefaultContent = (): ContentTree => {
   return data;
 };
 
-export const TAB_KEYS = ["tab1", "tab2", "tab3", "tab4", "tab5", "tab6", "tab7", "tab8", "tab10", "tab9"] as const;
+export const TAB_KEYS = ["tab1", "tab2", "tab3", "tab4", "tab5", "tab6", "tab7", "tab8", "tab10", "tab11", "tab9"] as const;
 export const SECTORS_LIST = SECTORS;
 export const LANGUAGES_LIST = LANGUAGES;
+
+// Tab 11 content helper (appended)
+export function createTab11Content(isES: boolean) {
+  return {
+    title: isES ? "Due Diligence" : "Due Diligence",
+    isVisible: true,
+    checklist: {
+      isVisible: true,
+      title: isES ? "Estado del Proyecto & Due Diligence" : "Project Status & Due Diligence",
+      subtitle: isES ? "Tracker de readiness institucional y legal" : "Comprehensive readiness tracker and institutional-grade compliance overview",
+      categories: [
+        {
+          title: isES ? "Permisos & Habilitaciones" : "Permits & Approvals",
+          icon: "clock",
+          items: [
+            { label: isES ? "Estudio de Impacto Ambiental (EIA)" : "Environmental Impact Study (EIS)", detail: isES ? "Proceso de aprobación provincial, 4-6 meses" : "Provincial approval process, 4-6 months", checked: false },
+            { label: isES ? "Permisos de Construcción" : "Construction Permits", detail: isES ? "Autoridad municipal, vía rápida disponible" : "Municipal authority, expedited track available", checked: false },
+            { label: isES ? "Certificación de Zonificación I2" : "Zoning & Land Use Certification", detail: isES ? "Designación industrial confirmada" : "Industrial designation confirmed", checked: true },
+          ]
+        },
+        {
+          title: isES ? "Legal & Título de Propiedad" : "Legal & Title Security",
+          icon: "shield",
+          items: [
+            { label: isES ? "Título de Dominio (Escritura)" : "Title Insurance (Escritura)", detail: isES ? "Título limpio, sin gravámenes ni inhibiciones" : "Clean title, no liens or encumbrances", checked: true },
+            { label: isES ? "Estructura Fiduciaria" : "Fideicomiso (Trust) Structure", detail: isES ? "Administración fiduciaria por tercero" : "Third-party fiduciary management", checked: false },
+            { label: isES ? "Contratos Operativos Listos" : "Operational Contracts Ready", detail: isES ? "LOI template y contratos de locación" : "Template LOIs and lease agreements", checked: false },
+          ]
+        },
+        {
+          title: isES ? "Infraestructura & Servicios" : "Infrastructure Readiness",
+          icon: "building",
+          items: [
+            { label: isES ? "Conexiones de Servicios (Agua, Energía, Gas)" : "Utility Hookups (Water, Power, Gas)", detail: isES ? "Puntos de conexión confirmados con proveedores" : "Connection points confirmed by providers", checked: true },
+            { label: isES ? "Acceso Vial & Bypass Ruta 7-17" : "Road Access & Bypass Integration", detail: isES ? "Cronograma de finalización: Q4 2026" : "Route 7-17 completion timeline: Q4 2026", checked: false },
+            { label: isES ? "Infraestructura de Telecomunicaciones" : "Telecommunications Infrastructure", detail: isES ? "Backbone de fibra óptica, preparación 5G" : "Fiber backbone, 5G readiness", checked: false },
+          ]
+        },
+        {
+          title: isES ? "Compliance & Operaciones" : "Compliance & Operations",
+          icon: "check",
+          items: [
+            { label: isES ? "Auditoría de Cumplimiento Laboral" : "Labor Law Compliance Audit", detail: isES ? "Normativa provincial de Neuquén verificada" : "Neuquén provincial regulations verified", checked: false },
+            { label: isES ? "Registro Impositivo & AFIP" : "Tax Registration & AFIP Status", detail: isES ? "Autoridad fiscal federal y provincial" : "Federal and provincial tax authority", checked: true },
+            { label: isES ? "Marco Contable & Auditoría" : "Accounting & Audit Framework", detail: isES ? "Reporte financiero bajo normas IFRS" : "IFRS-compliant financial reporting", checked: false },
+          ]
+        },
+      ]
+    },
+    servicePackage: {
+      isVisible: true,
+      title: isES ? "Paquete de Servicios para Inversores" : "Comprehensive Service Package for Investors",
+      badge: isES ? "Ventaja Diferencial" : "Standout Advantage",
+      description: isES ? "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses." : "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+      services: [
+        { label: isES ? "Configuración Fiscal & Tributaria" : "Tax & Tributary Setup", detail: isES ? "Inscripción AFIP, incentivos provinciales" : "AFIP registration, provincial incentives" },
+        { label: isES ? "Estructura Societaria" : "Corporate Structure Guidance", detail: isES ? "SA, SRL, Sucursal" : "SA, SRL, Branch office setup" },
+        { label: isES ? "Contabilidad & Compliance" : "Accounting & Compliance", detail: isES ? "Soporte continuo, auditoría lista" : "Ongoing support, audit readiness" },
+      ],
+      differentiator: isES ? "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción." : "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction.",
+    },
+    experience: {
+      isVisible: true,
+      title: isES ? "Experiencia & Autoridad" : "Experience & Authority",
+      content: isES ? "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva." : "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage.",
+    }
+  };
+}

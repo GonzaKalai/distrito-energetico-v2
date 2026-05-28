@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { Toolbar } from "@/components/Toolbar";
 import { TabNav } from "@/components/TabNav";
 import { TAB_COMPONENTS } from "@/components/tabs";
@@ -11,6 +11,15 @@ export const usePrintMode = () => useContext(PrintModeContext);
 
 export function App() {
   const [activeTab, setActiveTab] = useState("tab1");
+  const { undo } = useApp();
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "z") { e.preventDefault(); undo(); }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [undo]);
   const { content, sector, language, isEditingMode, theme } = useApp();
   const Active = TAB_COMPONENTS[activeTab] ?? TAB_COMPONENTS.tab1;
   const themeClass = theme === "Industrial" ? "theme-industrial" : theme === "Impact" ? "theme-impact" : "";

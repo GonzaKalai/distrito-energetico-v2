@@ -48,6 +48,7 @@ interface AppState {
   sentLog: SentEntry[];
   coverDate: string;
   draftNotes: string;
+  contentHistory: ContentTree[];
 
   setSector: (s: Sector) => void;
   setLanguage: (l: Language) => void;
@@ -72,6 +73,8 @@ interface AppState {
   deleteSentEntry: (id: string) => void;
   setCoverDate: (d: string) => void;
   setDraftNotes: (n: string) => void;
+  undo: () => void;
+  canUndo: boolean;
 }
 
 const initial = newProfile("General", "");
@@ -96,6 +99,7 @@ export const useApp = create<AppState>()(
       sentLog: [],
       coverDate: new Date().toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" }),
       draftNotes: "",
+      contentHistory: [],
 
       setSector: (sector) => set({ sector }),
       setLanguage: (language) => set({ language }),
@@ -106,9 +110,10 @@ export const useApp = create<AppState>()(
       updateTab: (tabKey, path, value) =>
         set((s) => {
           const content = structuredClone(s.content);
+          const history = [...s.contentHistory, structuredClone(s.content)].slice(-10);
           const tab = content[s.sector][s.language][tabKey];
           setDeep(tab, path.split("."), value);
-          return { content };
+          return { content, contentHistory: history };
         }),
 
       addCustomBlock: (tabKey, block) =>
@@ -192,6 +197,14 @@ export const useApp = create<AppState>()(
 
       setCoverDate: (coverDate) => set({ coverDate }),
       setDraftNotes: (draftNotes) => set({ draftNotes }),
+
+      undo: () => set((s) => {
+        if (s.contentHistory.length === 0) return {};
+        const history = [...s.contentHistory];
+        const prev = history.pop()!;
+        return { content: prev, contentHistory: history };
+      }),
+      get canUndo() { return false; }, // computed via selector
     }),
     {
       name: "distrito-energetico-v3",
