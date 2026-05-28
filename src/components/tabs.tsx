@@ -1240,9 +1240,11 @@ export function Tab11() {
   const t = content[sector][language].tab11;
   const isES = language === "ES";
 
-  if (!t) return <div className="p-8 text-muted-foreground text-center">Cargando...</div>;
+  if (!t || !t.checklist) return <div className="p-8 text-muted-foreground text-center">Cargando contenido...</div>;
 
-  const { checklist, servicePackage, experience } = t;
+  const checklist = t.checklist || {};
+  const servicePackage = t.servicePackage || {};
+  const experience = t.experience || {};
 
   const updateChecklist = (categories: any[]) => updateTab("tab11", "checklist.categories", categories);
   const updateItem = (ci: number, ii: number, patch: any) => {

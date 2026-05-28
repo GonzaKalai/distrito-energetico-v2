@@ -78,9 +78,29 @@ interface AppState {
 }
 
 const initial = newProfile("General", "");
-// Load user's saved content as default
+// Merge user content with defaults so new tabs always get initialized
 try {
-  initial.content = userContent as any;
+  const uc = userContent as any;
+  const defaultC = initial.content;
+  // Deep merge: user content wins, but missing keys fall back to defaults
+  const merged: any = {};
+  for (const sector of Object.keys(defaultC)) {
+    merged[sector] = {};
+    for (const lang of Object.keys(defaultC[sector])) {
+      merged[sector][lang] = { ...(defaultC[sector][lang] || {}) };
+      const userSectorLang = uc?.[sector]?.[lang] || {};
+      for (const tabKey of Object.keys(userSectorLang)) {
+        merged[sector][lang][tabKey] = userSectorLang[tabKey];
+      }
+      // Ensure new tabs from defaults are always present
+      for (const tabKey of Object.keys(defaultC[sector][lang])) {
+        if (!merged[sector][lang][tabKey]) {
+          merged[sector][lang][tabKey] = defaultC[sector][lang][tabKey];
+        }
+      }
+    }
+  }
+  initial.content = merged;
 } catch {
   // fallback to default content
 }
