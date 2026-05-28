@@ -48,7 +48,7 @@ const Pill = ({ children, color = "default" }: { children: React.ReactNode; colo
 // ─── TAB 1 — Intro ────────────────────────────────────────────────────────────
 
 export function Tab1() {
-  const { content, sector, language, updateTab } = useApp();
+  const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language].tab1;
   const isES = language === "ES";
 
@@ -278,7 +278,7 @@ function ImageUploadSection({ tabKey, sectionKey }: { tabKey: string; sectionKey
 }
 
 export function Tab3() {
-  const { content, sector, language, updateTab } = useApp();
+  const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language].tab3;
   return (
     <div className="space-y-6">
@@ -853,7 +853,7 @@ export function Tab7() {
 // ─── TAB 8 ────────────────────────────────────────────────────────────────────
 
 export function Tab8() {
-  const { content, sector, language, updateTab } = useApp();
+  const { content, sector, language, updateTab, isEditingMode } = useApp();
   const t = content[sector][language].tab8;
   const isES = language === "ES";
   return (
