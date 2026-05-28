@@ -293,16 +293,19 @@ export function Tab3() {
             <EditableText multiline value={t.funnel.text} onSave={(v) => updateTab("tab3", "funnel.text", v)} />
           </div>
           <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-background/20">
-{(t.funnel?.stats || [{value:"95%",label:"Tráfico pesado canalizado"},{value:"15K",label:"Vehículos/día actuales"},{value:"30K",label:"Proyectado 2028"}]).map((s: any, i: number) => (
-              <div key={i} className="text-center">
-                <div className="text-3xl font-black text-yellow-400">
-                  <EditableText value={s.value} onSave={(v) => { const stats = [...(t.funnel.stats||[])]; stats[i] = {...stats[i], value: v}; updateTab("tab3", "funnel.stats", stats); }} />
+{(() => {
+              const fStats = (t.funnel?.stats && t.funnel.stats.length > 0) ? t.funnel.stats : [{value:"95%",label:"Tráfico pesado canalizado"},{value:"15K",label:"Vehículos/día actuales"},{value:"30K",label:"Proyectado 2028"}];
+              return fStats.map((s: any, i: number) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl font-black text-yellow-400">
+                    <EditableText value={s.value} onSave={(v) => { const arr = [...fStats]; arr[i] = {...arr[i], value: v}; updateTab("tab3", "funnel.stats", arr); }} />
+                  </div>
+                  <div className="text-xs opacity-60 mt-1">
+                    <EditableText value={s.label} onSave={(v) => { const arr = [...fStats]; arr[i] = {...arr[i], label: v}; updateTab("tab3", "funnel.stats", arr); }} />
+                  </div>
                 </div>
-                <div className="text-xs opacity-60 mt-1">
-                  <EditableText value={s.label} onSave={(v) => { const stats = [...(t.funnel.stats||[])]; stats[i] = {...stats[i], label: v}; updateTab("tab3", "funnel.stats", stats); }} />
-                </div>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </Card>
       </SectionWrap>
