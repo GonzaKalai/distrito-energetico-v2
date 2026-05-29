@@ -908,24 +908,37 @@ export function Tab8() {
 
 // ─── TAB 9 — LOI ──────────────────────────────────────────────────────────────
 
-function LoiInput({ label, value, placeholder, onSave, wide = false }: {
-  label: string; value: string; placeholder?: string; onSave: (v: string) => void; wide?: boolean;
+function LoiInput({ label, value, placeholder, onSave, wide = false, type = "text" }: {
+  label: string; value: string; placeholder?: string; onSave: (v: string) => void; wide?: boolean; type?: string;
 }) {
   return (
-    <div className={wide ? "md:col-span-2" : ""}>
+    <div className={wide ? "col-span-2" : ""}>
       <label className="block text-xs font-semibold text-muted-foreground mb-1">{label}</label>
-      <input
-        className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30"
-        value={value}
-        placeholder={placeholder}
-        onChange={e => onSave(e.target.value)}
-      />
+      <input type={type}
+        className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 transition-colors"
+        value={value} placeholder={placeholder} onChange={e => onSave(e.target.value)} />
     </div>
   );
 }
 
-function BindingBadge() {
-  return <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200"><Shield size={10} /> Binding</span>;
+function BindingBadge({ label = "Binding" }: { label?: string }) {
+  return <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200 shrink-0"><Shield size={9} /> {label}</span>;
+}
+
+function LoiSection({ number, title, onTitleSave, binding = false, children, highlight }: {
+  number: number; title: string; onTitleSave: (v: string) => void; binding?: boolean; children: React.ReactNode; highlight?: "blue" | "purple";
+}) {
+  const bg = highlight === "blue" ? "bg-blue-50 border-blue-200" : highlight === "purple" ? "bg-purple-50 border-purple-200" : "bg-transparent border-transparent";
+  return (
+    <div className={`mb-6 rounded-xl border p-4 ${bg}`}>
+      <h3 className="font-black uppercase text-sm mb-3 flex items-center gap-2">
+        <span className="text-muted-foreground">{number}.</span>
+        <EditableText value={title} onSave={onTitleSave} />
+        {binding && <BindingBadge />}
+      </h3>
+      <div className="text-sm leading-relaxed">{children}</div>
+    </div>
+  );
 }
 
 export function Tab9() {
@@ -937,115 +950,120 @@ export function Tab9() {
   const [loiMode, setLoiMode] = React.useState<"summary" | "formal">("summary");
 
   const upd = (path: string, val: any) => updateTab("tab9", `builder.${path}`, val);
+  const updSectionTitle = (key: string, val: string) => upd(`sectionTitles.${key}`, val);
 
-  // Helpers to fill placeholders in formal text
   const fill = (text: string) => (text || "")
-    .replace("{opportunityName}", b.opportunityName || "")
-    .replace("{package}", b.investmentPackage || "")
-    .replace("{amount}", b.entryAmount || "");
+    .replace(/\{opportunityName\}/g, b.opportunityName || "")
+    .replace(/\{package\}/g, b.investmentPackage || "")
+    .replace(/\{amount\}/g, b.entryAmount || "");
 
   const tranches: any[] = b.tranches || [];
   const conditions: string[] = b.conditionsPrecedent || [];
   const ddItems: string[] = b.ddItems || [];
+  const st = b.sectionTitles || {};
+
+  // Fallback section titles
+  const st1 = st.investment || (isES ? "Interés de Inversión" : "Investment Interest");
+  const st2 = st.consideration || (isES ? "Monto Propuesto" : "Proposed Consideration");
+  const st3 = st.dueDiligence || "Due Diligence";
+  const st4 = st.exclusivity || (isES ? "Exclusividad" : "Exclusivity");
+  const st5 = st.conditions || (isES ? "Condiciones Precedentes" : "Conditions Precedent");
+  const st6 = st.definitive || (isES ? "Acuerdo Definitivo" : "Definitive Agreement");
+  const st7 = st.confidentiality || (isES ? "Confidencialidad & No Elusión" : "Confidentiality & Non-Circumvention");
+  const st8 = st.binding || (isES ? "Efecto Vinculante" : "Binding Effect");
 
   return (
     <div className="space-y-6">
       <SectionWrap isVisible={t.builder.isVisible} onToggle={() => updateTab("tab9", "builder.isVisible", !t.builder.isVisible)} label="LOI">
         <Card>
-          {/* Header with mode toggle */}
-          <div className="flex items-center justify-between mb-6">
+          {/* Mode toggle */}
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
             <div className="flex items-center gap-3">
-              <FileBox className="text-primary" size={22} />
+              <FileBox className="text-primary shrink-0" size={20} />
               <div>
-                <div className="font-bold text-lg">
-                  <EditableText value={b.title || "Letter of Intent"} onSave={v => upd("title", v)} />
-                </div>
+                <div className="font-bold"><EditableText value={b.title || "Letter of Intent"} onSave={v => upd("title", v)} /></div>
                 <div className="text-xs text-muted-foreground">Investment commitment document</div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="flex bg-accent p-1 rounded-xl border border-border">
-                <button onClick={() => setLoiMode("summary")} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${loiMode === "summary" ? "bg-foreground text-background shadow" : "opacity-50 hover:opacity-80"}`}>Summary</button>
-                <button onClick={() => setLoiMode("formal")} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${loiMode === "formal" ? "bg-foreground text-background shadow" : "opacity-50 hover:opacity-80"}`}>Formal</button>
-              </div>
+            <div className="flex bg-accent p-1 rounded-xl border border-border shrink-0">
+              {(["summary","formal"] as const).map(m => (
+                <button key={m} onClick={() => setLoiMode(m)}
+                  className={`px-4 py-1.5 rounded-lg text-sm font-bold capitalize transition-all ${loiMode === m ? "bg-foreground text-background shadow" : "opacity-50 hover:opacity-80"}`}>
+                  {m}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* ── SUMMARY MODE ── */}
+          {/* ═══ SUMMARY ═══ */}
           {loiMode === "summary" && (
             <div className="space-y-6">
-              {/* Header card */}
-              <div className="bg-accent/30 rounded-2xl p-5 border border-border">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-base">{isES ? "Resumen de Inversión" : "Investment Summary"}</h3>
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+              {/* Header info */}
+              <div className="bg-accent/30 rounded-2xl p-5 border border-border space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold">{isES ? "Resumen de Inversión" : "Investment Summary"}</h3>
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
                     <EditableText value={b.status || "Draft"} onSave={v => upd("status", v)} />
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-sm mb-4">
+                <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <div className="text-xs text-muted-foreground">{isES ? "Oportunidad" : "Opportunity"}</div>
+                    <div className="text-xs text-muted-foreground mb-0.5">{isES ? "Oportunidad" : "Opportunity"}</div>
                     <div className="font-medium"><EditableText value={b.opportunityName || ""} onSave={v => upd("opportunityName", v)} /></div>
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground">{isES ? "Fecha" : "Date"}</div>
+                    <div className="text-xs text-muted-foreground mb-0.5">{isES ? "Fecha" : "Date"}</div>
                     <div className="font-medium">{today}</div>
                   </div>
                 </div>
-
                 <div className="grid md:grid-cols-2 gap-3">
                   <LoiInput label={isES ? "Nombre del Inversor" : "Investor Name"} value={b.investorName || ""} placeholder={isES ? "Nombre completo" : "Enter full name"} onSave={v => upd("investorName", v)} />
-                  <LoiInput label={isES ? "Entidad / Empresa" : "Entity / Company"} value={b.entityName || ""} placeholder={isES ? "Nombre de entidad (opcional)" : "Enter entity name (optional)"} onSave={v => upd("entityName", v)} />
+                  <LoiInput label={isES ? "Entidad / Empresa" : "Entity / Company"} value={b.entityName || ""} placeholder={isES ? "Opcional" : "Optional"} onSave={v => upd("entityName", v)} />
                   <LoiInput label={isES ? "Monto de Entrada (USD)" : "Entry Amount (USD)"} value={b.entryAmount || ""} placeholder="500000" onSave={v => upd("entryAmount", v)} />
                   <LoiInput label={isES ? "Estructura Legal" : "Legal Structure"} value={b.legalStructure || ""} placeholder="Trust" onSave={v => upd("legalStructure", v)} />
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-muted-foreground mb-1">{isES ? "Paquete de Inversión" : "Investment Package"}</label>
-                    {isEditingMode ? (
-                      <input className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        value={b.investmentPackage || ""} onChange={e => upd("investmentPackage", e.target.value)} />
-                    ) : (
-                      <div className="border border-border rounded-lg px-3 py-2 text-sm bg-background font-medium">{b.investmentPackage || "—"}</div>
-                    )}
-                  </div>
+                  <LoiInput label={isES ? "Paquete de Inversión" : "Investment Package"} value={b.investmentPackage || ""} placeholder="Turnkey" onSave={v => upd("investmentPackage", v)} wide />
                 </div>
-
-                {/* Key Terms auto-generated */}
-                <div className="mt-4 pt-4 border-t border-border">
+                <div className="pt-3 border-t border-border">
                   <div className="font-semibold text-sm mb-2">{isES ? "Términos Clave" : "Key Terms"}</div>
-                  <div className="space-y-1 text-sm text-muted-foreground">
-                    <div>• {isES ? "Paquete" : "Investment Package"}: <EditableText value={b.investmentPackage || "—"} onSave={v => upd("investmentPackage", v)} /></div>
-                    <div>• {isES ? "IRR Proyectado" : "Projected IRR"}: <EditableText value={b.projectedIRR || "15.0%"} onSave={v => upd("projectedIRR", v)} /></div>
-                    <div>• {isES ? "Plazo" : "Term"}: <EditableText value={b.term || "36 months"} onSave={v => upd("term", v)} /></div>
-                    <div>• {isES ? "Estructura" : "Structure"}: <EditableText value={b.structureType || ""} onSave={v => upd("structureType", v)} /></div>
+                  <div className="grid grid-cols-2 gap-1 text-sm">
+                    {[
+                      [isES ? "IRR Proyectado" : "Projected IRR", "projectedIRR", "15.0%"],
+                      [isES ? "Plazo" : "Term", "term", "36 months"],
+                      [isES ? "Estructura" : "Structure", "structureType", "Asset-backed"],
+                      [isES ? "Paquete" : "Package", "investmentPackage", "Turnkey"],
+                    ].map(([lbl, key, ph]) => (
+                      <div key={key} className="flex gap-2">
+                        <span className="text-muted-foreground shrink-0">•</span>
+                        <span className="text-muted-foreground shrink-0">{lbl}:</span>
+                        <EditableText value={(b as any)[key] || ""} onSave={v => upd(key, v)} />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Investment Tranches */}
+              {/* Tranches */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <DollarSign size={16} className="text-primary" />
-                  <h3 className="font-bold text-sm uppercase tracking-wide">{isES ? "Tramos de Pago" : "Investment Tranches"}</h3>
+                  <DollarSign size={15} className="text-primary" />
+                  <h3 className="font-bold text-sm uppercase tracking-wide"><EditableText value={isES ? "Tramos de Pago" : "Investment Tranches"} onSave={() => {}} /></h3>
                 </div>
                 <div className="space-y-2">
                   {tranches.map((tr: any, i: number) => (
                     <div key={i} className="relative flex items-center gap-4 bg-accent/20 rounded-xl p-4 border border-border group">
-                      {isEditingMode && (
-                        <button onClick={() => upd("tranches", tranches.filter((_: any, j: number) => j !== i))}
-                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 hover:bg-red-100 hover:text-red-600 rounded"><Trash2 size={11} /></button>
-                      )}
-                      <div className="flex-1">
-                        <div className="font-semibold text-sm"><EditableText value={tr.name} onSave={v => { const t2=[...tranches]; t2[i]={...t2[i],name:v}; upd("tranches",t2); }} /></div>
-                        <div className="text-xs text-muted-foreground"><EditableText value={tr.description} onSave={v => { const t2=[...tranches]; t2[i]={...t2[i],description:v}; upd("tranches",t2); }} /></div>
+                      {isEditingMode && <button onClick={() => upd("tranches", tranches.filter((_:any,j:number)=>j!==i))} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 hover:bg-red-100 hover:text-red-600 rounded transition-all"><Trash2 size={11} /></button>}
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-sm"><EditableText value={tr.name} onSave={v=>{const a=[...tranches];a[i]={...a[i],name:v};upd("tranches",a);}} /></div>
+                        <div className="text-xs text-muted-foreground"><EditableText value={tr.description} onSave={v=>{const a=[...tranches];a[i]={...a[i],description:v};upd("tranches",a);}} /></div>
                       </div>
                       <div className="text-right shrink-0">
-                        <div className="font-bold text-base">$<EditableText value={tr.amount} onSave={v => { const t2=[...tranches]; t2[i]={...t2[i],amount:v}; upd("tranches",t2); }} /></div>
-                        <div className="text-xs text-muted-foreground"><EditableText value={tr.percentage} onSave={v => { const t2=[...tranches]; t2[i]={...t2[i],percentage:v}; upd("tranches",t2); }} /></div>
+                        <div className="font-bold">$<EditableText value={tr.amount} onSave={v=>{const a=[...tranches];a[i]={...a[i],amount:v};upd("tranches",a);}} /></div>
+                        <div className="text-xs text-muted-foreground"><EditableText value={tr.percentage} onSave={v=>{const a=[...tranches];a[i]={...a[i],percentage:v};upd("tranches",a);}} /></div>
                       </div>
                     </div>
                   ))}
                   {isEditingMode && (
-                    <button onClick={() => upd("tranches", [...tranches, { name: isES ? "Nuevo tramo" : "New tranche", description: "—", amount: "0", percentage: "0%" }])}
+                    <button onClick={() => upd("tranches", [...tranches, {name: isES?"Nuevo tramo":"New tranche", description:"—", amount:"0", percentage:"0%"}])}
                       className="w-full border-2 border-dashed border-border rounded-xl p-3 text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
                       <Plus size={14} /> {isES ? "Agregar tramo" : "Add tranche"}
                     </button>
@@ -1053,160 +1071,168 @@ export function Tab9() {
                 </div>
               </div>
 
-              {/* Due Diligence & Exclusivity cards */}
+              {/* Period Cards - fully editable */}
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="border border-rose-200 rounded-2xl p-5 bg-rose-50">
-                  <div className="flex items-center gap-2 mb-3"><FileText size={16} className="text-rose-500" /><span className="font-bold text-sm">{isES ? "Período de Due Diligence" : "Due Diligence Period"}</span></div>
-                  <div className="text-4xl font-black mb-1"><EditableText value={b.dueDiligenceDays || "45"} onSave={v => upd("dueDiligenceDays", v)} /></div>
-                  <div className="text-sm text-muted-foreground mb-3">{isES ? "días hábiles" : "business days"}</div>
-                  <div className="text-xs text-muted-foreground">{isES ? "Revisión legal, masterplan y gobernanza" : "Full review of legal status, masterplan approvals, and trust governance"}</div>
+                {/* DD Card */}
+                <div className="border border-rose-200 rounded-2xl p-5 bg-rose-50 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <FileText size={15} className="text-rose-500 shrink-0" />
+                    <div className="font-bold text-sm"><EditableText value={b.dueDiligenceTitle || (isES?"Período de Due Diligence":"Due Diligence Period")} onSave={v=>upd("dueDiligenceTitle",v)} /></div>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <div className="text-4xl font-black"><EditableText value={b.dueDiligenceDays || "45"} onSave={v=>upd("dueDiligenceDays",v)} /></div>
+                    <div className="text-sm text-muted-foreground"><EditableText value={b.dueDiligenceUnit || (isES?"días hábiles":"business days")} onSave={v=>upd("dueDiligenceUnit",v)} /></div>
+                  </div>
+                  <div className="text-xs text-muted-foreground"><EditableText multiline value={b.dueDiligenceDesc || ""} onSave={v=>upd("dueDiligenceDesc",v)} /></div>
+                  <div className="space-y-1 pt-1">
+                    {(b.dueDiligenceItems || []).map((item: string, i: number) => (
+                      <div key={i} className="text-xs flex items-start gap-1 group">
+                        <span className="shrink-0 mt-0.5">•</span>
+                        <EditableText value={item} onSave={v=>{const a=[...(b.dueDiligenceItems||[])];a[i]=v;upd("dueDiligenceItems",a);}} />
+                        {isEditingMode && <button onClick={()=>upd("dueDiligenceItems",(b.dueDiligenceItems||[]).filter((_:string,j:number)=>j!==i))} className="opacity-0 group-hover:opacity-100 text-red-400 shrink-0"><X size={10}/></button>}
+                      </div>
+                    ))}
+                    {isEditingMode && <button onClick={()=>upd("dueDiligenceItems",[...(b.dueDiligenceItems||[]),isES?"Nuevo ítem":"New item"])} className="text-[11px] text-rose-400 hover:text-rose-600 flex items-center gap-0.5 mt-1"><Plus size={10}/>{isES?"Agregar":"Add"}</button>}
+                  </div>
                 </div>
-                <div className="border border-blue-200 rounded-2xl p-5 bg-blue-50">
-                  <div className="flex items-center gap-2 mb-3"><Clock size={16} className="text-blue-500" /><span className="font-bold text-sm">{isES ? "Período de Exclusividad" : "Exclusivity Period"}</span></div>
-                  <div className="text-4xl font-black mb-1"><EditableText value={b.exclusivityDays || "60"} onSave={v => upd("exclusivityDays", v)} /></div>
-                  <div className="text-sm text-muted-foreground mb-3">{isES ? "días" : "days"}</div>
-                  <div className="text-xs text-muted-foreground mb-2">{isES ? "El Desarrollador no negociará con terceros para el mismo activo." : "Lock-out period: Developer will not negotiate with third parties for the same asset."}</div>
-                  <div className="flex items-center gap-1 text-xs font-bold text-blue-700 bg-blue-100 px-2 py-1 rounded-lg w-fit"><Shield size={10} /> Binding Clause</div>
+                {/* Exclusivity Card */}
+                <div className="border border-blue-200 rounded-2xl p-5 bg-blue-50 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Clock size={15} className="text-blue-500 shrink-0" />
+                    <div className="font-bold text-sm"><EditableText value={b.exclusivityTitle || (isES?"Período de Exclusividad":"Exclusivity Period")} onSave={v=>upd("exclusivityTitle",v)} /></div>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <div className="text-4xl font-black"><EditableText value={b.exclusivityDays || "60"} onSave={v=>upd("exclusivityDays",v)} /></div>
+                    <div className="text-sm text-muted-foreground"><EditableText value={b.exclusivityUnit || (isES?"días":"days")} onSave={v=>upd("exclusivityUnit",v)} /></div>
+                  </div>
+                  <div className="text-xs text-muted-foreground"><EditableText multiline value={b.exclusivityDesc || ""} onSave={v=>upd("exclusivityDesc",v)} /></div>
+                  <div className="flex items-center gap-1 text-xs font-bold text-blue-700 bg-blue-100 px-2 py-1 rounded-lg w-fit mt-1"><Shield size={10} /> Binding Clause</div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ── FORMAL MODE ── */}
+          {/* ═══ FORMAL ═══ */}
           {loiMode === "formal" && (
-            <div className="space-y-0 font-serif">
+            <div>
               {/* Document header */}
               <div className="text-center py-6 border-b-2 border-foreground mb-6">
-                <h1 className="text-2xl font-black tracking-wide uppercase">
-                  <EditableText value={b.title || "Letter of Intent"} onSave={v => upd("title", v)} />
-                </h1>
-                <div className="text-sm text-muted-foreground mt-1">
-                  <EditableText value={b.opportunityName || ""} onSave={v => upd("opportunityName", v)} />
-                </div>
+                <h1 className="text-2xl font-black tracking-widest uppercase"><EditableText value={b.title || "Letter of Intent"} onSave={v=>upd("title",v)} /></h1>
+                <div className="text-sm text-muted-foreground mt-1"><EditableText value={b.opportunityName || ""} onSave={v=>upd("opportunityName",v)} /></div>
                 <div className="text-sm text-muted-foreground">{today}</div>
               </div>
 
               {/* Parties */}
-              <div className="mb-6 text-sm leading-relaxed">
-                <p className="mb-2">{isES ? 'Esta Carta de Intención ("LOI") representa el entendimiento preliminar entre:' : 'This Letter of Intent ("LOI") represents the preliminary understanding between:'}</p>
-                <div className="ml-4 space-y-2">
-                  <div className="flex items-center gap-3">
-                    <span className="font-bold uppercase text-xs w-32 shrink-0">{isES ? "Inversor:" : "Investor:"}</span>
+              <div className="mb-6 text-sm space-y-3">
+                <p className="text-muted-foreground">{isES ? 'Esta Carta de Intención ("LOI") representa el entendimiento preliminar entre:' : 'This Letter of Intent ("LOI") represents the preliminary understanding between:'}</p>
+                {[
+                  [isES?"INVERSOR:":"INVESTOR:", "investorName", isES?"[Nombre del Inversor]":"[Investor Name]"],
+                  [isES?"ENTIDAD:":"ENTITY:", "entityName", isES?"[Nombre de Entidad]":"[Entity Name]"],
+                ].map(([label, key, ph]) => (
+                  <div key={key} className="flex items-center gap-3">
+                    <span className="font-black text-xs w-28 shrink-0">{label}</span>
                     <input className="border-b border-border bg-transparent text-sm focus:outline-none focus:border-primary flex-1 pb-0.5"
-                      value={b.investorName || ""} placeholder={isES ? "[Nombre del Inversor]" : "[Investor Name]"} onChange={e => upd("investorName", e.target.value)} />
+                      value={(b as any)[key] || ""} placeholder={ph} onChange={e=>upd(key as string, e.target.value)} />
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="font-bold uppercase text-xs w-32 shrink-0">{isES ? "Entidad:" : "Entity:"}</span>
-                    <input className="border-b border-border bg-transparent text-sm focus:outline-none focus:border-primary flex-1 pb-0.5"
-                      value={b.entityName || ""} placeholder={isES ? "[Nombre de Entidad]" : "[Entity Name]"} onChange={e => upd("entityName", e.target.value)} />
-                  </div>
-                  <div className="flex items-baseline gap-3">
-                    <span className="font-bold uppercase text-xs w-32 shrink-0">{isES ? "Desarrollador:" : "Master Developer:"}</span>
-                    <span className="font-bold text-sm"><EditableText value={b.masterDeveloper || "Distrito Energético Vaca Muerta S.A."} onSave={v => upd("masterDeveloper", v)} /></span>
-                  </div>
+                ))}
+                <div className="flex items-center gap-3">
+                  <span className="font-black text-xs w-28 shrink-0">{isES?"DESARROLLADOR:":"MASTER DEVELOPER:"}</span>
+                  <span className="font-bold"><EditableText value={b.masterDeveloper || "Distrito Energético Vaca Muerta S.A."} onSave={v=>upd("masterDeveloper",v)} /></span>
                 </div>
               </div>
 
               {/* Section 1 */}
-              <div className="mb-5">
-                <h3 className="font-black uppercase text-sm mb-2">1. {isES ? "Interés de Inversión" : "Investment Interest"}</h3>
-                <div className="ml-4 text-sm leading-relaxed whitespace-pre-wrap text-muted-foreground">
-                  <EditableText multiline value={fill(b.investmentInterestText || "")} onSave={v => upd("investmentInterestText", v)} />
+              <LoiSection number={1} title={st1} onTitleSave={v=>updSectionTitle("investment",v)}>
+                <div className="text-muted-foreground whitespace-pre-line">
+                  <EditableText multiline value={fill(b.investmentInterestText || "")} onSave={v=>upd("investmentInterestText",v)} />
                 </div>
-              </div>
+              </LoiSection>
 
               {/* Section 2 */}
-              <div className="mb-5">
-                <h3 className="font-black uppercase text-sm mb-2">2. {isES ? "Monto Propuesto" : "Proposed Consideration"}</h3>
-                <div className="ml-4 text-sm leading-relaxed text-muted-foreground mb-3">
-                  <EditableText multiline value={fill(b.considerationText || "")} onSave={v => upd("considerationText", v)} />
+              <LoiSection number={2} title={st2} onTitleSave={v=>updSectionTitle("consideration",v)}>
+                <div className="text-muted-foreground mb-3">
+                  <EditableText multiline value={fill(b.considerationText || "")} onSave={v=>upd("considerationText",v)} />
                 </div>
-                <div className="ml-4 space-y-1">
+                <div className="space-y-1 ml-2">
                   {tranches.map((tr: any, i: number) => (
-                    <div key={i} className="text-sm">• <strong>{tr.percentage}</strong> (${tr.amount}) {tr.description}.</div>
+                    <div key={i} className="text-sm">• <strong>{tr.percentage}</strong> (${tr.amount}) — {tr.description}.</div>
                   ))}
                 </div>
-              </div>
+              </LoiSection>
 
               {/* Section 3 */}
-              <div className="mb-5">
-                <h3 className="font-black uppercase text-sm mb-2">3. {isES ? "Due Diligence" : "Due Diligence"}</h3>
-                <div className="ml-4 text-sm leading-relaxed text-muted-foreground mb-3">
-                  <EditableText multiline value={b.ddText || ""} onSave={v => upd("ddText", v)} />
+              <LoiSection number={3} title={st3} onTitleSave={v=>updSectionTitle("dueDiligence",v)}>
+                <div className="text-muted-foreground mb-3">
+                  <EditableText multiline value={b.ddText || ""} onSave={v=>upd("ddText",v)} />
                 </div>
-                <div className="ml-4 space-y-1">
+                <div className="space-y-1 ml-2">
                   {ddItems.map((item: string, i: number) => (
-                    <div key={i} className="text-sm flex items-start gap-2">
+                    <div key={i} className="flex items-start gap-2">
                       <span className="shrink-0">•</span>
-                      <EditableText value={item} onSave={v => { const items=[...ddItems]; items[i]=v; upd("ddItems",items); }} />
-                      {isEditingMode && <button onClick={() => upd("ddItems", ddItems.filter((_:string,j:number)=>j!==i))} className="text-red-400 hover:text-red-600 shrink-0"><X size={11} /></button>}
+                      <EditableText value={item} onSave={v=>{const a=[...ddItems];a[i]=v;upd("ddItems",a);}} />
+                      {isEditingMode && <button onClick={()=>upd("ddItems",ddItems.filter((_:string,j:number)=>j!==i))} className="text-red-400 hover:text-red-600 shrink-0"><X size={11}/></button>}
                     </div>
                   ))}
-                  {isEditingMode && <button onClick={() => upd("ddItems", [...ddItems, isES ? "Nuevo ítem" : "New item"])} className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 mt-1"><Plus size={11} />{isES ? "Agregar" : "Add"}</button>}
+                  {isEditingMode && <button onClick={()=>upd("ddItems",[...ddItems,isES?"Nuevo ítem":"New item"])} className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 mt-1"><Plus size={11}/>{isES?"Agregar":"Add"}</button>}
                 </div>
-              </div>
+              </LoiSection>
 
               {/* Section 4 - Binding */}
-              <div className="mb-5 bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <h3 className="font-black uppercase text-sm mb-2 flex items-center gap-2">4. {isES ? "Exclusividad" : "Exclusivity"} <BindingBadge /></h3>
-                <div className="ml-0 text-sm leading-relaxed text-muted-foreground">
-                  <EditableText multiline value={b.exclusivityText || ""} onSave={v => upd("exclusivityText", v)} />
+              <LoiSection number={4} title={st4} onTitleSave={v=>updSectionTitle("exclusivity",v)} binding highlight="blue">
+                <div className="text-muted-foreground">
+                  <EditableText multiline value={b.exclusivityText || ""} onSave={v=>upd("exclusivityText",v)} />
                 </div>
-              </div>
+              </LoiSection>
 
               {/* Section 5 */}
-              <div className="mb-5">
-                <h3 className="font-black uppercase text-sm mb-2">5. {isES ? "Condiciones Precedentes" : "Conditions Precedent"}</h3>
-                <div className="ml-4 text-sm text-muted-foreground mb-2">{isES ? "La ejecución del Acuerdo Definitivo está sujeta a:" : "The execution of the Definitive Agreement is subject to the satisfaction of the following conditions:"}</div>
-                <div className="ml-4 space-y-1">
-                  {conditions.map((cond: string, i: number) => (
-                    <div key={i} className="text-sm flex items-start gap-2">
+              <LoiSection number={5} title={st5} onTitleSave={v=>updSectionTitle("conditions",v)}>
+                <div className="text-muted-foreground mb-2">{isES ? "La ejecución del Acuerdo Definitivo está sujeta a:" : "The execution of the Definitive Agreement is subject to the satisfaction of the following conditions:"}</div>
+                <div className="space-y-1 ml-2">
+                  {conditions.map((c: string, i: number) => (
+                    <div key={i} className="flex items-start gap-2">
                       <span className="shrink-0">•</span>
-                      <EditableText value={cond} onSave={v => { const c=[...conditions]; c[i]=v; upd("conditionsPrecedent",c); }} />
-                      {isEditingMode && <button onClick={() => upd("conditionsPrecedent", conditions.filter((_:string,j:number)=>j!==i))} className="text-red-400 hover:text-red-600 shrink-0"><X size={11} /></button>}
+                      <EditableText value={c} onSave={v=>{const a=[...conditions];a[i]=v;upd("conditionsPrecedent",a);}} />
+                      {isEditingMode && <button onClick={()=>upd("conditionsPrecedent",conditions.filter((_:string,j:number)=>j!==i))} className="text-red-400 hover:text-red-600 shrink-0"><X size={11}/></button>}
                     </div>
                   ))}
-                  {isEditingMode && <button onClick={() => upd("conditionsPrecedent", [...conditions, isES ? "Nueva condición" : "New condition"])} className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 mt-1"><Plus size={11} />{isES ? "Agregar" : "Add"}</button>}
+                  {isEditingMode && <button onClick={()=>upd("conditionsPrecedent",[...conditions,isES?"Nueva condición":"New condition"])} className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 mt-1"><Plus size={11}/>{isES?"Agregar":"Add"}</button>}
                 </div>
-              </div>
+              </LoiSection>
 
               {/* Section 6 */}
-              <div className="mb-5">
-                <h3 className="font-black uppercase text-sm mb-2">6. {isES ? "Acuerdo Definitivo" : "Definitive Agreement"}</h3>
-                <div className="ml-4 text-sm leading-relaxed text-muted-foreground">
-                  <EditableText multiline value={b.definitiveAgreementText || ""} onSave={v => upd("definitiveAgreementText", v)} />
+              <LoiSection number={6} title={st6} onTitleSave={v=>updSectionTitle("definitive",v)}>
+                <div className="text-muted-foreground">
+                  <EditableText multiline value={b.definitiveAgreementText || ""} onSave={v=>upd("definitiveAgreementText",v)} />
                 </div>
-              </div>
+              </LoiSection>
 
               {/* Section 7 - Binding */}
-              <div className="mb-5 bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <h3 className="font-black uppercase text-sm mb-2 flex items-center gap-2">7. {isES ? "Confidencialidad & No Elusión" : "Confidentiality & Non-Circumvention"} <BindingBadge /></h3>
-                <div className="text-sm leading-relaxed text-muted-foreground">
-                  <EditableText multiline value={b.confidentialityText || ""} onSave={v => upd("confidentialityText", v)} />
+              <LoiSection number={7} title={st7} onTitleSave={v=>updSectionTitle("confidentiality",v)} binding highlight="blue">
+                <div className="text-muted-foreground">
+                  <EditableText multiline value={b.confidentialityText || ""} onSave={v=>upd("confidentialityText",v)} />
                 </div>
-              </div>
+              </LoiSection>
 
-              {/* Section 8 - Binding Effect */}
-              <div className="mb-8 bg-purple-50 border border-purple-200 rounded-xl p-4">
-                <h3 className="font-black uppercase text-sm mb-2">8. {isES ? "Efecto Vinculante" : "Binding Effect"}</h3>
-                <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                  <EditableText multiline value={b.bindingEffectText || ""} onSave={v => upd("bindingEffectText", v)} />
+              {/* Section 8 */}
+              <LoiSection number={8} title={st8} onTitleSave={v=>updSectionTitle("binding",v)} highlight="purple">
+                <div className="whitespace-pre-line">
+                  <EditableText multiline value={b.bindingEffectText || ""} onSave={v=>upd("bindingEffectText",v)} />
                 </div>
-              </div>
+              </LoiSection>
 
               {/* Signatures */}
-              <div className="grid md:grid-cols-2 gap-8 pt-6 border-t-2 border-foreground">
+              <div className="grid md:grid-cols-2 gap-8 pt-6 mt-2 border-t-2 border-foreground">
                 <div>
                   <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Firma del Inversor" : "Investor Signature"}</div>
-                  <div className="h-14 border-b border-dashed border-muted-foreground mb-2"></div>
-                  <div className="font-semibold text-sm">{b.investorName || (isES ? "[Nombre]" : "[Name]")}</div>
+                  <div className="h-12 border-b border-dashed border-muted-foreground mb-2" />
+                  <div className="font-semibold text-sm">{b.investorName || (isES?"[Nombre]":"[Name]")}</div>
                   <div className="text-xs text-muted-foreground">{today}</div>
                 </div>
                 <div>
                   <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Representante Autorizado" : "Master Developer"}</div>
-                  <div className="h-14 border-b border-dashed border-muted-foreground mb-2"></div>
-                  <div className="font-semibold text-sm"><EditableText value={b.authorizedRep || "Authorized Representative"} onSave={v => upd("authorizedRep", v)} /></div>
-                  <div className="text-xs text-muted-foreground">{b.masterDeveloper || "Distrito Energético Vaca Muerta S.A."}</div>
+                  <div className="h-12 border-b border-dashed border-muted-foreground mb-2" />
+                  <div className="font-semibold text-sm"><EditableText value={b.authorizedRep || "Authorized Representative"} onSave={v=>upd("authorizedRep",v)} /></div>
+                  <div className="text-xs text-muted-foreground"><EditableText value={b.masterDeveloper || "Distrito Energético Vaca Muerta S.A."} onSave={v=>upd("masterDeveloper",v)} /></div>
                 </div>
               </div>
             </div>
@@ -1218,7 +1244,7 @@ export function Tab9() {
   );
 }
 
-// ─── TAB 10 — Market Intelligence// ─── TAB 10 — Market Intelligence// ─── TAB 10 — Market Intelligence ─────────────────────────────────────────────
+// ─── TAB 10 — Market Intelligence// ─── TAB 10 — Market Intelligence// ─── TAB 10 — Market Intelligence// ─── TAB 10 — Market Intelligence ─────────────────────────────────────────────
 
 const CAT_COLORS: Record<string, { bg: string; text: string; bar: string }> = {
   "Oil & Gas": { bg: "bg-orange-100", text: "text-orange-800", bar: "bg-orange-500" },
