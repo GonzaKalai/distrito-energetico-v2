@@ -788,34 +788,112 @@ export function Tab7() {
                   <EditableText value={t.metrics.lotsTitle || (isES ? "Tamaños de Lote Disponibles" : "Available Lot Sizes")} onSave={(v) => updateTab("tab7", "metrics.lotsTitle", v)} />
                 </h3>
               </div>
-              <div className="overflow-x-auto rounded-xl border border-border">
-                <table className="w-full text-sm">
-                  <thead><tr className="bg-foreground text-background">
-                    {(t.metrics.lotsCols || (isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"])).map((h: string, hi: number) => (
-                      <th key={hi} className="px-4 py-3 text-left text-xs uppercase font-bold tracking-wide">
-                        <EditableText value={h} onSave={(v) => { const cols = [...(t.metrics.lotsCols || (isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"]))]; cols[hi] = v; updateTab("tab7", "metrics.lotsCols", cols); }} />
-                      </th>
-                    ))}
-                  </tr></thead>
-                  <tbody>
-                    {t.metrics.lots.map((lot: any, i: number) => (
-                      <tr key={i} className={`border-t border-border ${i % 2 === 0 ? "bg-background" : "bg-accent/10"}`}>
-                        {Object.keys(lot).map((k, ci) => (
-                          <td key={ci} className="px-4 py-3">
-                            {k === "status" ? (
-                              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${lot[k] === "Disponible" || lot[k] === "Available" ? "bg-emerald-100 text-emerald-800" : lot[k] === "Reservado" || lot[k] === "Reserved" ? "bg-amber-100 text-amber-800" : "bg-gray-100 text-gray-800"}`}>
-                                <EditableText value={lot[k]} onSave={(v) => { const lots = [...t.metrics.lots]; lots[i] = {...lots[i], [k]: v}; updateTab("tab7", "metrics.lots", lots); }} />
-                              </span>
-                            ) : (
-                              <EditableText value={lot[k]} onSave={(v) => { const lots = [...t.metrics.lots]; lots[i] = {...lots[i], [k]: v}; updateTab("tab7", "metrics.lots", lots); }} />
-                            )}
-                          </td>
+              {(() => {
+                const defaultCols = isES ? ["Tipo de Lote","Superficie (m²)","Edificabilidad (m²)","Precio referencial","Estado"] : ["Lot Type","Area (sqm)","Buildable Area (sqm)","Reference Price","Status"];
+                const lotCols: string[] = t.metrics.lotsCols || defaultCols;
+                const STATUS_COLORS = [
+                  { bg: "bg-emerald-100", text: "text-emerald-800", label: "green" },
+                  { bg: "bg-amber-100", text: "text-amber-800", label: "amber" },
+                  { bg: "bg-red-100", text: "text-red-800", label: "red" },
+                  { bg: "bg-blue-100", text: "text-blue-800", label: "blue" },
+                  { bg: "bg-gray-100", text: "text-gray-700", label: "gray" },
+                ];
+                const getStatusColor = (lot: any) => {
+                  const saved = lot._statusColor;
+                  if (saved) return STATUS_COLORS.find(c => c.label === saved) || STATUS_COLORS[0];
+                  // Backwards compat: auto-detect from value
+                  const v = (lot.status || lot.Estado || "").toLowerCase();
+                  if (v.includes("dispon") || v.includes("avail")) return STATUS_COLORS[0];
+                  if (v.includes("reserv")) return STATUS_COLORS[1];
+                  if (v.includes("vend") || v.includes("sold")) return STATUS_COLORS[2];
+                  return STATUS_COLORS[4];
+                };
+                const cycleStatusColor = (i: number, lot: any) => {
+                  const cur = getStatusColor(lot);
+                  const idx = STATUS_COLORS.findIndex(c => c.label === cur.label);
+                  const next = STATUS_COLORS[(idx + 1) % STATUS_COLORS.length];
+                  const lots = [...t.metrics.lots]; lots[i] = {...lots[i], _statusColor: next.label};
+                  updateTab("tab7", "metrics.lots", lots);
+                };
+                const statusKey = lotCols.length > 0 ? Object.keys(t.metrics.lots?.[0] || {}).find(k => k === "status" || k === "Estado" || k === "status" || lotCols.indexOf(lotCols[lotCols.length-1]) === lotCols.length-1) || Object.keys(t.metrics.lots?.[0] || {}).slice(-2)[0] : "status";
+                const addLotsCol = () => {
+                  const nc = [...lotCols, isES ? "Nueva columna" : "New column"];
+                  const newKey = `col_${Date.now()}`;
+                  const lots = (t.metrics.lots || []).map((lot: any) => ({...lot, [newKey]: "—"}));
+                  updateTab("tab7", "metrics.lotsCols", nc);
+                  updateTab("tab7", "metrics.lots", lots);
+                };
+                const removeLotsCol = (ci: number) => {
+                  const nc = lotCols.filter((_: string, i: number) => i !== ci);
+                  const rowKey = Object.keys(t.metrics.lots?.[0] || {})[ci];
+                  const lots = (t.metrics.lots || []).map((lot: any) => { const l={...lot}; delete l[rowKey]; return l; });
+                  updateTab("tab7", "metrics.lotsCols", nc);
+                  updateTab("tab7", "metrics.lots", lots);
+                };
+                return (
+                  <div className="overflow-x-auto rounded-xl border border-border">
+                    <table className="w-full text-sm">
+                      <thead><tr className="bg-foreground text-background">
+                        {lotCols.map((h: string, hi: number) => (
+                          <th key={hi} className="px-4 py-3 text-left text-xs uppercase font-bold tracking-wide group">
+                            <div className="flex items-center gap-1">
+                              <EditableText value={h} onSave={(v) => { const nc=[...lotCols]; nc[hi]=v; updateTab("tab7","metrics.lotsCols",nc); }} />
+                              {isEditingMode && hi > 0 && <button onClick={() => removeLotsCol(hi)} className="opacity-0 group-hover:opacity-100 text-red-300 hover:text-red-100 transition-all"><X size={10}/></button>}
+                            </div>
+                          </th>
                         ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        {isEditingMode && <th className="px-2"><button onClick={addLotsCol} className="text-background/60 hover:text-background" title="Agregar columna"><Plus size={12}/></button></th>}
+                      </tr></thead>
+                      <tbody>
+                        {(t.metrics.lots || []).map((lot: any, i: number) => {
+                          const rowKeys = Object.keys(lot).filter(k => !k.startsWith("_"));
+                          const isLast = (ci: number) => ci === lotCols.length - 1;
+                          return (
+                            <tr key={i} className={`border-t border-border group/row ${i%2===0?"bg-background":"bg-accent/10"}`}>
+                              {lotCols.map((_: string, ci: number) => {
+                                const k = rowKeys[ci] || `col${ci}`;
+                                const val = lot[k] !== undefined ? String(lot[k]) : "—";
+                                const isStatusCol = isLast(ci) && (k === "status" || k === "Estado" || k.toLowerCase().includes("stat") || k.toLowerCase().includes("estado"));
+                                if (isStatusCol) {
+                                  const sc = getStatusColor(lot);
+                                  return (
+                                    <td key={ci} className="px-4 py-3">
+                                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${sc.bg} ${sc.text}`}>
+                                        <EditableText value={val} onSave={(v) => { const lots=[...t.metrics.lots]; lots[i]={...lots[i],[k]:v}; updateTab("tab7","metrics.lots",lots); }} />
+                                        {isEditingMode && <button onClick={() => cycleStatusColor(i, lot)} className="opacity-60 hover:opacity-100 ml-0.5" title="Cambiar color">⊙</button>}
+                                      </span>
+                                    </td>
+                                  );
+                                }
+                                return (
+                                  <td key={ci} className="px-4 py-3">
+                                    <EditableText value={val} onSave={(v) => { const lots=[...t.metrics.lots]; lots[i]={...lots[i],[k]:v}; updateTab("tab7","metrics.lots",lots); }} />
+                                  </td>
+                                );
+                              })}
+                              {isEditingMode && (
+                                <td className="px-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                  <button onClick={() => { const lots=(t.metrics.lots||[]).filter((_:any,j:number)=>j!==i); updateTab("tab7","metrics.lots",lots); }} className="p-1 hover:bg-red-100 hover:text-red-600 rounded"><Trash2 size={11}/></button>
+                                </td>
+                              )}
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                    {isEditingMode && (
+                      <button onClick={() => {
+                        const refKeys = Object.keys(t.metrics.lots?.[0] || {}).filter(k => !k.startsWith("_"));
+                        const newRow: any = {};
+                        lotCols.forEach((_: string, ci: number) => { newRow[refKeys[ci] || `col${ci}`] = ci === 0 ? (isES ? "Nuevo lote" : "New lot") : "—"; });
+                        updateTab("tab7","metrics.lots",[...(t.metrics.lots||[]),newRow]);
+                      }} className="w-full flex items-center justify-center gap-2 p-3 border-t border-dashed border-border text-muted-foreground hover:text-primary hover:bg-accent/20 text-sm transition-colors">
+                        <Plus size={14}/> {isES ? "Agregar lote" : "Add lot"}
+                      </button>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           )}
         </Card>

@@ -76,12 +76,12 @@
           "items": [
             {
               "isVisible": true,
-              "q": "¿Por qué Loma Campana es la mejor ubicación estratégica?",
+              "q": "¿Por qué Loma Campana es la ubicación más estratégica?",
               "a": "Es el epicentro geográfico y logístico de Vaca Muerta, y el único punto donde convergen el Nuevo Bypass de Rutas 7 y 17, el Tren Norpatagónico y el futuro Aeropuerto de Carga. Esto la convierte en la única zona donde la infraestructura multimodal está garantizada por inversión pública y privada simultánea."
             },
             {
               "isVisible": true,
-              "q": "¿Qué hace que esto esté respaldado por activos?",
+              "q": "¿Qué significa el respaldo por activos?",
               "a": "Cada inversión está garantizada por terrenos industriales con títulos perfectos (escritura) o vía fideicomiso. El respaldo es un activo real que forma parte de un masterplan integral de múltiples rubros complementarios (industria + residencia dentro de un mismo ecosistema)."
             },
             {
@@ -116,12 +116,17 @@
         "epicenter": {
           "isVisible": true,
           "title": "Epicentro Loma Campana",
-          "text": "Distrito Energético comprende más del 25% de Loma Campana, abarcando todas las áreas circundantes a las principales bases de YPF: Planta de Arenas, la Planta de Tratamiento de Crudo (PTC) de Loma Campana y la Gerencia NOC (No Convencional), además de operaciones de las demás principales operadoras. Esta densidad operativa única en Argentina genera demanda inelástica de servicios logísticos, hoteleros y residenciales, habiendo amplias oportunidades para establecer nueva oferta dentro de Distrito Energético"
+          "text": "La zona de Distrito Energético comprende más del 25% de Loma Campana, abarcando todas las áreas circundantes a las principales bases de YPF: Planta de Arenas, la Planta de Tratamiento de Crudo (PTC) de Loma Campana y la Gerencia NOC (No Convencional), además de operaciones de las demás principales operadoras. Esta densidad operativa única en Argentina genera demanda inelástica de servicios logísticos, hoteleros y residenciales, habiendo amplias oportunidades para establecer nueva oferta dentro de Distrito Energético",
+          "operators": []
         },
         "proximity": {
-          "isVisible": false,
+          "isVisible": true,
           "title": "Proximidad Industrial",
-          "text": "Conectividad de última milla a plantas de procesamiento de arena, talleres de fractura, pads de perforación y centros de tratamiento de crudo. Distancia promedio al pad: 8-12 km versus 60-120 km de las alternativas actuales."
+          "text": "Conectividad de última milla a plantas de procesamiento de arena, talleres de fractura, pads de perforación y centros de tratamiento de crudo. Cercanía a Añelo, y acceso directo hacia Rincón de los Sauces vía nuevo bypass.",
+          "stat1value": "10 km",
+          "stat1label": "Distrito Energético a Añelo",
+          "stat2value": "90 km",
+          "stat2label": "Desde Neuquén"
         }
       },
       "tab4": {
@@ -160,7 +165,7 @@
             "isVisible": true,
             "title": "El Pilar de Almacenamiento",
             "sub": "Unidades Industriales",
-            "stat": "Vida útil 20+ años",
+            "stat": "Vida útil 30+ años",
             "details": "Ordenamiento del tránsito pesado, reducción de congestión en áreas urbanas\nInfraestructura esencial para corredores logísticos.\nApoyo a actividades industriales y energéticas. Complemento de parques industriales y zonas productivas. Atractivo para inversión privada y esquemas mixtos."
           }
         }
@@ -177,7 +182,7 @@
               "col1": "USD 8–16",
               "col2": "Variable",
               "col3": "Limitada",
-              "col4": "90 km"
+              "col4": "100 km"
             },
             {
               "col0": "Añelo",
@@ -189,16 +194,16 @@
             {
               "col0": "Distrito Energético (pesimista)",
               "col1": "USD 8–12",
-              "col2": "",
+              "col2": "Alta",
               "col3": "Pre-lease abierto",
               "col4": "8–12 km"
             },
             {
-              "col0": "Distrito Energético (pesimista)",
-              "col1": "—",
-              "col2": "—",
-              "col3": "—",
-              "col4": "—"
+              "col0": "Distrito Energético (conservador))",
+              "col1": "USD 10-15",
+              "col2": "Alta",
+              "col3": "Pre-lease abierto",
+              "col4": "8–12 km"
             }
           ],
           "text": "Con un alto potencial de valorización, Distrito Energético optimiza los costos logísticos mediante una localización clave. El proyecto se ubica estratégicamente entre Neuquén y Rincón de los Sauces, garantizando cercanía inmediata a las operaciones principales. Su gran diferencial radica en un masterplan eficiente que concentra las áreas residencial e industrial a una distancia de solo 3 a 5 kilómetros entre sí.",
@@ -214,66 +219,46 @@
           "isVisible": true,
           "rows": [
             {
-              "col0": "Precio alquiler (USD/m²/mes)",
-              "col1": "20–28",
-              "col2": "12–16",
-              "col3": "18–22",
-              "col4": "—"
-            },
-            {
-              "col0": "Distancia al pad de perforación",
-              "col1": "8–12 km",
-              "col2": "60–90 km",
-              "col3": "15–30 km",
-              "col4": "—"
-            },
-            {
               "col0": "Conectividad ferroviaria",
               "col1": "✓",
               "col2": "✗",
-              "col3": "✗",
-              "col4": "—"
+              "col3": "✗"
             },
             {
               "col0": "Aeropuerto de carga cercano",
               "col1": "✓",
               "col2": "✗",
-              "col3": "✗",
-              "col4": "—"
+              "col3": "✗"
             },
             {
               "col0": "Contratos en USD",
               "col1": "✓",
-              "col2": "Parcial",
-              "col3": "✗",
-              "col4": "—"
-            },
-            {
-              "col0": "Suministro energético resiliente",
-              "col1": "✓",
-              "col2": "✗",
-              "col3": "✗",
-              "col4": "—"
+              "col2": "✓",
+              "col3": "✓"
             },
             {
               "col0": "Garantía (escritura / fideicomiso)",
               "col1": "✓",
               "col2": "Variable",
-              "col3": "Variable",
-              "col4": "—"
+              "col3": "Variable"
+            },
+            {
+              "col0": "Masterplan y desarrollo privado",
+              "col1": "✓",
+              "col2": "✗",
+              "col3": "✗"
             }
           ],
           "cols": [
             "Atributo",
             "Distrito Energético",
             "Alternativas Neuquén",
-            "Alternativas Añelo",
-            "Nueva columna"
+            "Alternativas Añelo"
           ]
         },
         "risk": {
           "isVisible": true,
-          "title": "Mitigación de Riesgos: El 'Foso' (Moat)",
+          "title": "Mitigación de Riesgos (MOAT)",
           "items": [
             {
               "isVisible": true,
@@ -294,10 +279,10 @@
         }
       },
       "tab6": {
-        "title": "Modelo Financiero",
+        "title": "Estructuración",
         "isVisible": true,
         "cashflow": {
-          "isVisible": true,
+          "isVisible": false,
           "rows": [
             {
               "label": "Inversión inicial (salida)",
@@ -369,22 +354,22 @@
         },
         "timeline": {
           "isVisible": true,
-          "title": "Cronograma de Desarrollo y Puntos de Salida",
+          "title": "Cronograma de Desarrollo",
           "phases": [
             {
               "isVisible": true,
               "name": "Fase 1 — Adquisición",
-              "desc": "Meses 0-3. Adquisición de propiedad titulada, due diligence ambiental y zonificación I2 confirmada."
+              "desc": "Meses 0-3. Adquisición de propiedad titulada, due diligence y otorgamiento norma de uso / proyecto ejecutivo aprobado."
             },
             {
               "isVisible": true,
               "name": "Fase 2 — Infraestructura",
-              "desc": "Meses 4-12. Tendido de energía media tensión, agua, gas, accesos pavimentados y drenaje pluvial."
+              "desc": "Meses 3-5. Tendido de energía, agua, accesos pavimentados."
             },
             {
               "isVisible": true,
               "name": "Fase 3 — Construcción",
-              "desc": "Meses 12-24. Construcción modular de naves Clase A, muelles, oficinas y sistema contra incendios."
+              "desc": "Meses 4-9. Construcción modular de naves Clase A y oficinas, en paralelo con infraestructura."
             },
             {
               "isVisible": true,
@@ -396,16 +381,17 @@
         "protection": {
           "isVisible": true,
           "title": "Protección de Capital",
-          "text": "Vehículo fiduciario profesionalmente administrado, con marco de auditoría Big 4 (KPMG / Deloitte / EY / PwC), reporting trimestral, valuación independiente anual y comité de inversores con poder de veto sobre decisiones materiales."
+          "text": "Títulos de propiedad perfectos, vehículos fiduciarios profesionalmente administrados, con marco de auditoría, valorización por desarrollo de infraestructura logística pública y privada, y planificación estratégica conjunta para los proyectos dentro de Distrito Energético.",
+          "firms": []
         }
       },
       "tab7": {
         "title": "Uso de Suelo y Métricas",
         "isVisible": true,
         "services": {
-          "isVisible": true,
+          "isVisible": false,
           "items": [
-            "Energía eléctrica en media tensión (hasta 1 MW/lote, ampliable)",
+            "Energía eléctrica (apto logística, ampliable a medida)",
             "Gas natural — conexión a red troncal Neuquén-Zapala",
             "Agua potable y red contra incendios (presión garantizada)",
             "Cloaca y tratamiento de efluentes industriales",
@@ -415,38 +401,39 @@
             "Vigilancia y control de acceso 24/7 con CCTV",
             "Drenaje pluvial y cunetas parcelarias",
             "Balanzas de pesaje vehicular en ingresos principales"
-          ]
+          ],
+          "title": "Servicios e Infraestructura Recomendados"
         },
         "metrics": {
           "isVisible": true,
-          "title": "Métricas Clave de Edificabilidad",
+          "title": "Métricas Clave de Edificabilidad Industrial",
           "lots": [
             {
-              "tipo": "Lote estándar industrial",
+              "tipo": "Lote mínimo industria",
               "superficie": "2.500 m²",
-              "edificabilidad": "1.750 m²",
-              "precio": "USD 180–220/m²",
+              "edificabilidad": "2.500 m²",
+              "precio": "2.000 m²\t",
               "status": "Disponible"
             },
             {
-              "tipo": "Lote mediano industrial",
+              "tipo": "Lote mínimo logística",
               "superficie": "5.000 m²",
-              "edificabilidad": "3.500 m²",
-              "precio": "USD 160–190/m²",
+              "edificabilidad": "5.000 m²",
+              "precio": "4.000 m²\t",
               "status": "Disponible"
             },
             {
-              "tipo": "Lote grande / almacenamiento",
+              "tipo": "Lote estándar",
               "superficie": "10.000 m²",
-              "edificabilidad": "7.000 m²",
-              "precio": "USD 140–170/m²",
+              "edificabilidad": "10.000 m²",
+              "precio": "8.000 m²\t",
               "status": "Disponible"
             },
             {
-              "tipo": "Lote premium (frente de ruta)",
-              "superficie": "3.000 m²",
-              "edificabilidad": "2.100 m²",
-              "precio": "USD 220–260/m²",
+              "tipo": "Macrolotes",
+              "superficie": "50.000 m²",
+              "edificabilidad": "50.000 m²",
+              "precio": "40.000 m²",
               "status": "Reservado"
             },
             {
@@ -468,10 +455,18 @@
             "val": "1",
             "label": "F.O.T.",
             "desc": "Factor de Ocupación Total — superficie total construible: 100% del lote (multinivel admitido en sectores de oficinas)."
-          }
+          },
+          "lotsCols": [
+            "Tipo de Lote",
+            "Superficie (m²)",
+            "Edificabilidad (m²)",
+            "Ocupación Suelo",
+            "Estado"
+          ],
+          "lotsTitle": "Tamaños y Tipos de Lote"
         },
         "specs": {
-          "isVisible": true,
+          "isVisible": false,
           "title": "Especificaciones Físicas",
           "text": "Zonificación: I2 (Industrial Pesado).\nAltura máxima: 8-10 m a alero, 14 m a cumbrera.\nCarga de losa: 5 ton/m² piso terminado.\nRetiros: 5 m frente, 3 m laterales.\nEstacionamiento: 1 plaza / 100 m² construido.\nÁrea verde mínima: 10% del lote.\nCarga eléctrica disponible: hasta 1 MW por lote (ampliable)."
         },
@@ -483,7 +478,128 @@
         "mixer": {
           "isVisible": true,
           "title": "Partnership Estratégico",
-          "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
+          "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nEjemplo de perfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca.\n\nA continuación, resumen de posibles esquemas:"
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Estado del Proyecto & Due Diligence",
+          "subtitle": "Tracker de readiness institucional y legal",
+          "categories": [
+            {
+              "title": "Permisos & Habilitaciones",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Estudio de Impacto Ambiental (EIA)",
+                  "detail": "Proceso de aprobación provincial, 4-6 meses",
+                  "checked": false
+                },
+                {
+                  "label": "Permisos de Construcción",
+                  "detail": "Autoridad municipal, vía rápida disponible",
+                  "checked": false
+                },
+                {
+                  "label": "Certificación de Zonificación I2",
+                  "detail": "Designación industrial confirmada",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Título de Propiedad",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Título de Dominio (Escritura)",
+                  "detail": "Título limpio, sin gravámenes ni inhibiciones",
+                  "checked": true
+                },
+                {
+                  "label": "Estructura Fiduciaria",
+                  "detail": "Administración fiduciaria por tercero",
+                  "checked": false
+                },
+                {
+                  "label": "Contratos Operativos Listos",
+                  "detail": "LOI template y contratos de locación",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infraestructura & Servicios",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Conexiones de Servicios (Agua, Energía, Gas)",
+                  "detail": "Puntos de conexión confirmados con proveedores",
+                  "checked": true
+                },
+                {
+                  "label": "Acceso Vial & Bypass Ruta 7-17",
+                  "detail": "Cronograma de finalización: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Infraestructura de Telecomunicaciones",
+                  "detail": "Backbone de fibra óptica, preparación 5G",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operaciones",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Auditoría de Cumplimiento Laboral",
+                  "detail": "Normativa provincial de Neuquén verificada",
+                  "checked": false
+                },
+                {
+                  "label": "Registro Impositivo & AFIP",
+                  "detail": "Autoridad fiscal federal y provincial",
+                  "checked": true
+                },
+                {
+                  "label": "Marco Contable & Auditoría",
+                  "detail": "Reporte financiero bajo normas IFRS",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Paquete de Servicios para Inversores",
+          "badge": "Ventaja Diferencial",
+          "description": "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses.",
+          "services": [
+            {
+              "label": "Configuración Fiscal & Tributaria",
+              "detail": "Inscripción AFIP, incentivos provinciales"
+            },
+            {
+              "label": "Estructura Societaria",
+              "detail": "SA, SRL, Sucursal"
+            },
+            {
+              "label": "Contabilidad & Compliance",
+              "detail": "Soporte continuo, auditoría lista"
+            }
+          ],
+          "differentiator": "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experiencia & Autoridad",
+          "content": "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva."
         }
       },
       "tab9": {
@@ -1044,6 +1160,127 @@
           "isVisible": true,
           "title": "Strategic Partnership",
           "text": "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers."
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Project Status & Due Diligence",
+          "subtitle": "Comprehensive readiness tracker and institutional-grade compliance overview",
+          "categories": [
+            {
+              "title": "Permits & Approvals",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Environmental Impact Study (EIS)",
+                  "detail": "Provincial approval process, 4-6 months",
+                  "checked": false
+                },
+                {
+                  "label": "Construction Permits",
+                  "detail": "Municipal authority, expedited track available",
+                  "checked": false
+                },
+                {
+                  "label": "Zoning & Land Use Certification",
+                  "detail": "Industrial designation confirmed",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Title Security",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Title Insurance (Escritura)",
+                  "detail": "Clean title, no liens or encumbrances",
+                  "checked": true
+                },
+                {
+                  "label": "Fideicomiso (Trust) Structure",
+                  "detail": "Third-party fiduciary management",
+                  "checked": false
+                },
+                {
+                  "label": "Operational Contracts Ready",
+                  "detail": "Template LOIs and lease agreements",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infrastructure Readiness",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Utility Hookups (Water, Power, Gas)",
+                  "detail": "Connection points confirmed by providers",
+                  "checked": true
+                },
+                {
+                  "label": "Road Access & Bypass Integration",
+                  "detail": "Route 7-17 completion timeline: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Telecommunications Infrastructure",
+                  "detail": "Fiber backbone, 5G readiness",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operations",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Labor Law Compliance Audit",
+                  "detail": "Neuquén provincial regulations verified",
+                  "checked": false
+                },
+                {
+                  "label": "Tax Registration & AFIP Status",
+                  "detail": "Federal and provincial tax authority",
+                  "checked": true
+                },
+                {
+                  "label": "Accounting & Audit Framework",
+                  "detail": "IFRS-compliant financial reporting",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Comprehensive Service Package for Investors",
+          "badge": "Standout Advantage",
+          "description": "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+          "services": [
+            {
+              "label": "Tax & Tributary Setup",
+              "detail": "AFIP registration, provincial incentives"
+            },
+            {
+              "label": "Corporate Structure Guidance",
+              "detail": "SA, SRL, Branch office setup"
+            },
+            {
+              "label": "Accounting & Compliance",
+              "detail": "Ongoing support, audit readiness"
+            }
+          ],
+          "differentiator": "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experience & Authority",
+          "content": "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage."
         }
       },
       "tab9": {
@@ -1608,6 +1845,127 @@
           "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
         }
       },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Estado del Proyecto & Due Diligence",
+          "subtitle": "Tracker de readiness institucional y legal",
+          "categories": [
+            {
+              "title": "Permisos & Habilitaciones",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Estudio de Impacto Ambiental (EIA)",
+                  "detail": "Proceso de aprobación provincial, 4-6 meses",
+                  "checked": false
+                },
+                {
+                  "label": "Permisos de Construcción",
+                  "detail": "Autoridad municipal, vía rápida disponible",
+                  "checked": false
+                },
+                {
+                  "label": "Certificación de Zonificación I2",
+                  "detail": "Designación industrial confirmada",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Título de Propiedad",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Título de Dominio (Escritura)",
+                  "detail": "Título limpio, sin gravámenes ni inhibiciones",
+                  "checked": true
+                },
+                {
+                  "label": "Estructura Fiduciaria",
+                  "detail": "Administración fiduciaria por tercero",
+                  "checked": false
+                },
+                {
+                  "label": "Contratos Operativos Listos",
+                  "detail": "LOI template y contratos de locación",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infraestructura & Servicios",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Conexiones de Servicios (Agua, Energía, Gas)",
+                  "detail": "Puntos de conexión confirmados con proveedores",
+                  "checked": true
+                },
+                {
+                  "label": "Acceso Vial & Bypass Ruta 7-17",
+                  "detail": "Cronograma de finalización: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Infraestructura de Telecomunicaciones",
+                  "detail": "Backbone de fibra óptica, preparación 5G",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operaciones",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Auditoría de Cumplimiento Laboral",
+                  "detail": "Normativa provincial de Neuquén verificada",
+                  "checked": false
+                },
+                {
+                  "label": "Registro Impositivo & AFIP",
+                  "detail": "Autoridad fiscal federal y provincial",
+                  "checked": true
+                },
+                {
+                  "label": "Marco Contable & Auditoría",
+                  "detail": "Reporte financiero bajo normas IFRS",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Paquete de Servicios para Inversores",
+          "badge": "Ventaja Diferencial",
+          "description": "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses.",
+          "services": [
+            {
+              "label": "Configuración Fiscal & Tributaria",
+              "detail": "Inscripción AFIP, incentivos provinciales"
+            },
+            {
+              "label": "Estructura Societaria",
+              "detail": "SA, SRL, Sucursal"
+            },
+            {
+              "label": "Contabilidad & Compliance",
+              "detail": "Soporte continuo, auditoría lista"
+            }
+          ],
+          "differentiator": "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experiencia & Autoridad",
+          "content": "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva."
+        }
+      },
       "tab9": {
         "title": "LOI",
         "isVisible": true,
@@ -2166,6 +2524,127 @@
           "isVisible": true,
           "title": "Strategic Partnership",
           "text": "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers."
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Project Status & Due Diligence",
+          "subtitle": "Comprehensive readiness tracker and institutional-grade compliance overview",
+          "categories": [
+            {
+              "title": "Permits & Approvals",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Environmental Impact Study (EIS)",
+                  "detail": "Provincial approval process, 4-6 months",
+                  "checked": false
+                },
+                {
+                  "label": "Construction Permits",
+                  "detail": "Municipal authority, expedited track available",
+                  "checked": false
+                },
+                {
+                  "label": "Zoning & Land Use Certification",
+                  "detail": "Industrial designation confirmed",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Title Security",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Title Insurance (Escritura)",
+                  "detail": "Clean title, no liens or encumbrances",
+                  "checked": true
+                },
+                {
+                  "label": "Fideicomiso (Trust) Structure",
+                  "detail": "Third-party fiduciary management",
+                  "checked": false
+                },
+                {
+                  "label": "Operational Contracts Ready",
+                  "detail": "Template LOIs and lease agreements",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infrastructure Readiness",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Utility Hookups (Water, Power, Gas)",
+                  "detail": "Connection points confirmed by providers",
+                  "checked": true
+                },
+                {
+                  "label": "Road Access & Bypass Integration",
+                  "detail": "Route 7-17 completion timeline: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Telecommunications Infrastructure",
+                  "detail": "Fiber backbone, 5G readiness",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operations",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Labor Law Compliance Audit",
+                  "detail": "Neuquén provincial regulations verified",
+                  "checked": false
+                },
+                {
+                  "label": "Tax Registration & AFIP Status",
+                  "detail": "Federal and provincial tax authority",
+                  "checked": true
+                },
+                {
+                  "label": "Accounting & Audit Framework",
+                  "detail": "IFRS-compliant financial reporting",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Comprehensive Service Package for Investors",
+          "badge": "Standout Advantage",
+          "description": "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+          "services": [
+            {
+              "label": "Tax & Tributary Setup",
+              "detail": "AFIP registration, provincial incentives"
+            },
+            {
+              "label": "Corporate Structure Guidance",
+              "detail": "SA, SRL, Branch office setup"
+            },
+            {
+              "label": "Accounting & Compliance",
+              "detail": "Ongoing support, audit readiness"
+            }
+          ],
+          "differentiator": "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experience & Authority",
+          "content": "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage."
         }
       },
       "tab9": {
@@ -2730,6 +3209,127 @@
           "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
         }
       },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Estado del Proyecto & Due Diligence",
+          "subtitle": "Tracker de readiness institucional y legal",
+          "categories": [
+            {
+              "title": "Permisos & Habilitaciones",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Estudio de Impacto Ambiental (EIA)",
+                  "detail": "Proceso de aprobación provincial, 4-6 meses",
+                  "checked": false
+                },
+                {
+                  "label": "Permisos de Construcción",
+                  "detail": "Autoridad municipal, vía rápida disponible",
+                  "checked": false
+                },
+                {
+                  "label": "Certificación de Zonificación I2",
+                  "detail": "Designación industrial confirmada",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Título de Propiedad",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Título de Dominio (Escritura)",
+                  "detail": "Título limpio, sin gravámenes ni inhibiciones",
+                  "checked": true
+                },
+                {
+                  "label": "Estructura Fiduciaria",
+                  "detail": "Administración fiduciaria por tercero",
+                  "checked": false
+                },
+                {
+                  "label": "Contratos Operativos Listos",
+                  "detail": "LOI template y contratos de locación",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infraestructura & Servicios",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Conexiones de Servicios (Agua, Energía, Gas)",
+                  "detail": "Puntos de conexión confirmados con proveedores",
+                  "checked": true
+                },
+                {
+                  "label": "Acceso Vial & Bypass Ruta 7-17",
+                  "detail": "Cronograma de finalización: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Infraestructura de Telecomunicaciones",
+                  "detail": "Backbone de fibra óptica, preparación 5G",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operaciones",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Auditoría de Cumplimiento Laboral",
+                  "detail": "Normativa provincial de Neuquén verificada",
+                  "checked": false
+                },
+                {
+                  "label": "Registro Impositivo & AFIP",
+                  "detail": "Autoridad fiscal federal y provincial",
+                  "checked": true
+                },
+                {
+                  "label": "Marco Contable & Auditoría",
+                  "detail": "Reporte financiero bajo normas IFRS",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Paquete de Servicios para Inversores",
+          "badge": "Ventaja Diferencial",
+          "description": "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses.",
+          "services": [
+            {
+              "label": "Configuración Fiscal & Tributaria",
+              "detail": "Inscripción AFIP, incentivos provinciales"
+            },
+            {
+              "label": "Estructura Societaria",
+              "detail": "SA, SRL, Sucursal"
+            },
+            {
+              "label": "Contabilidad & Compliance",
+              "detail": "Soporte continuo, auditoría lista"
+            }
+          ],
+          "differentiator": "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experiencia & Autoridad",
+          "content": "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva."
+        }
+      },
       "tab9": {
         "title": "LOI",
         "isVisible": true,
@@ -3288,6 +3888,127 @@
           "isVisible": true,
           "title": "Strategic Partnership",
           "text": "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers."
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Project Status & Due Diligence",
+          "subtitle": "Comprehensive readiness tracker and institutional-grade compliance overview",
+          "categories": [
+            {
+              "title": "Permits & Approvals",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Environmental Impact Study (EIS)",
+                  "detail": "Provincial approval process, 4-6 months",
+                  "checked": false
+                },
+                {
+                  "label": "Construction Permits",
+                  "detail": "Municipal authority, expedited track available",
+                  "checked": false
+                },
+                {
+                  "label": "Zoning & Land Use Certification",
+                  "detail": "Industrial designation confirmed",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Title Security",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Title Insurance (Escritura)",
+                  "detail": "Clean title, no liens or encumbrances",
+                  "checked": true
+                },
+                {
+                  "label": "Fideicomiso (Trust) Structure",
+                  "detail": "Third-party fiduciary management",
+                  "checked": false
+                },
+                {
+                  "label": "Operational Contracts Ready",
+                  "detail": "Template LOIs and lease agreements",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infrastructure Readiness",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Utility Hookups (Water, Power, Gas)",
+                  "detail": "Connection points confirmed by providers",
+                  "checked": true
+                },
+                {
+                  "label": "Road Access & Bypass Integration",
+                  "detail": "Route 7-17 completion timeline: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Telecommunications Infrastructure",
+                  "detail": "Fiber backbone, 5G readiness",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operations",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Labor Law Compliance Audit",
+                  "detail": "Neuquén provincial regulations verified",
+                  "checked": false
+                },
+                {
+                  "label": "Tax Registration & AFIP Status",
+                  "detail": "Federal and provincial tax authority",
+                  "checked": true
+                },
+                {
+                  "label": "Accounting & Audit Framework",
+                  "detail": "IFRS-compliant financial reporting",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Comprehensive Service Package for Investors",
+          "badge": "Standout Advantage",
+          "description": "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+          "services": [
+            {
+              "label": "Tax & Tributary Setup",
+              "detail": "AFIP registration, provincial incentives"
+            },
+            {
+              "label": "Corporate Structure Guidance",
+              "detail": "SA, SRL, Branch office setup"
+            },
+            {
+              "label": "Accounting & Compliance",
+              "detail": "Ongoing support, audit readiness"
+            }
+          ],
+          "differentiator": "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experience & Authority",
+          "content": "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage."
         }
       },
       "tab9": {
@@ -3852,6 +4573,127 @@
           "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
         }
       },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Estado del Proyecto & Due Diligence",
+          "subtitle": "Tracker de readiness institucional y legal",
+          "categories": [
+            {
+              "title": "Permisos & Habilitaciones",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Estudio de Impacto Ambiental (EIA)",
+                  "detail": "Proceso de aprobación provincial, 4-6 meses",
+                  "checked": false
+                },
+                {
+                  "label": "Permisos de Construcción",
+                  "detail": "Autoridad municipal, vía rápida disponible",
+                  "checked": false
+                },
+                {
+                  "label": "Certificación de Zonificación I2",
+                  "detail": "Designación industrial confirmada",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Título de Propiedad",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Título de Dominio (Escritura)",
+                  "detail": "Título limpio, sin gravámenes ni inhibiciones",
+                  "checked": true
+                },
+                {
+                  "label": "Estructura Fiduciaria",
+                  "detail": "Administración fiduciaria por tercero",
+                  "checked": false
+                },
+                {
+                  "label": "Contratos Operativos Listos",
+                  "detail": "LOI template y contratos de locación",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infraestructura & Servicios",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Conexiones de Servicios (Agua, Energía, Gas)",
+                  "detail": "Puntos de conexión confirmados con proveedores",
+                  "checked": true
+                },
+                {
+                  "label": "Acceso Vial & Bypass Ruta 7-17",
+                  "detail": "Cronograma de finalización: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Infraestructura de Telecomunicaciones",
+                  "detail": "Backbone de fibra óptica, preparación 5G",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operaciones",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Auditoría de Cumplimiento Laboral",
+                  "detail": "Normativa provincial de Neuquén verificada",
+                  "checked": false
+                },
+                {
+                  "label": "Registro Impositivo & AFIP",
+                  "detail": "Autoridad fiscal federal y provincial",
+                  "checked": true
+                },
+                {
+                  "label": "Marco Contable & Auditoría",
+                  "detail": "Reporte financiero bajo normas IFRS",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Paquete de Servicios para Inversores",
+          "badge": "Ventaja Diferencial",
+          "description": "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses.",
+          "services": [
+            {
+              "label": "Configuración Fiscal & Tributaria",
+              "detail": "Inscripción AFIP, incentivos provinciales"
+            },
+            {
+              "label": "Estructura Societaria",
+              "detail": "SA, SRL, Sucursal"
+            },
+            {
+              "label": "Contabilidad & Compliance",
+              "detail": "Soporte continuo, auditoría lista"
+            }
+          ],
+          "differentiator": "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experiencia & Autoridad",
+          "content": "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva."
+        }
+      },
       "tab9": {
         "title": "LOI",
         "isVisible": true,
@@ -4410,6 +5252,127 @@
           "isVisible": true,
           "title": "Strategic Partnership",
           "text": "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers."
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Project Status & Due Diligence",
+          "subtitle": "Comprehensive readiness tracker and institutional-grade compliance overview",
+          "categories": [
+            {
+              "title": "Permits & Approvals",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Environmental Impact Study (EIS)",
+                  "detail": "Provincial approval process, 4-6 months",
+                  "checked": false
+                },
+                {
+                  "label": "Construction Permits",
+                  "detail": "Municipal authority, expedited track available",
+                  "checked": false
+                },
+                {
+                  "label": "Zoning & Land Use Certification",
+                  "detail": "Industrial designation confirmed",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Title Security",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Title Insurance (Escritura)",
+                  "detail": "Clean title, no liens or encumbrances",
+                  "checked": true
+                },
+                {
+                  "label": "Fideicomiso (Trust) Structure",
+                  "detail": "Third-party fiduciary management",
+                  "checked": false
+                },
+                {
+                  "label": "Operational Contracts Ready",
+                  "detail": "Template LOIs and lease agreements",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infrastructure Readiness",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Utility Hookups (Water, Power, Gas)",
+                  "detail": "Connection points confirmed by providers",
+                  "checked": true
+                },
+                {
+                  "label": "Road Access & Bypass Integration",
+                  "detail": "Route 7-17 completion timeline: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Telecommunications Infrastructure",
+                  "detail": "Fiber backbone, 5G readiness",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operations",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Labor Law Compliance Audit",
+                  "detail": "Neuquén provincial regulations verified",
+                  "checked": false
+                },
+                {
+                  "label": "Tax Registration & AFIP Status",
+                  "detail": "Federal and provincial tax authority",
+                  "checked": true
+                },
+                {
+                  "label": "Accounting & Audit Framework",
+                  "detail": "IFRS-compliant financial reporting",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Comprehensive Service Package for Investors",
+          "badge": "Standout Advantage",
+          "description": "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+          "services": [
+            {
+              "label": "Tax & Tributary Setup",
+              "detail": "AFIP registration, provincial incentives"
+            },
+            {
+              "label": "Corporate Structure Guidance",
+              "detail": "SA, SRL, Branch office setup"
+            },
+            {
+              "label": "Accounting & Compliance",
+              "detail": "Ongoing support, audit readiness"
+            }
+          ],
+          "differentiator": "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experience & Authority",
+          "content": "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage."
         }
       },
       "tab9": {
@@ -4974,6 +5937,127 @@
           "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
         }
       },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Estado del Proyecto & Due Diligence",
+          "subtitle": "Tracker de readiness institucional y legal",
+          "categories": [
+            {
+              "title": "Permisos & Habilitaciones",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Estudio de Impacto Ambiental (EIA)",
+                  "detail": "Proceso de aprobación provincial, 4-6 meses",
+                  "checked": false
+                },
+                {
+                  "label": "Permisos de Construcción",
+                  "detail": "Autoridad municipal, vía rápida disponible",
+                  "checked": false
+                },
+                {
+                  "label": "Certificación de Zonificación I2",
+                  "detail": "Designación industrial confirmada",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Título de Propiedad",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Título de Dominio (Escritura)",
+                  "detail": "Título limpio, sin gravámenes ni inhibiciones",
+                  "checked": true
+                },
+                {
+                  "label": "Estructura Fiduciaria",
+                  "detail": "Administración fiduciaria por tercero",
+                  "checked": false
+                },
+                {
+                  "label": "Contratos Operativos Listos",
+                  "detail": "LOI template y contratos de locación",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infraestructura & Servicios",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Conexiones de Servicios (Agua, Energía, Gas)",
+                  "detail": "Puntos de conexión confirmados con proveedores",
+                  "checked": true
+                },
+                {
+                  "label": "Acceso Vial & Bypass Ruta 7-17",
+                  "detail": "Cronograma de finalización: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Infraestructura de Telecomunicaciones",
+                  "detail": "Backbone de fibra óptica, preparación 5G",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operaciones",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Auditoría de Cumplimiento Laboral",
+                  "detail": "Normativa provincial de Neuquén verificada",
+                  "checked": false
+                },
+                {
+                  "label": "Registro Impositivo & AFIP",
+                  "detail": "Autoridad fiscal federal y provincial",
+                  "checked": true
+                },
+                {
+                  "label": "Marco Contable & Auditoría",
+                  "detail": "Reporte financiero bajo normas IFRS",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Paquete de Servicios para Inversores",
+          "badge": "Ventaja Diferencial",
+          "description": "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses.",
+          "services": [
+            {
+              "label": "Configuración Fiscal & Tributaria",
+              "detail": "Inscripción AFIP, incentivos provinciales"
+            },
+            {
+              "label": "Estructura Societaria",
+              "detail": "SA, SRL, Sucursal"
+            },
+            {
+              "label": "Contabilidad & Compliance",
+              "detail": "Soporte continuo, auditoría lista"
+            }
+          ],
+          "differentiator": "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experiencia & Autoridad",
+          "content": "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva."
+        }
+      },
       "tab9": {
         "title": "LOI",
         "isVisible": true,
@@ -5532,6 +6616,127 @@
           "isVisible": true,
           "title": "Strategic Partnership",
           "text": "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers."
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Project Status & Due Diligence",
+          "subtitle": "Comprehensive readiness tracker and institutional-grade compliance overview",
+          "categories": [
+            {
+              "title": "Permits & Approvals",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Environmental Impact Study (EIS)",
+                  "detail": "Provincial approval process, 4-6 months",
+                  "checked": false
+                },
+                {
+                  "label": "Construction Permits",
+                  "detail": "Municipal authority, expedited track available",
+                  "checked": false
+                },
+                {
+                  "label": "Zoning & Land Use Certification",
+                  "detail": "Industrial designation confirmed",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Title Security",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Title Insurance (Escritura)",
+                  "detail": "Clean title, no liens or encumbrances",
+                  "checked": true
+                },
+                {
+                  "label": "Fideicomiso (Trust) Structure",
+                  "detail": "Third-party fiduciary management",
+                  "checked": false
+                },
+                {
+                  "label": "Operational Contracts Ready",
+                  "detail": "Template LOIs and lease agreements",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infrastructure Readiness",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Utility Hookups (Water, Power, Gas)",
+                  "detail": "Connection points confirmed by providers",
+                  "checked": true
+                },
+                {
+                  "label": "Road Access & Bypass Integration",
+                  "detail": "Route 7-17 completion timeline: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Telecommunications Infrastructure",
+                  "detail": "Fiber backbone, 5G readiness",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operations",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Labor Law Compliance Audit",
+                  "detail": "Neuquén provincial regulations verified",
+                  "checked": false
+                },
+                {
+                  "label": "Tax Registration & AFIP Status",
+                  "detail": "Federal and provincial tax authority",
+                  "checked": true
+                },
+                {
+                  "label": "Accounting & Audit Framework",
+                  "detail": "IFRS-compliant financial reporting",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Comprehensive Service Package for Investors",
+          "badge": "Standout Advantage",
+          "description": "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+          "services": [
+            {
+              "label": "Tax & Tributary Setup",
+              "detail": "AFIP registration, provincial incentives"
+            },
+            {
+              "label": "Corporate Structure Guidance",
+              "detail": "SA, SRL, Branch office setup"
+            },
+            {
+              "label": "Accounting & Compliance",
+              "detail": "Ongoing support, audit readiness"
+            }
+          ],
+          "differentiator": "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experience & Authority",
+          "content": "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage."
         }
       },
       "tab9": {
@@ -6096,6 +7301,127 @@
           "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
         }
       },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Estado del Proyecto & Due Diligence",
+          "subtitle": "Tracker de readiness institucional y legal",
+          "categories": [
+            {
+              "title": "Permisos & Habilitaciones",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Estudio de Impacto Ambiental (EIA)",
+                  "detail": "Proceso de aprobación provincial, 4-6 meses",
+                  "checked": false
+                },
+                {
+                  "label": "Permisos de Construcción",
+                  "detail": "Autoridad municipal, vía rápida disponible",
+                  "checked": false
+                },
+                {
+                  "label": "Certificación de Zonificación I2",
+                  "detail": "Designación industrial confirmada",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Título de Propiedad",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Título de Dominio (Escritura)",
+                  "detail": "Título limpio, sin gravámenes ni inhibiciones",
+                  "checked": true
+                },
+                {
+                  "label": "Estructura Fiduciaria",
+                  "detail": "Administración fiduciaria por tercero",
+                  "checked": false
+                },
+                {
+                  "label": "Contratos Operativos Listos",
+                  "detail": "LOI template y contratos de locación",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infraestructura & Servicios",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Conexiones de Servicios (Agua, Energía, Gas)",
+                  "detail": "Puntos de conexión confirmados con proveedores",
+                  "checked": true
+                },
+                {
+                  "label": "Acceso Vial & Bypass Ruta 7-17",
+                  "detail": "Cronograma de finalización: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Infraestructura de Telecomunicaciones",
+                  "detail": "Backbone de fibra óptica, preparación 5G",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operaciones",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Auditoría de Cumplimiento Laboral",
+                  "detail": "Normativa provincial de Neuquén verificada",
+                  "checked": false
+                },
+                {
+                  "label": "Registro Impositivo & AFIP",
+                  "detail": "Autoridad fiscal federal y provincial",
+                  "checked": true
+                },
+                {
+                  "label": "Marco Contable & Auditoría",
+                  "detail": "Reporte financiero bajo normas IFRS",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Paquete de Servicios para Inversores",
+          "badge": "Ventaja Diferencial",
+          "description": "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses.",
+          "services": [
+            {
+              "label": "Configuración Fiscal & Tributaria",
+              "detail": "Inscripción AFIP, incentivos provinciales"
+            },
+            {
+              "label": "Estructura Societaria",
+              "detail": "SA, SRL, Sucursal"
+            },
+            {
+              "label": "Contabilidad & Compliance",
+              "detail": "Soporte continuo, auditoría lista"
+            }
+          ],
+          "differentiator": "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experiencia & Autoridad",
+          "content": "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva."
+        }
+      },
       "tab9": {
         "title": "LOI",
         "isVisible": true,
@@ -6654,6 +7980,127 @@
           "isVisible": true,
           "title": "Strategic Partnership",
           "text": "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers."
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Project Status & Due Diligence",
+          "subtitle": "Comprehensive readiness tracker and institutional-grade compliance overview",
+          "categories": [
+            {
+              "title": "Permits & Approvals",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Environmental Impact Study (EIS)",
+                  "detail": "Provincial approval process, 4-6 months",
+                  "checked": false
+                },
+                {
+                  "label": "Construction Permits",
+                  "detail": "Municipal authority, expedited track available",
+                  "checked": false
+                },
+                {
+                  "label": "Zoning & Land Use Certification",
+                  "detail": "Industrial designation confirmed",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Title Security",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Title Insurance (Escritura)",
+                  "detail": "Clean title, no liens or encumbrances",
+                  "checked": true
+                },
+                {
+                  "label": "Fideicomiso (Trust) Structure",
+                  "detail": "Third-party fiduciary management",
+                  "checked": false
+                },
+                {
+                  "label": "Operational Contracts Ready",
+                  "detail": "Template LOIs and lease agreements",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infrastructure Readiness",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Utility Hookups (Water, Power, Gas)",
+                  "detail": "Connection points confirmed by providers",
+                  "checked": true
+                },
+                {
+                  "label": "Road Access & Bypass Integration",
+                  "detail": "Route 7-17 completion timeline: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Telecommunications Infrastructure",
+                  "detail": "Fiber backbone, 5G readiness",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operations",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Labor Law Compliance Audit",
+                  "detail": "Neuquén provincial regulations verified",
+                  "checked": false
+                },
+                {
+                  "label": "Tax Registration & AFIP Status",
+                  "detail": "Federal and provincial tax authority",
+                  "checked": true
+                },
+                {
+                  "label": "Accounting & Audit Framework",
+                  "detail": "IFRS-compliant financial reporting",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Comprehensive Service Package for Investors",
+          "badge": "Standout Advantage",
+          "description": "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+          "services": [
+            {
+              "label": "Tax & Tributary Setup",
+              "detail": "AFIP registration, provincial incentives"
+            },
+            {
+              "label": "Corporate Structure Guidance",
+              "detail": "SA, SRL, Branch office setup"
+            },
+            {
+              "label": "Accounting & Compliance",
+              "detail": "Ongoing support, audit readiness"
+            }
+          ],
+          "differentiator": "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experience & Authority",
+          "content": "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage."
         }
       },
       "tab9": {
@@ -7218,6 +8665,127 @@
           "text": "Reduzca la barrera financiera de entrada aportando equipamiento, capacidad de construcción, contratos de off-take o acceso a clientes ancla. Estos aportes se valúan a mercado y se convierten en equity dentro del vehículo, permitiendo participación desde USD 100K efectivos cuando se combinan con aportes operativos.\n\nPerfiles bienvenidos: EPCs locales, operadores logísticos, brokers inmobiliarios con cartera de inquilinos O&G, y proveedores de servicios para la cuenca."
         }
       },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Estado del Proyecto & Due Diligence",
+          "subtitle": "Tracker de readiness institucional y legal",
+          "categories": [
+            {
+              "title": "Permisos & Habilitaciones",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Estudio de Impacto Ambiental (EIA)",
+                  "detail": "Proceso de aprobación provincial, 4-6 meses",
+                  "checked": false
+                },
+                {
+                  "label": "Permisos de Construcción",
+                  "detail": "Autoridad municipal, vía rápida disponible",
+                  "checked": false
+                },
+                {
+                  "label": "Certificación de Zonificación I2",
+                  "detail": "Designación industrial confirmada",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Título de Propiedad",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Título de Dominio (Escritura)",
+                  "detail": "Título limpio, sin gravámenes ni inhibiciones",
+                  "checked": true
+                },
+                {
+                  "label": "Estructura Fiduciaria",
+                  "detail": "Administración fiduciaria por tercero",
+                  "checked": false
+                },
+                {
+                  "label": "Contratos Operativos Listos",
+                  "detail": "LOI template y contratos de locación",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infraestructura & Servicios",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Conexiones de Servicios (Agua, Energía, Gas)",
+                  "detail": "Puntos de conexión confirmados con proveedores",
+                  "checked": true
+                },
+                {
+                  "label": "Acceso Vial & Bypass Ruta 7-17",
+                  "detail": "Cronograma de finalización: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Infraestructura de Telecomunicaciones",
+                  "detail": "Backbone de fibra óptica, preparación 5G",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operaciones",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Auditoría de Cumplimiento Laboral",
+                  "detail": "Normativa provincial de Neuquén verificada",
+                  "checked": false
+                },
+                {
+                  "label": "Registro Impositivo & AFIP",
+                  "detail": "Autoridad fiscal federal y provincial",
+                  "checked": true
+                },
+                {
+                  "label": "Marco Contable & Auditoría",
+                  "detail": "Reporte financiero bajo normas IFRS",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Paquete de Servicios para Inversores",
+          "badge": "Ventaja Diferencial",
+          "description": "No solo vendemos tierra — gestionamos el proceso completo de radicación de tu empresa en la Provincia de Neuquén. Nuestro equipo tiene relaciones directas con autoridades provinciales y nacionales, agilizando lo que normalmente toma meses.",
+          "services": [
+            {
+              "label": "Configuración Fiscal & Tributaria",
+              "detail": "Inscripción AFIP, incentivos provinciales"
+            },
+            {
+              "label": "Estructura Societaria",
+              "detail": "SA, SRL, Sucursal"
+            },
+            {
+              "label": "Contabilidad & Compliance",
+              "detail": "Soporte continuo, auditoría lista"
+            }
+          ],
+          "differentiator": "Este es un diferenciador clave: muchos inversores internacionales enfrentan la burocracia argentina sin soporte local. Nosotros eliminamos esa fricción."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experiencia & Autoridad",
+          "content": "Nuestro equipo ha navegado exitosamente los procesos de permisos de Neuquén en múltiples proyectos del sector energético. Mantenemos relaciones directas con la Secretaría de Energía provincial, la División de Evaluación Ambiental y la Oficina de Planificación Municipal de Añelo. Este no es nuestro primer proyecto — es nuestra ventaja competitiva."
+        }
+      },
       "tab9": {
         "title": "LOI",
         "isVisible": true,
@@ -7776,6 +9344,127 @@
           "isVisible": true,
           "title": "Strategic Partnership",
           "text": "Reduce the financial entry barrier by contributing equipment, construction capacity, off-take contracts or anchor-client access. These contributions are valued at market and converted into equity inside the vehicle, enabling participation from USD 100K cash when combined with operational contributions.\n\nWelcome profiles: local EPCs, logistics operators, real estate brokers with O&G tenant book, and basin service providers."
+        }
+      },
+      "tab11": {
+        "title": "Due Diligence",
+        "isVisible": true,
+        "checklist": {
+          "isVisible": true,
+          "title": "Project Status & Due Diligence",
+          "subtitle": "Comprehensive readiness tracker and institutional-grade compliance overview",
+          "categories": [
+            {
+              "title": "Permits & Approvals",
+              "icon": "clock",
+              "items": [
+                {
+                  "label": "Environmental Impact Study (EIS)",
+                  "detail": "Provincial approval process, 4-6 months",
+                  "checked": false
+                },
+                {
+                  "label": "Construction Permits",
+                  "detail": "Municipal authority, expedited track available",
+                  "checked": false
+                },
+                {
+                  "label": "Zoning & Land Use Certification",
+                  "detail": "Industrial designation confirmed",
+                  "checked": true
+                }
+              ]
+            },
+            {
+              "title": "Legal & Title Security",
+              "icon": "shield",
+              "items": [
+                {
+                  "label": "Title Insurance (Escritura)",
+                  "detail": "Clean title, no liens or encumbrances",
+                  "checked": true
+                },
+                {
+                  "label": "Fideicomiso (Trust) Structure",
+                  "detail": "Third-party fiduciary management",
+                  "checked": false
+                },
+                {
+                  "label": "Operational Contracts Ready",
+                  "detail": "Template LOIs and lease agreements",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Infrastructure Readiness",
+              "icon": "building",
+              "items": [
+                {
+                  "label": "Utility Hookups (Water, Power, Gas)",
+                  "detail": "Connection points confirmed by providers",
+                  "checked": true
+                },
+                {
+                  "label": "Road Access & Bypass Integration",
+                  "detail": "Route 7-17 completion timeline: Q4 2026",
+                  "checked": false
+                },
+                {
+                  "label": "Telecommunications Infrastructure",
+                  "detail": "Fiber backbone, 5G readiness",
+                  "checked": false
+                }
+              ]
+            },
+            {
+              "title": "Compliance & Operations",
+              "icon": "check",
+              "items": [
+                {
+                  "label": "Labor Law Compliance Audit",
+                  "detail": "Neuquén provincial regulations verified",
+                  "checked": false
+                },
+                {
+                  "label": "Tax Registration & AFIP Status",
+                  "detail": "Federal and provincial tax authority",
+                  "checked": true
+                },
+                {
+                  "label": "Accounting & Audit Framework",
+                  "detail": "IFRS-compliant financial reporting",
+                  "checked": false
+                }
+              ]
+            }
+          ]
+        },
+        "servicePackage": {
+          "isVisible": true,
+          "title": "Comprehensive Service Package for Investors",
+          "badge": "Standout Advantage",
+          "description": "We don't just sell you land—we handle the entire process of establishing your company in Neuquén Province. Our team has deep relationships with provincial and federal authorities, expediting what would normally take months.",
+          "services": [
+            {
+              "label": "Tax & Tributary Setup",
+              "detail": "AFIP registration, provincial incentives"
+            },
+            {
+              "label": "Corporate Structure Guidance",
+              "detail": "SA, SRL, Branch office setup"
+            },
+            {
+              "label": "Accounting & Compliance",
+              "detail": "Ongoing support, audit readiness"
+            }
+          ],
+          "differentiator": "This is a major differentiator: many international investors struggle with Argentine bureaucracy. We eliminate that friction."
+        },
+        "experience": {
+          "isVisible": true,
+          "title": "Experience & Authority",
+          "content": "Our team has successfully navigated Neuquén permitting for multiple energy sector projects. We maintain direct relationships with the provincial Secretary of Energy, the Environmental Assessment Division, and the Añelo Municipal Planning Office. This is not our first project—it's our advantage."
         }
       },
       "tab9": {
