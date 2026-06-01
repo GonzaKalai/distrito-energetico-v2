@@ -86,16 +86,40 @@ export function Tab1() {
             <EditableText multiline value={t.thesis.text} onSave={(v) => updateTab("tab1", "thesis.text", v)} />
           </div>
           <div className="grid md:grid-cols-3 gap-4 mt-8 pt-6 border-t border-background/20">
-            {[
-              { icon: <Flame size={16} />, label: isES ? "Cuello de Botella" : "Bottleneck", desc: isES ? "Capacidad logística saturada — sin oferta Clase A" : "Saturated logistics capacity — no Class A supply" },
-              { icon: <Building size={16} />, label: isES ? "Escasez de Activos" : "Asset Scarcity", desc: isES ? "Déficit estructural en todas las categorías" : "Structural deficit across all asset categories" },
-              { icon: <Globe size={16} />, label: isES ? "Vientos Regulatorios" : "Regulatory Tailwinds", desc: isES ? "RIGI activo + meta nacional USD 25B" : "Active RIGI + USD 25B national target" },
-            ].map((p, i) => (
-              <div key={i} className="bg-background/10 rounded-2xl p-4">
-                <div className="flex items-center gap-2 mb-2 text-yellow-400">{p.icon}<span className="font-bold text-sm">{p.label}</span></div>
-                <p className="text-xs opacity-70 leading-relaxed">{p.desc}</p>
-              </div>
-            ))}
+            {(() => {
+              const pillars = t.thesis.pillars || [
+                { label: isES ? "Cuello de Botella" : "Bottleneck", desc: isES ? "Capacidad logística saturada — sin oferta Clase A" : "Saturated logistics capacity — no Class A supply" },
+                { label: isES ? "Escasez de Activos" : "Asset Scarcity", desc: isES ? "Déficit estructural en todas las categorías" : "Structural deficit across all asset categories" },
+                { label: isES ? "Vientos Regulatorios" : "Regulatory Tailwinds", desc: isES ? "RIGI activo + meta nacional USD 25B" : "Active RIGI + USD 25B national target" },
+              ];
+              return (<>
+                {pillars.map((p: any, i: number) => (
+                  <div key={i} className="bg-background/10 rounded-2xl p-4 group relative">
+                    {isEditingMode && (
+                      <button onClick={() => updateTab("tab1", "thesis.pillars", pillars.filter((_: any, j: number) => j !== i))}
+                        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/20 text-red-400 rounded transition-all">
+                        <Trash2 size={11} />
+                      </button>
+                    )}
+                    <div className="flex items-center gap-2 mb-2 text-yellow-400">
+                      <Flame size={14} />
+                      <span className="font-bold text-sm">
+                        <EditableText value={p.label} onSave={(v) => { const arr = [...pillars]; arr[i] = {...arr[i], label: v}; updateTab("tab1", "thesis.pillars", arr); }} />
+                      </span>
+                    </div>
+                    <p className="text-xs opacity-70 leading-relaxed">
+                      <EditableText multiline value={p.desc} onSave={(v) => { const arr = [...pillars]; arr[i] = {...arr[i], desc: v}; updateTab("tab1", "thesis.pillars", arr); }} />
+                    </p>
+                  </div>
+                ))}
+                {isEditingMode && (
+                  <button onClick={() => updateTab("tab1", "thesis.pillars", [...pillars, { label: isES ? "Nuevo pilar" : "New pillar", desc: isES ? "Descripción" : "Description" }])}
+                    className="bg-background/5 border-2 border-dashed border-background/20 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-background/50 hover:text-background hover:border-background/40 transition-colors text-sm">
+                    <Plus size={16} />{isES ? "Agregar" : "Add"}
+                  </button>
+                )}
+              </>);
+            })()}
           </div>
         </Card>
       </SectionWrap>
@@ -1020,11 +1044,11 @@ function LoiSection({ number, title, onTitleSave, binding = false, children, hig
 }
 
 export function Tab9() {
-  const { content, sector, language, updateTab, isEditingMode } = useApp();
+  const { content, sector, language, updateTab, isEditingMode, coverDate } = useApp();
   const t = content[sector][language].tab9;
   const b = t.builder;
   const isES = language === "ES";
-  const today = new Date().toLocaleDateString(isES ? "es-AR" : "en-US", { day: "2-digit", month: "long", year: "numeric" });
+  const today = coverDate || new Date().toLocaleDateString(isES ? "es-AR" : "en-US", { day: "2-digit", month: "long", year: "numeric" });
   const [loiMode, setLoiMode] = React.useState<"summary" | "formal">("summary");
 
   const upd = (path: string, val: any) => updateTab("tab9", `builder.${path}`, val);
@@ -1304,7 +1328,6 @@ export function Tab9() {
                   <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Firma del Inversor" : "Investor Signature"}</div>
                   <div className="h-12 border-b border-dashed border-muted-foreground mb-2" />
                   <div className="font-semibold text-sm">{b.investorName || (isES?"[Nombre]":"[Name]")}</div>
-                  <div className="text-xs text-muted-foreground">{today}</div>
                 </div>
                 <div>
                   <div className="text-xs uppercase font-bold text-muted-foreground mb-3">{isES ? "Representante Autorizado" : "Master Developer"}</div>
